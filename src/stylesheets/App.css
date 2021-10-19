@@ -1,0 +1,73 @@
+.underline {
+  color: #fff;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.15em;
+
+  display: inline-block;
+  padding: 15px 20px;
+  position: relative;
+}
+.underline:after {
+  background: none repeat scroll 0 0 transparent;
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 2px;
+  left: 50%;
+  position: absolute;
+  background: #fff; /*to change colour of underline on hover*/
+  transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  width: 0;
+}
+.underline:hover:after {
+  width: 100%;
+  left: 0;
+}
+
+.selected:after {
+  background: none repeat scroll 0 0 transparent;
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 2px;
+  left: 0;
+  position: absolute;
+  background: #eca8b4; /*to change colour of underline */
+  transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  width: 100%;
+}
+
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.fixedtbl {
+  table-layout: fixed;
+}
+/* .fixedtbl td {
+  overflow: auto;
+} */
+
+.wrapper {
+  overflow-x: auto;
+}
+
+.progress-custom {
+  color: black;
+}
+
+.fixedtbl th {
+  overflow-wrap: break-word;
+}

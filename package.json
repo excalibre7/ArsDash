@@ -1,0 +1,67 @@
+{
+  "name": "ui-my",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@mailtop/horizontal-timeline": "^2.1.4",
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/data-grid": "^4.0.0-alpha.25",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
+    "@material-ui/styles": "^4.11.3",
+    "@matharumanpreet00/react-daterange-picker": "^1.0.5",
+    "@mdi/js": "^6.3.95",
+    "@mdi/react": "^1.5.0",
+    "@nivo/bar": "^0.74.0",
+    "@nivo/core": "^0.74.0",
+    "@reduxjs/toolkit": "^1.6.2",
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.5",
+    "@testing-library/user-event": "^12.8.3",
+    "ag-grid-community": "^25.1.0",
+    "ag-grid-react": "^25.1.0",
+    "bootstrap": "^4.6.0",
+    "chart.js": "^2.9.4",
+    "chartjs-plugin-datalabels": "^0.7.0",
+    "jquery": "^3.6.0",
+    "react": "^17.0.1",
+    "react-bootstrap": "^1.5.2",
+    "react-chartjs-2": "^2.11.1",
+    "react-contextmenu": "^2.14.0",
+    "react-cookie": "^4.1.1",
+    "react-dom": "^17.0.1",
+    "react-helmet": "^6.1.0",
+    "react-icons": "^4.2.0",
+    "react-multi-select-component": "^4.0.0",
+    "react-perfect-scrollbar": "^1.5.8",
+    "react-redux": "^7.2.5",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "react-spinners": "^0.10.6",
+    "web-vitals": "^1.1.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "npm i && react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

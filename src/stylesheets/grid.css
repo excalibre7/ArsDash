@@ -1,0 +1,45 @@
+.no-border.ag-cell:focus {
+  border: none !important;
+  outline: none;
+}
+
+div.ag-theme-alpine div.ag-row {
+  font-size: 13px !important;
+}
+
+.ag-body-viewport {
+  overflow: overlay !important;
+}
+
+div .ag-header-cell-label .ag-header-cell-text {
+  font-size: 13px !important;
+  font-weight: normal;
+  color: #fff;
+}
+
+.ag-header-row {
+  background-color: #6495ed;
+}
+
+.headerDiv {
+  font-size: 13px !important;
+  font-weight: normal;
+  color: #fff;
+}
+
+.ag-cell {
+  overflow: visible !important;
+}
+
+.dropitem:hover {
+  background-color: #017cff !important;
+  color: #fff !important;
+}
+
+.headerclassnumber {
+  justify-content: flex-end !important;
+}
+
+.headerclass {
+  justify-content: center !important;
+}

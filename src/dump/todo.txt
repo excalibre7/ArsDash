@@ -1,0 +1,7 @@
+1. Filter for 4 categories (Done)
+2. Add/remove columns (Done)
+3. Actions (Done)
+4. Verify qtypage works (Done)
+5. Merge qtypage with active_orders
+6. Status align (Done)
+7. Qty total active orders (Done)
