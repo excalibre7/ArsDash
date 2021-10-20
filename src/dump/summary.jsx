@@ -64,9 +64,6 @@ const Summary = (props) => {
   if (data.length == 0) {
     return (
       <div>
-        <header>
-          <TopBar page="summary" />
-        </header>
         <Grid container>
           <Grid align="center" xs={12}>
             Fetching...

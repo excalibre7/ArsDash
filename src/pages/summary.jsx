@@ -1,17 +1,11 @@
 import {
   Typography,
   makeStyles,
-  Table,
-  TableCell,
-  TableRow,
-  TableHead,
   Grid,
-  Paper,
   Button,
   IconButton,
   Collapse,
   CircularProgress,
-  TablePagination,
   Switch,
   Card,
   Radio,
@@ -22,36 +16,28 @@ import React, { Component, useEffect, useState } from "react";
 import TopBar from "../components/topbar";
 import "../stylesheets/App.css";
 import "../stylesheets/activeOrders.css";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { mdiFormatLetterCase, mdiDotsVertical } from '@mdi/js'
 import Icon from '@mdi/react';
 import { ResponsiveBar } from '@nivo/bar';
+import { ResponsiveLine } from '@nivo/line';
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import { ProgressBar } from "react-bootstrap";
+import "../stylesheets/progressBar.css";
 
 const useStyles = makeStyles((theme) => ({
-  row: {},
-  superheader: {},
-  superheaderTxt: {
-    color: "white",
-  },
-  dates: {
-    border: "none",
-  },
-  spinner: {
-    marginTop: theme.spacing(7),
-  },
-  qtycard: {
-    color: "#ffffff",
-    height: "2rem",
-    width: 85,
-    paddingTop: theme.spacing(0.9),
-    backgroundColor: "#DC3646",
-    cursor: "pointer",
-    "&:hover": {
-      color: "#ffffff",
-      backgroundColor: "#74141d",
-      textDecoration: "none",
-    },
-  },
+  paper: {
+    width: "100%",
+    marginTop: "20px",
+    overflow: 'hidden'
+},
   dropdown: {
     boxShadow: "2px 4px 8px 2px rgba(0,0,0,0.2)",
     TransitionEvent: "0.3s",
@@ -71,75 +57,10 @@ const useStyles = makeStyles((theme) => ({
       boxShadow: "4px 8px 16px 4px rgba(0,0,0,0.2)",
     },
   },
-  visibilityicon: {
-    padding: theme.spacing(0, 0, 0, 0),
-  },
-  percent: {
-    fontSize: "10px",
-  },
-  switch: {
-    marginLeft: theme.spacing(2),
-  },
-  switchCard: {
-    padding: theme.spacing(2, 2, 2, 2),
-  },
-  cardcontent: {
-    padding: theme.spacing(1, 1, 1, 1),
-    "&:last-child": {
-      paddingBottom: 0,
-    },
+  tableHeaderFont: {
+    backgroundColor: "#f8bcd0"
   },
 }));
-
-const PurpleSwitch = withStyles({
-  switchBase: {
-    color: "#ff9e8f",
-    "&$checked": {
-      color: "#fc2403",
-    },
-    "&:not($checked)": {
-      color: "#fc2403",
-    },
-    "&$checked + $track": {
-      backgroundColor: "#fc2403",
-    },
-    "&$not(checked) + $track": {
-      backgroundColor: "#fc2403",
-    },
-  },
-  checked: {},
-  track: {},
-})(Switch);
-
-const RadioSelector = withStyles({
-  root: {
-    color: "#fc2403",
-    "&$checked": {
-      color: "#fc2403",
-    },
-  },
-  checked: {},
-})((props) => <Radio color="default" {...props} />);
-
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-}))(TableRow);
-
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: "#6495ed",
-    color: theme.palette.common.white,
-    fontSize: "0.75rem",
-  },
-  body: {
-    fontSize: "0.75rem",
-    padding: 0,
-  },
-}))(TableCell);
 
 const Summary = (props) => {
   let classes = useStyles();
@@ -151,6 +72,7 @@ const Summary = (props) => {
     season: "",
   });
   const[fgCode, setFGCode] = useState("");
+
 
   function handleChange(event, key) {
     let tempObj = selected;
@@ -303,7 +225,7 @@ const Summary = (props) => {
           </div>
         </div>
       </Grid>
-      <div style={{height: "100hv"}}>
+        <div style={{height: 200, alignContent:'center'}}>
       <ResponsiveBar
         data={[
           {
@@ -344,7 +266,7 @@ const Summary = (props) => {
         ]}
         keys={[ 'hot dog' ]}
         indexBy="country"
-        margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+        margin={{ top: 50, right: 30, bottom: 40, left: 60 }}
         padding={0.3}
         valueScale={{ type: 'linear' }}
         indexScale={{ type: 'band', round: true }}
@@ -411,7 +333,7 @@ const Summary = (props) => {
                 direction: 'row',
                 justify: false,
                 translateX: -30,
-                translateY: -41,
+                translateY: -30,
                 itemsSpacing: 2,
                 itemWidth: 95,
                 itemHeight: 20,
@@ -433,6 +355,222 @@ const Summary = (props) => {
         barAriaLabel={function(e){return e.id+": "+e.formattedValue+" in country: "+e.indexValue}}
     />
     </div>
+     <Paper className={classes.paper}>
+                         <TableContainer
+                            sx={{ maxHeight: 490}}
+                        >
+                            <Table
+                                aria-label="sticky table"
+                                stickyHeader
+                            >
+                                <TableHead>
+                                    <TableRow >
+                                        <TableCell style={{backgroundColor:"#f8bcd0", fontWeight: 'bold'}} className={classes.tabelHeader}>Vendor</TableCell>
+                                        <TableCell align="right" style={{backgroundColor:"#f8bcd0", fontWeight: 'bold'}} className={classes.tableHeaderFont}>
+                                            Total Lines
+                                        </TableCell>
+                                        <TableCell align="right" style={{backgroundColor:"#f8bcd0", fontWeight: 'bold'}} className={classes.tableHeaderFont}>
+                                            Active Lines
+                                        </TableCell>
+                                        <TableCell align="right" style={{backgroundColor:"#f8bcd0", fontWeight: 'bold'}} className={classes.tableHeaderFont}>
+                                            Order Qty
+                                        </TableCell>
+                                        <TableCell align="right" style={{backgroundColor:"#f8bcd0", fontWeight: 'bold'}} className={classes.tableHeaderFont}>
+                                            Pending
+                                        </TableCell>
+                                        <TableCell align="right" style={{backgroundColor:"#f8bcd0", fontWeight: 'bold'}} className={classes.tableHeaderFont}>
+                                            Pcs Stitched{"\n"}(cumulative)
+                                        </TableCell>
+                                        <TableCell align="right" style={{backgroundColor:"#f8bcd0", fontWeight: 'bold'}} className={classes.tableHeaderFont}>
+                                            Pcs Produced{"\n"}(cumulative)
+                                        </TableCell>
+                                        <TableCell align="right" style={{backgroundColor:"#f8bcd0", fontWeight: 'bold'}} className={classes.tableHeaderFont}>
+                                            Pcs Checked{"\n"}({selected === "today" ? "Today": null}
+                                            {selected === "yesterday" ? "Yesterday": null}
+                                            {selected === "lastSevenDays" ? "Last 7 Days": null}
+                                            {selected === "lastThirtyDays" ? "Last 30 Days": null}
+                                            {selected === "custom" ? "Custom": null})
+                                        </TableCell>
+                                        <TableCell align="right" style={{backgroundColor:"#f8bcd0", fontWeight: 'bold'}} className={classes.tableHeaderFont}>
+                                            OK Pcs{"\n"}({selected === "today" ? "Today": null}
+                                            {selected === "yesterday" ? "Yesterday": null}
+                                            {selected === "lastSevenDays" ? "Last 7 Days": null}
+                                            {selected === "lastThirtyDays" ? "Last 30 Days": null}
+                                            {selected === "custom" ? "Custom": null})
+                                        </TableCell>
+                                        <TableCell align="right" style={{backgroundColor:"#f8bcd0", fontWeight: 'bold'}} className={classes.tableHeaderFont}>
+                                            Rectified Pcs{"\n"}({selected === "today" ? "Today": null}
+                                            {selected === "yesterday" ? "Yesterday": null}
+                                            {selected === "lastSevenDays" ? "Last 7 Days": null}
+                                            {selected === "lastThirtyDays" ? "Last 30 Days": null}
+                                            {selected === "custom" ? "Custom": null})
+                                        </TableCell>
+                                        <TableCell align="right" style={{backgroundColor:"#f8bcd0", fontWeight: 'bold'}} className={classes.tableHeaderFont} >
+                                            Pcs in Alter{"\n"}({selected === "today" ? "Today": null}
+                                            {selected === "yesterday" ? "Yesterday": null}
+                                            {selected === "lastSevenDays" ? "Last 7 Days": null}
+                                            {selected === "lastThirtyDays" ? "Last 30 Days": null}
+                                            {selected === "custom" ? "Custom": null})
+                                        </TableCell>
+                                        <TableCell align="right" style={{backgroundColor:"#f8bcd0", fontWeight: 'bold'}} className={classes.tableHeaderFont} >
+                                            Rejected{"\n"}({selected === "today" ? "Today": null}
+                                            {selected === "yesterday" ? "Yesterday": null}
+                                            {selected === "lastSevenDays" ? "Last 7 Days": null}
+                                            {selected === "lastThirtyDays" ? "Last 30 Days": null}
+                                            {selected === "custom" ? "Custom": null})
+                                        </TableCell>
+                                        <TableCell align="right" style={{backgroundColor:"#f8bcd0", fontWeight: 'bold'}} className={classes.tableHeaderFont}>
+                                            DHU%
+                                        </TableCell>
+                                        <TableCell align="right" style={{backgroundColor:"#f8bcd0", fontWeight: 'bold'}} className={classes.tableHeaderFont}>
+                                            Yesterday DHU%
+                                        </TableCell> 
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {true ? 
+                                    [0,0,0,0,0,0,0,0,0,0,0].map((i) => (
+                                              <TableRow>
+                                                  <TableCell style={{padding: 5}}>
+                                                      
+                                                      {/* {Details.locationID != 0 ?  */}
+                                                          <Link
+                                                      onClick={()=> {console.log("link clicked")}}
+                                                    style={{ textDecoration: 'none', color: 'white'}}
+                                                        //   to={{
+                                                        //       pathname:
+                                                        //           "/report",
+                                                        //       // search: '?query=abc',
+                                                        //       state: {
+                                                        //           companyID:Details.companyID,
+                                                        //               time: state ? state.DateRange.vendorScreen : "today",
+                                                        //               path: Details.companyName
+                                                        //       },
+                                                        //   }}
+                                                      >
+                                                          <div style={{backgroundColor: "#3f51b5", borderRadius: 5, padding: 10}}>
+                                                          {'Details.locationName'}
+                                                          </div>
+                                                      </Link> 
+                                                      {/* : 'Details.locationName'} */}
+                                                  </TableCell>
+                                                  <TableCell align="right" style={{flexDirection: 'row'}}>
+                                                      <p> 'Details'</p>
+                                                      <ProgressBar
+                                                      className="custom-progress-bar1"
+                                                          variant="custom"
+                                                          now={20}
+                                                      />
+                                                  </TableCell>
+                                                  <TableCell align="right">
+                                                  <p> 'activeLines'</p>
+                                                      <ProgressBar
+                                                      className="custom-progress-bar2"
+                                                          variant="custom"
+                                                          now={20}
+                                                      />
+                                                  </TableCell>
+                                                  <TableCell align="right">
+                                                  <p> 'orderQty'</p>
+                                                      <ProgressBar
+                                                      className="custom-progress-bar3"
+                                                          variant="custom"
+                                                          now={20}
+                                                      />
+                                                  </TableCell>
+                                                  <TableCell align="right">
+                                                  <p> 'pendingPieces'</p>
+                                                      <ProgressBar
+                                                      className="custom-progress-bar4"
+                                                          variant="custom"
+                                                          now={20}
+                                                      />
+                                                  </TableCell>
+                                                  <TableCell align="right">
+                                                  <p> 'stitchedPieces'</p>
+                                                      <ProgressBar
+                                                      className="custom-progress-bar5"
+                                                          variant="custom"
+                                                          now={20}
+                                                      />
+                                                  </TableCell>
+                                                  <TableCell align="right">
+                                                  <p> 'producedPieces'</p>
+                                                      <ProgressBar
+                                                      className="custom-progress-bar6"
+                                                          variant="custom"
+                                                          now={20}
+                                                      />
+                                                  </TableCell>
+                                                  <TableCell align="right">
+                                                  <p> 'okPieces'</p>
+                                                      <ProgressBar
+                                                      className="custom-progress-bar7"
+                                                          variant="custom"
+                                                          now={20}
+                                                      />{
+                                                       // 'Details.locationDetails[0].okPieces'
+                                                          // parseInt(Details.locationDetails[0].okPieces) +
+                                                          // parseInt(Details.locationDetails[0].alteredPieces) +
+                                                          // parseInt(Details.locationDetails[0].pcsInAlteration) +
+                                                          // parseInt(Details.locationDetails[0].rejectedPieces)
+                                                      }
+                                                  </TableCell>
+                                                  <TableCell align="right">
+                                                  <p> 'okPieces'</p>
+                                                      <ProgressBar
+                                                      className="custom-progress-bar8"
+                                                          variant="custom"
+                                                          now={20}
+                                                      />
+                                                  </TableCell>
+                                                  <TableCell align="right">
+                                                  <p> 'alteredPieces'</p>
+                                                      <ProgressBar
+                                                      className="custom-progress-bar9"
+                                                          variant="custom"
+                                                          now={20}
+                                                      />
+                                                  </TableCell>
+                                                  <TableCell align="right">
+                                                  <p> 'pcsInAlteration'</p>
+                                                      <ProgressBar
+                                                      className="custom-progress-bar10"
+                                                          variant="custom"
+                                                          now={20}
+                                                      />
+                                                  </TableCell>
+                                                  <TableCell align="right">
+                                                  <p> 'rejectedPieces'</p>
+                                                      <ProgressBar
+                                                      className="custom-progress-bar11"
+                                                          variant="custom"
+                                                          now={20}
+                                                      />
+                                                  </TableCell>
+                                                  <TableCell align="right">
+                                                  <p> 'dhu'</p>
+                                                      <ProgressBar
+                                                      className="custom-progress-bar12"
+                                                          variant="custom"
+                                                          now={20}
+                                                      />
+                                                  </TableCell>
+                                                  <TableCell align="right">
+                                                  <p> 'y_dhu'</p>
+                                                      <ProgressBar
+                                                      className="custom-progress-bar13"
+                                                          variant="custom"
+                                                          now={20}
+                                                      />
+                                                  </TableCell> 
+                                              </TableRow>
+                                           ))
+                                            : ""} 
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Paper>
       <Grid className={classes.spinner} container>
         <Grid align="center" xs={12}>
           {/* <ScaleLoader color={"#6495ed"} loading={true} size={150} /> */}
