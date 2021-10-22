@@ -274,13 +274,13 @@ const Summary = (props) => {
         padding={0.3}
         valueScale={{ type: 'linear' }}
         indexScale={{ type: 'band', round: true }}
-        colors={["#25be31"]}
+        colors={["#25be31aa"]}
         defs={[
             {
                 id: 'dots',
                 type: 'patternDots',
                 background: 'inherit',
-                color: '#38bcb2',
+                color: "#25be31",
                 size: 4,
                 padding: 1,
                 stagger: true
@@ -289,7 +289,7 @@ const Summary = (props) => {
                 id: 'lines',
                 type: 'patternLines',
                 background: 'inherit',
-                color: '#eed312',
+                color: "#25be31",
                 rotation: -45,
                 lineWidth: 6,
                 spacing: 10
@@ -298,15 +298,9 @@ const Summary = (props) => {
         fill={[
             {
                 match: {
-                    id: 'fries'
+                    id: 'hot dog'
                 },
                 id: 'dots'
-            },
-            {
-                match: {
-                    id: 'sandwich'
-                },
-                id: 'lines'
             }
         ]}
         borderColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
@@ -320,14 +314,7 @@ const Summary = (props) => {
             legendPosition: 'middle',
             legendOffset: 32
         }}
-        axisLeft={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: '',
-            legendPosition: 'middle',
-            legendOffset: -15
-        }}
+        axisLeft={null}
         labelSkipWidth={12}
         labelTextColor={{ theme: 'background' }}
         legends={[
@@ -336,7 +323,7 @@ const Summary = (props) => {
                 anchor: 'top-left',
                 direction: 'row',
                 justify: false,
-                translateX: -30,
+                translateX: 20,
                 translateY: -30,
                 itemsSpacing: 2,
                 itemWidth: 95,
@@ -354,6 +341,7 @@ const Summary = (props) => {
                 ]
             }
         ]}
+        enableGridY={false}
         role="application"
         ariaLabel="Nivo bar chart demo"
         barAriaLabel={function(e){return e.id+": "+e.formattedValue+" in country: "+e.indexValue}}
