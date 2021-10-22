@@ -39,27 +39,38 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden'
 },
   dropdown: {
-    boxShadow: "2px 4px 8px 2px rgba(0,0,0,0.2)",
+    boxShadow: "1px 2px 2px 1px rgba(0,0,0,0.2)",
     TransitionEvent: "0.3s",
     borderColor: "transparent",
     marginLeft: 40,
+    paddingLeft: 20,
+    paddingRight: 20,
+    marginTop: 10,
+    border: 0,
     "&:hover": {
-      boxShadow: "4px 8px 16px 4px rgba(0,0,0,0.2)",
+      boxShadow: "2px 4px 4px 2px rgba(0,0,0,0.2)",
     },
+    "&:focus" : {
+      TransitionEvent: "0.3s",
+    borderColor: "transparent",
+    }
   },
   card: {
-    boxShadow: "2px 4px 8px 2px rgba(0,0,0,0.2)",
+    boxShadow: "1px 2px 2px 1px rgba(0,0,0,0.2)",
     TransitionEvent: "0.3s",
     borderColor: "transparent",
-    marginLeft: 40,
-
+    marginLeft: 10,
+    marginTop: 10,
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingTop: 5, 
     "&:hover": {
-      boxShadow: "4px 8px 16px 4px rgba(0,0,0,0.2)",
+      boxShadow: "2px 4px 4px 2px rgba(0,0,0,0.2)",
     },
   },
   tableHeaderFont: {
-    backgroundColor: "#f8bcd0"
-  },
+    backgroundColor: "#f8bcd0",
+    },
 }));
 
 const Summary = (props) => {
@@ -97,7 +108,7 @@ const Summary = (props) => {
       <header>
         <TopBar page="summary" />
       </header>
-      <Grid container style={{ marginTop: 20 }}>
+      <Grid container style={{ marginTop: 10, justifyContent: 'space-evenly' }}>
         <select
           value={
             selected.dateRange != "" ? selected.dateRange : "Select Date Range"
@@ -153,50 +164,50 @@ const Summary = (props) => {
           <option value="Cherry">Cherry</option>
         </select>
       </Grid>
+      <Grid style={{alignItems: 'center'}} container>
       <Grid
         style={{
-          alignItems: "center",
-          marginTop: 20,
-          alignContent: "space-between",
+          marginTop: 10,
           justifyContent: "space-evenly",
+          width: "50%"
         }}
         container
       >
         <div className={classes.card}>
           <p>Pending</p>
-          <h4>
+          <h5>
             <b>ValueP</b>
-          </h4>
+          </h5>
         </div>
         <div className={classes.card}>
           <p>Alteration</p>
-          <h4>
+          <h5>
             <b>ValueA</b>
-          </h4>
+          </h5>
         </div>
         <div className={classes.card}>
           <p>OK Pcs</p>
-          <h4>
+          <h5>
             <b>ValueOk</b>
-          </h4>
+          </h5>
         </div>
         <div className={classes.card}>
           <p>DHU%</p>
-          <h4>
+          <h5>
             <b>ValueDHU</b>
-          </h4>
+          </h5>
         </div>
         <div className={classes.card}>
           <p>Rejection</p>
-          <h4>
+          <h5>
             <b>rejection</b>
-          </h4>
+          </h5>
         </div>
         <div className={classes.card}>
           <p>Rejection %</p>
-          <h4>
+          <h5>
             <b>Rejection %</b>
-          </h4>
+          </h5>
         </div>
         <div className={classes.card}>
           <p>FG code</p>
@@ -225,43 +236,36 @@ const Summary = (props) => {
           </div>
         </div>
       </Grid>
-        <div style={{height: 200, alignContent:'center'}}>
+        <div style={{height: 230 , width: "50%", alignContent:'center'}}>
       <ResponsiveBar
         data={[
           {
             "country": "AD",
             "hot dog": 134,
-            "hot dogColor": "hsl(180, 70%, 50%)",
           },
           {
             "country": "AE",
             "hot dog": 136,
-            "hot dogColor": "hsl(349, 70%, 50%)",
           },
           {
             "country": "AF",
             "hot dog": 102,
-            "hot dogColor": "hsl(164, 70%, 50%)",
           },
           {
             "country": "AG",
             "hot dog": 118,
-            "hot dogColor": "hsl(323, 70%, 50%)",
           },
           {
             "country": "AI",
             "hot dog": 196,
-            "hot dogColor": "hsl(274, 70%, 50%)",
           },
           {
             "country": "AL",
             "hot dog": 197,
-            "hot dogColor": "hsl(110, 70%, 50%)",
           },
           {
             "country": "AM",
             "hot dog": 71,
-            "hot dogColor": "hsl(231, 70%, 50%)",
           }
         ]}
         keys={[ 'hot dog' ]}
@@ -270,7 +274,7 @@ const Summary = (props) => {
         padding={0.3}
         valueScale={{ type: 'linear' }}
         indexScale={{ type: 'band', round: true }}
-        colors={{ scheme: 'nivo' }}
+        colors={["#25be31"]}
         defs={[
             {
                 id: 'dots',
@@ -355,6 +359,7 @@ const Summary = (props) => {
         barAriaLabel={function(e){return e.id+": "+e.formattedValue+" in country: "+e.indexValue}}
     />
     </div>
+    </Grid>
      <Paper className={classes.paper}>
                          <TableContainer
                             sx={{ maxHeight: 490}}
@@ -364,8 +369,8 @@ const Summary = (props) => {
                                 stickyHeader
                             >
                                 <TableHead>
-                                    <TableRow >
-                                        <TableCell style={{backgroundColor:"#f8bcd0", fontWeight: 'bold'}} className={classes.tabelHeader}>Vendor</TableCell>
+                                    <TableRow style={{height: 10}}>
+                                        <TableCell style={{backgroundColor:"#f8bcd0", fontWeight: 'bold'}} className={classes.tableHeaderFont}>Vendor</TableCell>
                                         <TableCell align="right" style={{backgroundColor:"#f8bcd0", fontWeight: 'bold'}} className={classes.tableHeaderFont}>
                                             Total Lines
                                         </TableCell>
@@ -574,9 +579,6 @@ const Summary = (props) => {
       <Grid className={classes.spinner} container>
         <Grid align="center" xs={12}>
           {/* <ScaleLoader color={"#6495ed"} loading={true} size={150} /> */}
-        </Grid>
-        <Grid align="center" xs={12}>
-          No records to show
         </Grid>
       </Grid>
     </div>
