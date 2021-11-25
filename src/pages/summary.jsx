@@ -28,6 +28,7 @@ import { mdiFormatLetterCase, mdiDotsVertical } from '@mdi/js'
 import Icon from '@mdi/react';
 import { ResponsiveBar } from '@nivo/bar';
 import "../stylesheets/progressBar.css";
+import CountUp from "react-countup";
 import { fontWeight, margin } from "@mui/system";
 
 const THEME = createMuiTheme({
@@ -80,6 +81,15 @@ labelHeaderG: {
   color: "#49b667",
   fontWeight:800,
   textAlign:"left",
+  letterSpacing:"-1px"
+},
+labelValG: {
+  fontSize: 45,
+  fontFamily: "Work",
+  margin:5,
+  color: "#49b667",
+  fontWeight:800,
+  textAlign:"right",
   letterSpacing:"-1px"
 },
 cardB: {
@@ -150,7 +160,7 @@ cardR: {
   },
 },
 labelHeaderR: {
-  fontSize: 25,
+  fontSize: 23,
   fontFamily: "Work",
   margin: 2,
   marginLeft:10,
@@ -226,6 +236,71 @@ tableI:{
       backgroundColor: "rgba(255, 255, 255, 0.1)" }
     
 },
+topRightG: {
+  fontSize: 40,
+  fontWeight: "bold",
+  justifyContent:"flex-end",
+  textAlign: "right",
+  alignSelf: "flex-end",
+  fontFamily: "Work",
+  margin:5,
+  color: "#49b667",
+  fontWeight:800,
+  textAlign:"right",
+  letterSpacing:"-1px"
+},
+topRightB: {
+  fontSize: 40,
+  fontWeight: "bold",
+  justifyContent:"flex-end",
+  textAlign: "right",
+  alignSelf: "flex-end",
+  fontFamily: "Work",
+  margin:5,
+  color: "#0a6aff",
+  fontWeight:800,
+  textAlign:"right",
+  letterSpacing:"-1px"
+},
+topRightY: {
+  fontSize: 40,
+  fontWeight: "bold",
+  justifyContent:"flex-end",
+  textAlign: "right",
+  alignSelf: "flex-end",
+  fontFamily: "Work",
+  margin:5,
+  color: "#ebc033",
+  fontWeight:800,
+  textAlign:"right",
+  letterSpacing:"-1px"
+},
+topRightR: {
+  fontSize: 40,
+  fontWeight: "bold",
+  justifyContent:"flex-end",
+  textAlign: "right",
+  alignSelf: "flex-end",
+  fontFamily: "Work",
+  margin:5,
+  color: "#ff0025",
+  fontWeight:800,
+  textAlign:"right",
+  letterSpacing:"-1px"
+},
+topRightO: {
+  fontSize: 40,
+  fontWeight: "bold",
+  justifyContent:"flex-end",
+  textAlign: "right",
+  alignSelf: "flex-end",
+  fontFamily: "Work",
+  margin:5,
+  color: "#ff9800",
+  fontWeight:800,
+  textAlign:"right",
+  letterSpacing:"-1px"
+},
   wrapper: {
    width:"100%",
   },
@@ -255,12 +330,13 @@ const Summary = (props) => {
   let classes = useStyles();
   const [ state, setState ] = useState({ emailID: "", password: "" })
 	const [ chat, setChat ] = useState([])
+  const [ topCards, setTopCards ] = useState({})
   const [age, setAge] = React.useState('');
   const handleChange = (event) => {
     setAge(event.target.value);
   };
 
-
+  console.log(topCards)
 
   const StyledTableRow = withStyles((theme) => ({
     root: {
@@ -291,6 +367,7 @@ const Summary = (props) => {
 			socketRef.current = io.connect("https://zedqwsapi.bluekaktus.com/", { transports: ['websocket'] })
       socketRef.current.on("fromServer", ( msg ) => {
         // setChat([...chat, { emailID, password }])
+        setTopCards(msg.topCards)
         console.log(msg);
       })
       socketRef.current.on("validLogin", () => {
@@ -462,13 +539,35 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                       
                     >
                       <div className={classes.cardG}>
-                      <Grid container>
-                      <Grid item xs={8}>
-                        <Typography className={classes.labelHeaderG}>
-                          {"Pcs Produced"}
-                        </Typography>
-                      </Grid>
-                      </Grid>
+                        <Grid container>
+                          <Grid item xs={8}>
+                            <Typography className={classes.labelHeaderG}>
+                              {"Pcs Produced"}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                        <Grid container>
+                          <Grid item xs={4}>
+                            </Grid>
+                            <Grid item xs={8}>
+                            {topCards.NO_OF_PCS != null ? (
+                                <CountUp
+                                  start={0}
+                                  end={topCards.NO_OF_PCS}
+                                  duration={1}
+                                  separator={","}
+                                  className={classes.topRightG}
+                                />
+                              ) :    
+                              <CountUp
+                              start={0}
+                              end={5000}
+                              duration={1}
+                              separator={","}
+                              className={classes.topRightG}
+                            />}
+                            </Grid>
+                        </Grid>
                           </div>
                     </Grid>
                     <Grid
@@ -478,9 +577,35 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                       
                     >
                       <div className={classes.cardB}>
-                      <Typography className={classes.labelHeaderB}>
-                          {"Ok Pieces"}
-                        </Typography>
+                      <Grid container>
+                          <Grid item xs={8}>
+                            <Typography className={classes.labelHeaderB}>
+                              {"OK Pieces"}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                        <Grid container>
+                          <Grid item xs={4}>
+                            </Grid>
+                            <Grid item xs={8}>
+                            {topCards.OK_PIECES != null ? (
+                                <CountUp
+                                  start={0}
+                                  end={topCards.OK_PIECES}
+                                  duration={1}
+                                  separator={","}
+                                  className={classes.topRightB}
+                                />
+                              ) :    
+                              <CountUp
+                              start={0}
+                              end={5000}
+                              duration={1}
+                              separator={","}
+                              className={classes.topRightB}
+                            />}
+                            </Grid>
+                        </Grid>
                       </div>
                     </Grid>
                     <Grid
@@ -490,9 +615,35 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                       
                     >
                       <div className={classes.cardY}>
-                      <Typography className={classes.labelHeaderY}>
-                          {"Rectified Pcs"}
-                        </Typography>
+                      <Grid container>
+                          <Grid item xs={8}>
+                            <Typography className={classes.labelHeaderY}>
+                              {"Rectified Pcs"}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                        <Grid container>
+                          <Grid item xs={4}>
+                            </Grid>
+                            <Grid item xs={8}>
+                            {topCards.ALTERED_PIECES != null ? (
+                                <CountUp
+                                  start={0}
+                                  end={topCards.ALTERED_PIECES}
+                                  duration={1}
+                                  separator={","}
+                                  className={classes.topRightY}
+                                />
+                              ) :    
+                              <CountUp
+                              start={0}
+                              end={5000}
+                              duration={1}
+                              separator={","}
+                              className={classes.topRightY}
+                            />}
+                            </Grid>
+                        </Grid>
                       </div>
                     </Grid>
                     <Grid
@@ -502,9 +653,35 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                       
                     >
                       <div className={classes.cardR}>
-                      <Typography className={classes.labelHeaderR}>
-                          {"Rejected Pcs"}
-                        </Typography>
+                      <Grid container>
+                          <Grid item xs={8}>
+                            <Typography className={classes.labelHeaderR}>
+                              {"Rejected Pcs"}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                        <Grid container>
+                          <Grid item xs={4}>
+                            </Grid>
+                            <Grid item xs={8}>
+                            {topCards.REJECTED_PIECES != null ? (
+                                <CountUp
+                                  start={0}
+                                  end={topCards.REJECTED_PIECES}
+                                  duration={1}
+                                  separator={","}
+                                  className={classes.topRightR}
+                                />
+                              ) :    
+                              <CountUp
+                              start={0}
+                              end={5000}
+                              duration={1}
+                              separator={","}
+                              className={classes.topRightR}
+                            />}
+                            </Grid>
+                        </Grid>
                       </div>
                     </Grid>
                     <Grid
@@ -514,9 +691,38 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                       
                     >
                       <div className={classes.cardR}>
-                      <Typography className={classes.labelHeaderR}>
-                          {"Rejected %"}
-                        </Typography>
+                      <Grid container>
+                          <Grid item xs={8}>
+                            <Typography className={classes.labelHeaderR}>
+                              {"Rejected %"}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                        <Grid container>
+                          <Grid item xs={4}>
+                            </Grid>
+                            <Grid item xs={8}>
+                            {topCards.REJECTED_PIECES != null ? (
+                                <CountUp
+                                  start={0}
+                                  end={topCards.REJECTED_PIECES*100/topCards.NO_OF_PCS}
+                                  duration={1}
+                                  separator={","}
+                                  decimals={2}
+                                  suffix={" %"}
+                                  className={classes.topRightR}
+                                />
+                              ) :    
+                              <CountUp
+                              start={0}
+                              end={0}
+                              duration={1}
+                              decimals={2}
+                              suffix={" %"}
+                              className={classes.topRightR}
+                            />}
+                            </Grid>
+                        </Grid>
                       </div>
                     </Grid>
                     <Grid
@@ -526,9 +732,38 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                       
                     >
                       <div className={classes.cardO}>
-                      <Typography className={classes.labelHeaderO}>
-                          {"DHU%"}
-                        </Typography>
+                      <Grid container>
+                          <Grid item xs={8}>
+                            <Typography className={classes.labelHeaderO}>
+                              {"DHU %"}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                        <Grid container>
+                          <Grid item xs={4}>
+                            </Grid>
+                            <Grid item xs={8}>
+                            {topCards.NO_OF_DEFECTS != null ? (
+                                <CountUp
+                                  start={0}
+                                  end={topCards.NO_OF_DEFECTS*100/topCards.NO_OF_PCS}
+                                  duration={1}
+                                  separator={","}
+                                  decimals={2}
+                                  suffix={" %"}
+                                  className={classes.topRightO}
+                                />
+                              ) :    
+                              <CountUp
+                              start={0}
+                              end={0}
+                              duration={1}
+                              decimals={2}
+                              suffix={" %"}
+                              className={classes.topRightO}
+                            />}
+                            </Grid>
+                        </Grid>
                       </div>
                     </Grid>
 
