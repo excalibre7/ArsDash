@@ -71,3 +71,79 @@
 .fixedtbl th {
   overflow-wrap: break-word;
 }
+html {
+  scroll-snap-type: y mandatory;
+}
+body {
+	background: linear-gradient(-45deg, #7028e4AA, #009efdAA, #cd9cf2AA, #2575fcAA);
+	background-size: 500% 500%;
+	animation: gradient 12s ease infinite;
+	height: 100vh;
+  scroll-snap-type: y mandatory;
+  overflow-y: auto;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+section {
+  height: 100vh;
+  padding: 15px;
+  scroll-snap-align: start;
+}
+
+
+.fixedtbl {
+  table-layout: fixed;
+  margin:10
+}
+/* .fixedtbl td {
+  overflow: auto;
+} */
+
+.wrapper {
+  overflow: hidden;
+}
+
+.SummaryTable {
+  /* overflow-x: scroll; */
+  height: 90vh;
+  background-color: #ffffff88;
+  padding: 10;
+  margin: 10;
+  border-radius: 15;
+}
+
+.progress-custom {
+  color: black;
+}
+
+.fixedtbl th {
+  overflow-wrap: break-word;
+}
+
+.sc5::-webkit-scrollbar {
+  width: 15px;
+  height: 15px;
+}
+.sc5::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.sc5::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(45deg, #00aeff, #a68eff);
+  border-radius: 10px;
+	-webkit-box-shadow: rgba(0,0,0,.12) 0 3px 13px 1px;
+}
+
+
+
