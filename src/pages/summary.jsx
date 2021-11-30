@@ -30,6 +30,9 @@ import { ResponsiveBar } from '@nivo/bar';
 import "../stylesheets/progressBar.css";
 import CountUp from "react-countup";
 import { fontWeight, margin } from "@mui/system";
+import DateFnsUtils from '@date-io/date-fns';
+import { DatePicker,KeyboardDatePicker, MuiPickersUtilsProvider  } from "@material-ui/pickers";
+import Moment from 'moment';
 
 const THEME = createMuiTheme({
   typography: {
@@ -324,17 +327,37 @@ topRightO: {
     dates: {
       border: "none",
     },
+    header: {
+      height:"10vh",
+      width:"100%", 
+      position: 'fixed ',
+      top: 0, right: 0,
+      zIndex:200,
+      paddingTop: 10, 
+      backgroundColor: 'white',
+      display: "flex",
+      alignContent: "space-between",
+      alignItems: "center",
+      justifyContent: "space-evenly",
+
+    }
 }));
 
 const Summary = (props) => {
   let classes = useStyles();
   const [ state, setState ] = useState({ emailID: "", password: "" })
-	const [ chat, setChat ] = useState([])
-  const [ topCards, setTopCards ] = useState({})
+//	const [ chat, setChat ] = useState([])
+const {chat} = props.data;
+const {topCards} = props.data; 
+  //const [ topCards, setTopCards ] = useState({})
   const [age, setAge] = React.useState('');
   const handleChange = (event) => {
     setAge(event.target.value);
   };
+  const [startDate, setStartDate] = useState(Moment(new Date()).format('DD-MMM-yyyy'));
+  const [endDate, setEndDate] = useState(Moment(new Date()).format('DD-MMM-yyyy'));
+  const [selectedDate, setSelectedDate] = useState("today");
+  const [searchText, setSearchText] = useState("");
 
   console.log(topCards)
 
@@ -361,26 +384,7 @@ const Summary = (props) => {
 
 
 
-	const socketRef = useRef()
-  useEffect(
-		() => {
-			socketRef.current = io.connect("https://zedqwsapi.bluekaktus.com/", { transports: ['websocket'] })
-      socketRef.current.on("fromServer", ( msg ) => {
-        // setChat([...chat, { emailID, password }])
-        setTopCards(msg.topCards)
-        console.log(msg);
-      })
-      socketRef.current.on("validLogin", () => {
-				console.log("login successful");
-			})
-      socketRef.current.on("invalidLogin", () => {
-        console.log("login unsuccessful");
-      })
-			return () => socketRef.current.disconnect()
-		},
-		[ chat ]
-	)
-
+  const socketRef = props.data.socketRef;
 	const onTextChange = (e) => {
 		setState({ ...state, [e.target.name]: e.target.value })
 	}
@@ -519,12 +523,71 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
   )
 }
 
+const handleTimeChange = (event) => {
+  setSelectedDate(event.target.value);
+};
+
   return (
     <MuiThemeProvider theme={THEME}>
     <div className="sc5">
       <section class="one">
-        <div style={{height:"10vh",width:"100%"}}></div>
-          <Grid container>
+        <Grid className={classes.header}>
+    <Select
+                                style={{ width: 200,marginLeft: 10}}
+                                value={selectedDate}
+                                onChange={handleTimeChange}
+                                name="country"
+                                displayEmpty
+                                autoWidth
+                                className={classes.selectEmpty}
+                            >
+                                <MenuItem value="today">Today</MenuItem>
+                                <MenuItem value="yesterday">Yesterday</MenuItem>
+                                <MenuItem value="lastSevenDays">
+                                    Last 7 Days
+                                </MenuItem>
+                                <MenuItem value="lastThirtyDays">
+                                    Last 30 Days
+                                </MenuItem>
+                                <MenuItem value="custom">Custom</MenuItem>
+                            </Select>
+                            {selectedDate === "custom" &&
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+<KeyboardDatePicker
+        autoOk
+        variant="inline"
+        inputVariant="outlined"
+        label="Start Date"
+        format="dd-MMM-yyyy"
+        value={startDate}
+        onChange={date => setStartDate(Moment(date).format('DD-MMM-yyyy'))}
+        InputAdornmentProps={{ position: "start" }}
+        maxDate={endDate}
+      />
+    </MuiPickersUtilsProvider>
+}
+{selectedDate === "custom" &&
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+<KeyboardDatePicker
+        autoOk
+        variant="inline"
+        inputVariant="outlined"
+        label="End Date"
+        format="dd-MMM-yyyy"
+        value={endDate}
+        onChange={date => setEndDate(Moment(date).format('DD-MMM-yyyy'))}
+        InputAdornmentProps={{ position: "start" }}
+        minDate={startDate}
+      />
+    </MuiPickersUtilsProvider>
+}
+    <input placeholder="Search" style={{    border: "1px solid #00000044",
+    borderRadius: "3px",
+    padding:"8px 10px",
+    verticalAlign: "middle",
+    outline: "none",}}onChange={event => setSearchText(event.target.value)} />
+        </Grid>
+          <Grid container style={{marginTop: 80}}>
             <Grid item xs={4}>
             <Grid
               container
@@ -1469,7 +1532,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                           width: "20%",
                           backgroundColor: "#fff",
                           textAlign:"left",
-                          zIndex: 1000,
+                        //  zIndex: 1000,
                         }}
                       >
                         <Typography className={classes.superheaderTxt}>
@@ -1483,7 +1546,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                           width: "10%",
                           backgroundColor: "#fff",
                           textAlign:"right",
-                          zIndex: 1000,
+                        //  zIndex: 1000,
                         }}
                       >
                         <Typography className={classes.superheaderTxt}>
@@ -1497,7 +1560,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                           width: "10%",
                           backgroundColor: "#fff",
                           textAlign:"right",
-                          zIndex: 1000,
+                        //  zIndex: 1000,
                         }}
                       >
                         <Typography className={classes.superheaderTxt}>
@@ -1511,7 +1574,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                           width: "10%",
                           backgroundColor: "#fff",
                           textAlign:"right",
-                          zIndex: 1000,
+                        //  zIndex: 1000,
                         }}
                       >
                         <Typography className={classes.superheaderTxt}>
@@ -1525,7 +1588,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                           width: "10%",
                           backgroundColor: "#fff",
                           textAlign:"right",
-                          zIndex: 1000,
+                       //   zIndex: 1000,
                         }}
                       >
                         <Typography className={classes.superheaderTxt}>
@@ -1539,7 +1602,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                           width: "10%",
                           backgroundColor: "#fff",
                           textAlign:"right",
-                          zIndex: 1000,
+                      //    zIndex: 1000,
                         }}
                       >
                         <Typography className={classes.superheaderTxt}>
@@ -1553,7 +1616,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                           width: "10%",
                           backgroundColor: "#fff",
                           textAlign:"right",
-                          zIndex: 1000,
+                     //     zIndex: 1000,
                         }}
                       >
                         <Typography className={classes.superheaderTxt}>
@@ -1567,7 +1630,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                           width: "10%",
                           backgroundColor: "#fff",
                           textAlign:"right",
-                          zIndex: 1000,
+                     //     zIndex: 1000,
                         }}
                       >
                         <Typography className={classes.superheaderTxt}>
@@ -1581,7 +1644,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                           width: "10%",
                           backgroundColor: "#fff",
                           textAlign:"right",
-                          zIndex: 1000,
+                     //     zIndex: 1000,
                         }}
                       >
                         <Typography className={classes.superheaderTxt}>
@@ -1594,7 +1657,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                           width: "10%",
                           backgroundColor: "#fff",
                           textAlign:"right",
-                          zIndex: 1000,
+                     //     zIndex: 1000,
                         }}
                       >
                         <Typography className={classes.superheaderTxt}>
