@@ -19,7 +19,7 @@ import {
 } from "@material-ui/core";
 import io from "socket.io-client";
 import { withStyles } from "@material-ui/styles";
-import React, { Component, useEffect, useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import TopBar from "../components/topbar";
 import "../stylesheets/App.css";
 // import "../stylesheets/activeOrders.css";
@@ -33,315 +33,10 @@ import { fontWeight, margin } from "@mui/system";
 import DateFnsUtils from '@date-io/date-fns';
 import { DatePicker,KeyboardDatePicker, MuiPickersUtilsProvider  } from "@material-ui/pickers";
 import Moment from 'moment';
+import VendorTable from "../components/vendorTable.jsx";
+import FactoryTable from "../components/factoryTable.jsx";
+import CircularProgress from '@mui/material/CircularProgress';
 
-const THEME = createMuiTheme({
-  typography: {
-   fontFamily: "Work",
-  //  "fontSize": 14,
-  //  "fontWeightLight": 300,
-  //  "fontWeightRegular": 400,
-  //  "fontWeightMedium": 500
-  }
-});
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    width: "100%",
-    marginTop: "20px",
-    overflow: 'hidden'
-},
-formControl: {
-  marginLeft:60,
-  marginTop:10,
-  alignContent:"center",
-  justifyContent:"center",
-  minWidth: 120,
-},
-dropdown:{
-  border:"1px #6ea1ff"
-},
-cardG: {
-  height: 110,
-  width: "100%",
-  backgroundColor: "#eefef1",
-  boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
-  transition: "all .2s ease-in-out",
-  borderRadius: 8,
-  "&:hover": {
-    fontWeight: "bold",
-    cursor: "pointer",
-    textDecoration: "none",
-    backgroundColor: "#eefef1",
-    transform: "scale(1.1)"
-  },
-},
-labelHeaderG: {
-  fontSize: 22,
-  fontFamily: "Work",
-  margin: 2,
-  marginLeft:10,
-  padding: 2,
-  color: "#49b667",
-  fontWeight:800,
-  textAlign:"left",
-  letterSpacing:"-1px"
-},
-labelValG: {
-  fontSize: 45,
-  fontFamily: "Work",
-  margin:5,
-  color: "#49b667",
-  fontWeight:800,
-  textAlign:"right",
-  letterSpacing:"-1px"
-},
-cardB: {
-  height: 110,
-  width: "100%",
-  backgroundColor: "#edf3ff",
-  boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
-  transition: "all .2s ease-in-out",
-  borderRadius: 8,
-  "&:hover": {
-    fontWeight: "bold",
-    cursor: "pointer",
-    textDecoration: "none",
-    backgroundColor: "#edf3ff",
-    transform: "scale(1.1)"
-  },
-},
-labelHeaderB: {
-  fontSize: 22,
-  fontFamily: "Work",
-  margin: 2,
-  marginLeft:10,
-  padding: 2,
-  color: "#0a6aff",
-  fontWeight:800,
-  textAlign:"left",
-  letterSpacing:"-1px"
-},
-cardY: {
-  height: 110,
-  width: "100%",
-  backgroundColor: "#fffce6",
-  boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
-  transition: "all .2s ease-in-out",
-  borderRadius: 8,
-  "&:hover": {
-    fontWeight: "bold",
-    cursor: "pointer",
-    textDecoration: "none",
-    backgroundColor: "#fffce6",
-    transform: "scale(1.1)"
-  },
-},
-labelHeaderY: {
-  fontSize: 20,
-  fontFamily: "Work",
-  margin: 2,
-  marginLeft:10,
-  padding: 2,
-  color: "#ebc033",
-  fontWeight:800,
-  textAlign:"left",
-  letterSpacing:"-1px"
-},
-cardR: {
-  height: 110,
-  width: "100%",
-  backgroundColor: "#fff0f5",
-  boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
-  transition: "all .2s ease-in-out",
-  borderRadius: 8,
-  "&:hover": {
-    fontWeight: "bold",
-    cursor: "pointer",
-    textDecoration: "none",
-    backgroundColor: "#fff0f5",
-    transform: "scale(1.1)"
-  },
-},
-labelHeaderR: {
-  fontSize: 23,
-  fontFamily: "Work",
-  margin: 2,
-  marginLeft:10,
-  padding: 2,
-  color: "#ff0025",
-  fontWeight:800,
-  textAlign:"left",
-  letterSpacing:"-1px"
-},
-cardO: {
-  height: 110,
-  width: "100%",
-  backgroundColor: "#ffedd9",
-  boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
-  transition: "all .2s ease-in-out",
-  borderRadius: 8,
-  "&:hover": {
-    fontWeight: "bold",
-    cursor: "pointer",
-    textDecoration: "none",
-    backgroundColor: "#ffedd9",
-    transform: "scale(1.1)"
-  },
-},
-labelHeaderO: {
-  fontSize: 25,
-  fontFamily: "Work",
-  margin: 2,
-  marginLeft:10,
-  padding: 2,
-  color: "#ff9800",
-  fontWeight:800,
-  textAlign:"left",
-  letterSpacing:"-1px"
-},
-graph:{
-  height: 365 ,
-   width: "62%",
-  alignContent:'center',
-  borderRadius:10,
-  marginLeft:25,
-  fontWeight: "bold",
-  // transition: "all .5s ease-in-out",
-  // "&:hover": {
-  //   fontWeight: "bold",
-  //   cursor: "pointer",
-  //   textDecoration: "none",
-  //   transform: "scale(1.05)"
-  // },
-  boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
-},
-tableO:{
-  alignContent:'center',
-  borderRadius:10,
-  height:"90vh",
-  margin:15,
-  backgroundColor:"#ffffffCC",
-  overflow:"hidden",
-  boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
-},
-tableI:{
-  alignContent:'center',
-  height:"90vh",
-  overflowX:"scroll",
-  "&::-webkit-scrollbar": {   
-    width: "11px",
-    height: "11px" },
-  "&::-webkit-scrollbar-thumb": {   
-    backgroundImage: "linear-gradient(45deg, #00aeffAA, #a68effAA)",
-    borderRadius:"10px", },
-  "&::-webkit-scrollbar-track": {   
-      borderRadius:"10px",
-      backgroundColor: "rgba(255, 255, 255, 0.1)" }
-    
-},
-topRightG: {
-  fontSize: 40,
-  fontWeight: "bold",
-  justifyContent:"flex-end",
-  textAlign: "right",
-  alignSelf: "flex-end",
-  fontFamily: "Work",
-  margin:5,
-  color: "#49b667",
-  fontWeight:800,
-  textAlign:"right",
-  letterSpacing:"-1px"
-},
-topRightB: {
-  fontSize: 40,
-  fontWeight: "bold",
-  justifyContent:"flex-end",
-  textAlign: "right",
-  alignSelf: "flex-end",
-  fontFamily: "Work",
-  margin:5,
-  color: "#0a6aff",
-  fontWeight:800,
-  textAlign:"right",
-  letterSpacing:"-1px"
-},
-topRightY: {
-  fontSize: 40,
-  fontWeight: "bold",
-  justifyContent:"flex-end",
-  textAlign: "right",
-  alignSelf: "flex-end",
-  fontFamily: "Work",
-  margin:5,
-  color: "#ebc033",
-  fontWeight:800,
-  textAlign:"right",
-  letterSpacing:"-1px"
-},
-topRightR: {
-  fontSize: 40,
-  fontWeight: "bold",
-  justifyContent:"flex-end",
-  textAlign: "right",
-  alignSelf: "flex-end",
-  fontFamily: "Work",
-  margin:5,
-  color: "#ff0025",
-  fontWeight:800,
-  textAlign:"right",
-  letterSpacing:"-1px"
-},
-topRightO: {
-  fontSize: 40,
-  fontWeight: "bold",
-  justifyContent:"flex-end",
-  textAlign: "right",
-  alignSelf: "flex-end",
-  fontFamily: "Work",
-  margin:5,
-  color: "#ff9800",
-  fontWeight:800,
-  textAlign:"right",
-  letterSpacing:"-1px"
-},
-  wrapper: {
-   width:"100%",
-  },
-  tableHeaderFont: {
-    backgroundColor: "#f8bcd0",
-    },
-    paper: {
-      position: "absolute",
-      width: 400,
-      backgroundColor: theme.palette.background.paper,
-      border: "2px solid #000",
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-    },
-    superheader: {},
-    superheaderTxt: {
-      color: "#000000AA",
-      fontFamily:"Work",
-      fontWeight:"800"
-    },
-    dates: {
-      border: "none",
-    },
-    header: {
-      height:"10vh",
-      width:"100%", 
-      position: 'fixed ',
-      top: 0, right: 0,
-      zIndex:200,
-      paddingTop: 10, 
-      backgroundColor: 'white',
-      display: "flex",
-      alignContent: "space-between",
-      alignItems: "center",
-      justifyContent: "space-evenly",
-
-    }
-}));
 
 const Summary = (props) => {
   let classes = useStyles();
@@ -358,9 +53,27 @@ const {topCards} = props.data;
   const [endDate, setEndDate] = useState(Moment(new Date()).format('DD-MMM-yyyy'));
   const [selectedDate, setSelectedDate] = useState("today");
   const [searchText, setSearchText] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [vendorTableDetails, setVendorTableDetails] = useState({visible: true, data:[], inupt: {}}); // input will take the data for next screen API
+  const [factoryTableDetails, setFactoryTableDetails] = useState({visible: false, data: [], input: {}});
+  const [nextTableDetails, setNextTableDetails] = useState({currentTable : "vendor", nextTable: "", details: {}}); 
 
-  console.log(topCards)
+  useEffect(()=>{
+    setLoading(true);
+    //make useEffect or call a function here for each table data.
+    switch(nextTableDetails.currentTable){
+      case "vendor" : console.log("vendor!!!!!!", nextTableDetails.currentTable);setVendorTableDetails({...vendorTableDetails, visible:false}); break;
+      case "factory" :console.log("factory!!!!!!", nextTableDetails.currentTable); setFactoryTableDetails({...factoryTableDetails, visible:false}); break;
+      default: setVendorTableDetails({...vendorTableDetails, visible:false}); break;
+    }
+    switch(nextTableDetails.nextTable){
+      case "vendor" : console.log("vendor next!!!!!!", nextTableDetails.currentTable);setVendorTableDetails({...vendorTableDetails, visible: true, input: nextTableDetails.details}); break;
+      case "factory" :console.log("factory next!!!!!!", nextTableDetails.currentTable); setFactoryTableDetails({...factoryTableDetails, visible: true, input: nextTableDetails.details}); break;
+      default: setVendorTableDetails({...vendorTableDetails, visible: true, input: nextTableDetails.details}); break;
+    }
+    setLoading(false);
 
+  },[nextTableDetails.nextTable]);
   const StyledTableRow = withStyles((theme) => ({
     root: {
       "&:nth-of-type(odd)": {
@@ -527,6 +240,9 @@ const handleTimeChange = (event) => {
   setSelectedDate(event.target.value);
 };
 
+if (loading)
+return <CircularProgress color="inherit"/>
+else
   return (
     <MuiThemeProvider theme={THEME}>
     <div className="sc5">
@@ -1519,234 +1235,8 @@ const handleTimeChange = (event) => {
       <div className="wrapper">
               <div className={classes.tableO}>
               {/* <div className="tableI sc5"> */}
-              <div className={classes.tableI}>
-                <Table stickyHeader={true} className="fixedtbl">
-                  <TableHead>
-                    <StyledTableRow style={{ backgroundColor: "#6495ED00" }}>
-                      <StyledTableCell
-                        style={{
-                          padding: 0,
-                          paddingLeft: 20,
-                          paddingTop: 10,
-                          paddingBottom: 10,
-                          width: "20%",
-                          backgroundColor: "#fff",
-                          textAlign:"left",
-                        //  zIndex: 1000,
-                        }}
-                      >
-                        <Typography className={classes.superheaderTxt}>
-                          Vendor
-                        </Typography>
-                      </StyledTableCell>
-                      <StyledTableCell
-                        style={{
-                          padding: 10,
-                      
-                          width: "10%",
-                          backgroundColor: "#fff",
-                          textAlign:"right",
-                        //  zIndex: 1000,
-                        }}
-                      >
-                        <Typography className={classes.superheaderTxt}>
-                          Order Qty
-                        </Typography>
-                      </StyledTableCell>
-                      <StyledTableCell
-                        style={{
-                          padding: 10,
-                      
-                          width: "10%",
-                          backgroundColor: "#fff",
-                          textAlign:"right",
-                        //  zIndex: 1000,
-                        }}
-                      >
-                        <Typography className={classes.superheaderTxt}>
-                          Pending
-                        </Typography>
-                      </StyledTableCell>
-                      <StyledTableCell
-                        style={{
-                          padding: 10,
-                      
-                          width: "10%",
-                          backgroundColor: "#fff",
-                          textAlign:"right",
-                        //  zIndex: 1000,
-                        }}
-                      >
-                        <Typography className={classes.superheaderTxt}>
-                          Pcs Produced
-                        </Typography>
-                      </StyledTableCell>
-                      <StyledTableCell
-                        style={{
-                          padding: 10,
-                      
-                          width: "10%",
-                          backgroundColor: "#fff",
-                          textAlign:"right",
-                       //   zIndex: 1000,
-                        }}
-                      >
-                        <Typography className={classes.superheaderTxt}>
-                          Ok Pieces
-                        </Typography>
-                      </StyledTableCell>
-                      <StyledTableCell
-                        style={{
-                          padding: 10,
-                      
-                          width: "10%",
-                          backgroundColor: "#fff",
-                          textAlign:"right",
-                      //    zIndex: 1000,
-                        }}
-                      >
-                        <Typography className={classes.superheaderTxt}>
-                          Rectified Pcs
-                        </Typography>
-                      </StyledTableCell>
-                      <StyledTableCell
-                        style={{
-                          padding: 10,
-                      
-                          width: "10%",
-                          backgroundColor: "#fff",
-                          textAlign:"right",
-                     //     zIndex: 1000,
-                        }}
-                      >
-                        <Typography className={classes.superheaderTxt}>
-                          Defects
-                        </Typography>
-                      </StyledTableCell>
-                      <StyledTableCell
-                        style={{
-                          padding: 10,
-                      
-                          width: "10%",
-                          backgroundColor: "#fff",
-                          textAlign:"right",
-                     //     zIndex: 1000,
-                        }}
-                      >
-                        <Typography className={classes.superheaderTxt}>
-                          Rejected Pcs
-                        </Typography>
-                      </StyledTableCell>
-                      <StyledTableCell
-                        style={{
-                          padding: 10,
-                      
-                          width: "10%",
-                          backgroundColor: "#fff",
-                          textAlign:"right",
-                     //     zIndex: 1000,
-                        }}
-                      >
-                        <Typography className={classes.superheaderTxt}>
-                          Rejection%
-                        </Typography>
-                      </StyledTableCell>
-                      <StyledTableCell
-                        style={{
-                          padding: 10,
-                          width: "10%",
-                          backgroundColor: "#fff",
-                          textAlign:"right",
-                     //     zIndex: 1000,
-                        }}
-                      >
-                        <Typography className={classes.superheaderTxt}>
-                          DHU%
-                        </Typography>
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  </TableHead>
-
-                  {[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
-                    .map((row) => (
-                      <StyledTableRow>
-                        <StyledTableCell>{"Shree Raj Apparels"}</StyledTableCell>
-                        <StyledTableCell>
-                          <Typography  
-                            style={{
-                            textAlign:"right",
-                          }}>
-                            {"98547"}
-                          </Typography>
-                        </StyledTableCell>
-                        <StyledTableCell>
-                          <Typography  
-                            style={{
-                            textAlign:"right",
-                          }}>
-                            {"98547"}
-                          </Typography>
-                        </StyledTableCell>
-                        <StyledTableCell>
-                          <Typography  
-                            style={{
-                            textAlign:"right",
-                          }}>
-                            {"98547"}
-                          </Typography>
-                        </StyledTableCell>
-                        <StyledTableCell>
-                          <Typography  
-                            style={{
-                            textAlign:"right",
-                          }}>
-                            {"98547"}
-                          </Typography>
-                        </StyledTableCell>
-                        <StyledTableCell>
-                          <Typography  
-                            style={{
-                            textAlign:"right",
-                          }}>
-                            {"98547"}
-                          </Typography>
-                        </StyledTableCell>
-                        <StyledTableCell>
-                          <Typography  
-                            style={{
-                            textAlign:"right",
-                          }}>
-                            {"98547"}
-                          </Typography>
-                        </StyledTableCell>
-                        <StyledTableCell>
-                          <Typography  
-                            style={{
-                            textAlign:"right",
-                          }}>
-                            {"98547"}
-                          </Typography>
-                        </StyledTableCell>
-                        <StyledTableCell>
-                          <Typography  
-                            style={{
-                            textAlign:"right",
-                          }}>
-                            {"3%"}
-                          </Typography>
-                        </StyledTableCell>
-                        <StyledTableCell>
-                          <Typography  
-                            style={{
-                            textAlign:"right",
-                          }}>
-                            {"5%"}
-                          </Typography>
-                        </StyledTableCell>
-                      </StyledTableRow>
-                    ))}
-                </Table>
-                </div>
+              {vendorTableDetails.visible && <VendorTable data={vendorTableDetails.data} nextTableFunc={setNextTableDetails}/>}
+              {factoryTableDetails.visible && <FactoryTable data={factoryTableDetails.data} nextTableFunc={setNextTableDetails} />}
               </div>
             </div>
       </section>
@@ -1781,4 +1271,312 @@ const handleTimeChange = (event) => {
   );
 };
 
+const THEME = createMuiTheme({
+  typography: {
+   fontFamily: "Work",
+  //  "fontSize": 14,
+  //  "fontWeightLight": 300,
+  //  "fontWeightRegular": 400,
+  //  "fontWeightMedium": 500
+  }
+});
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    width: "100%",
+    marginTop: "20px",
+    overflow: 'hidden'
+},
+formControl: {
+  marginLeft:60,
+  marginTop:10,
+  alignContent:"center",
+  justifyContent:"center",
+  minWidth: 120,
+},
+dropdown:{
+  border:"1px #6ea1ff"
+},
+cardG: {
+  height: 110,
+  width: "100%",
+  backgroundColor: "#eefef1",
+  boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+  transition: "all .2s ease-in-out",
+  borderRadius: 8,
+  "&:hover": {
+    fontWeight: "bold",
+    cursor: "pointer",
+    textDecoration: "none",
+    backgroundColor: "#eefef1",
+    transform: "scale(1.1)"
+  },
+},
+labelHeaderG: {
+  fontSize: 22,
+  fontFamily: "Work",
+  margin: 2,
+  marginLeft:10,
+  padding: 2,
+  color: "#49b667",
+  fontWeight:800,
+  textAlign:"left",
+  letterSpacing:"-1px"
+},
+labelValG: {
+  fontSize: 45,
+  fontFamily: "Work",
+  margin:5,
+  color: "#49b667",
+  fontWeight:800,
+  textAlign:"right",
+  letterSpacing:"-1px"
+},
+cardB: {
+  height: 110,
+  width: "100%",
+  backgroundColor: "#edf3ff",
+  boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+  transition: "all .2s ease-in-out",
+  borderRadius: 8,
+  "&:hover": {
+    fontWeight: "bold",
+    cursor: "pointer",
+    textDecoration: "none",
+    backgroundColor: "#edf3ff",
+    transform: "scale(1.1)"
+  },
+},
+labelHeaderB: {
+  fontSize: 22,
+  fontFamily: "Work",
+  margin: 2,
+  marginLeft:10,
+  padding: 2,
+  color: "#0a6aff",
+  fontWeight:800,
+  textAlign:"left",
+  letterSpacing:"-1px"
+},
+cardY: {
+  height: 110,
+  width: "100%",
+  backgroundColor: "#fffce6",
+  boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+  transition: "all .2s ease-in-out",
+  borderRadius: 8,
+  "&:hover": {
+    fontWeight: "bold",
+    cursor: "pointer",
+    textDecoration: "none",
+    backgroundColor: "#fffce6",
+    transform: "scale(1.1)"
+  },
+},
+labelHeaderY: {
+  fontSize: 20,
+  fontFamily: "Work",
+  margin: 2,
+  marginLeft:10,
+  padding: 2,
+  color: "#ebc033",
+  fontWeight:800,
+  textAlign:"left",
+  letterSpacing:"-1px"
+},
+cardR: {
+  height: 110,
+  width: "100%",
+  backgroundColor: "#fff0f5",
+  boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+  transition: "all .2s ease-in-out",
+  borderRadius: 8,
+  "&:hover": {
+    fontWeight: "bold",
+    cursor: "pointer",
+    textDecoration: "none",
+    backgroundColor: "#fff0f5",
+    transform: "scale(1.1)"
+  },
+},
+labelHeaderR: {
+  fontSize: 23,
+  fontFamily: "Work",
+  margin: 2,
+  marginLeft:10,
+  padding: 2,
+  color: "#ff0025",
+  fontWeight:800,
+  textAlign:"left",
+  letterSpacing:"-1px"
+},
+cardO: {
+  height: 110,
+  width: "100%",
+  backgroundColor: "#ffedd9",
+  boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+  transition: "all .2s ease-in-out",
+  borderRadius: 8,
+  "&:hover": {
+    fontWeight: "bold",
+    cursor: "pointer",
+    textDecoration: "none",
+    backgroundColor: "#ffedd9",
+    transform: "scale(1.1)"
+  },
+},
+labelHeaderO: {
+  fontSize: 25,
+  fontFamily: "Work",
+  margin: 2,
+  marginLeft:10,
+  padding: 2,
+  color: "#ff9800",
+  fontWeight:800,
+  textAlign:"left",
+  letterSpacing:"-1px"
+},
+graph:{
+  height: 365 ,
+   width: "62%",
+  alignContent:'center',
+  borderRadius:10,
+  marginLeft:25,
+  fontWeight: "bold",
+  // transition: "all .5s ease-in-out",
+  // "&:hover": {
+  //   fontWeight: "bold",
+  //   cursor: "pointer",
+  //   textDecoration: "none",
+  //   transform: "scale(1.05)"
+  // },
+  boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+},
+tableO:{
+  alignContent:'center',
+  borderRadius:10,
+  height:"90vh",
+  margin:15,
+  backgroundColor:"#ffffffCC",
+  overflow:"hidden",
+  boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+},
+tableI:{
+  alignContent:'center',
+  height:"90vh",
+  overflowX:"scroll",
+  "&::-webkit-scrollbar": {   
+    width: "11px",
+    height: "11px" },
+  "&::-webkit-scrollbar-thumb": {   
+    backgroundImage: "linear-gradient(45deg, #00aeffAA, #a68effAA)",
+    borderRadius:"10px", },
+  "&::-webkit-scrollbar-track": {   
+      borderRadius:"10px",
+      backgroundColor: "rgba(255, 255, 255, 0.1)" }
+    
+},
+topRightG: {
+  fontSize: 40,
+  fontWeight: "bold",
+  justifyContent:"flex-end",
+  textAlign: "right",
+  alignSelf: "flex-end",
+  fontFamily: "Work",
+  margin:5,
+  color: "#49b667",
+  fontWeight:800,
+  textAlign:"right",
+  letterSpacing:"-1px"
+},
+topRightB: {
+  fontSize: 40,
+  fontWeight: "bold",
+  justifyContent:"flex-end",
+  textAlign: "right",
+  alignSelf: "flex-end",
+  fontFamily: "Work",
+  margin:5,
+  color: "#0a6aff",
+  fontWeight:800,
+  textAlign:"right",
+  letterSpacing:"-1px"
+},
+topRightY: {
+  fontSize: 40,
+  fontWeight: "bold",
+  justifyContent:"flex-end",
+  textAlign: "right",
+  alignSelf: "flex-end",
+  fontFamily: "Work",
+  margin:5,
+  color: "#ebc033",
+  fontWeight:800,
+  textAlign:"right",
+  letterSpacing:"-1px"
+},
+topRightR: {
+  fontSize: 40,
+  fontWeight: "bold",
+  justifyContent:"flex-end",
+  textAlign: "right",
+  alignSelf: "flex-end",
+  fontFamily: "Work",
+  margin:5,
+  color: "#ff0025",
+  fontWeight:800,
+  textAlign:"right",
+  letterSpacing:"-1px"
+},
+topRightO: {
+  fontSize: 40,
+  fontWeight: "bold",
+  justifyContent:"flex-end",
+  textAlign: "right",
+  alignSelf: "flex-end",
+  fontFamily: "Work",
+  margin:5,
+  color: "#ff9800",
+  fontWeight:800,
+  textAlign:"right",
+  letterSpacing:"-1px"
+},
+  wrapper: {
+   width:"100%",
+  },
+  tableHeaderFont: {
+    backgroundColor: "#f8bcd0",
+    },
+    paper: {
+      position: "absolute",
+      width: 400,
+      backgroundColor: theme.palette.background.paper,
+      border: "2px solid #000",
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(2, 4, 3),
+    },
+    superheader: {},
+    superheaderTxt: {
+      color: "#000000AA",
+      fontFamily:"Work",
+      fontWeight:"800"
+    },
+    dates: {
+      border: "none",
+    },
+    header: {
+      height:"10vh",
+      width:"100%", 
+      position: 'fixed ',
+      top: 0, right: 0,
+      zIndex:200,
+      paddingTop: 10, 
+      backgroundColor: 'white',
+      display: "flex",
+      alignContent: "space-between",
+      alignItems: "center",
+      justifyContent: "space-evenly",
+
+    }
+}));
 export default Summary;
