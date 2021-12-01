@@ -238,6 +238,12 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
 
 const handleTimeChange = (event) => {
   setSelectedDate(event.target.value);
+  console.log("here!!!",props.data.socketRef.current );
+  props.data.socketRef.current.emit("setDateRangeFilter", event.target.value, (msg) => {
+    console.log("date range data is!!!!!!!!!", msg)
+  });
+  event.preventDefault();
+
 };
 
 if (loading)
@@ -1455,7 +1461,8 @@ graph:{
 tableO:{
   alignContent:'center',
   borderRadius:10,
-  height:"90vh",
+  marginTop: 70,
+  height:"85vh",
   margin:15,
   backgroundColor:"#ffffffCC",
   overflow:"hidden",
