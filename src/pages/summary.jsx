@@ -36,14 +36,27 @@ import Moment from 'moment';
 import VendorTable from "../components/vendorTable.jsx";
 import FactoryTable from "../components/factoryTable.jsx";
 import CircularProgress from '@mui/material/CircularProgress';
+import VendorGraph from "../components/vendorGraph";
 
 
 const Summary = (props) => {
   let classes = useStyles();
-  const [ state, setState ] = useState({ emailID: "", password: "" })
-//	const [ chat, setChat ] = useState([])
+  const [ state, setState ] = useState({ emailID: "", password: "" });
 const {chat} = props.data;
-const {topCards} = props.data; 
+const [ topCards, setTopCards ] = useState({
+  "ORDER_QTY": 0,
+  "PENDING_PIECES": 0,
+  "STITCHED_PIECES": 0,
+  "PRODUCED_PIECES": 0,
+  "OK_PIECES": 0,
+  "TOT_PCS": 0,
+  "ALTERED_PIECES": 0,
+  "PCS_IN_ALTERATION": 0,
+  "REJECTED_PIECES": 0,
+  "NO_OF_DEFECTS": 0,
+  "NO_OF_PCS": 0
+})
+
   //const [ topCards, setTopCards ] = useState({})
   const [age, setAge] = React.useState('');
   const handleChange = (event) => {
@@ -53,13 +66,45 @@ const {topCards} = props.data;
   const [endDate, setEndDate] = useState(Moment(new Date()).format('DD-MMM-yyyy'));
   const [selectedDate, setSelectedDate] = useState("today");
   const [searchText, setSearchText] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [vendorTableDetails, setVendorTableDetails] = useState({visible: true, data:[], inupt: {}}); // input will take the data for next screen API
-  const [factoryTableDetails, setFactoryTableDetails] = useState({visible: false, data: [], input: {}});
-  const [nextTableDetails, setNextTableDetails] = useState({currentTable : "vendor", nextTable: "", details: {}}); 
+  const [loading, setLoading] = useState(true);
+  const [vendorTableDetails, setVendorTableDetails] = useState(
+    {visible: true, 
+      topCards: {
+    "ORDER_QTY": 0,
+    "PENDING_PIECES": 0,
+    "STITCHED_PIECES": 0,
+    "PRODUCED_PIECES": 0,
+    "OK_PIECES": 0,
+    "TOT_PCS": 0,
+    "ALTERED_PIECES": 0,
+    "PCS_IN_ALTERATION": 0,
+    "REJECTED_PIECES": 0,
+    "NO_OF_DEFECTS": 0,
+    "NO_OF_PCS": 0
+  }, topCardsH:{}, graphData: {}, tableData: [], inupt: {}}); // input will take the data for next screen API
+  const [factoryTableDetails, setFactoryTableDetails] = useState({visible: false, topCards: {}, topCardsH:{}, graphData: {}, tableData: [], input: {}});
+  const [nextTableDetails, setNextTableDetails] = useState({currentTable : "", nextTable: "", details: {}}); 
+  const [currentTable, setCurrentTable] = useState("vendor");
+  const socketRef = props.data.socketRef;
+
+ 
+  useEffect(() => {
+    console.log("props.data.loginStat!!!!!!",props.data.loginState, props.data.loginState === 1)
+    if(props.data.loginState === 1)
+    {
+      socketRef.current.on("fromServer", ( msg ) => {
+        console.log("message summary!!",msg);
+        updateData(msg);
+      })
+      socketRef.current.on("connect", () => {
+        console.log("socket id summary!!!!!",socketRef.current.id); 
+      });
+		}}
+  ,
+		[]
+	)
 
   useEffect(()=>{
-    setLoading(true);
     //make useEffect or call a function here for each table data.
     switch(nextTableDetails.currentTable){
       case "vendor" : console.log("vendor!!!!!!", nextTableDetails.currentTable);setVendorTableDetails({...vendorTableDetails, visible:false}); break;
@@ -67,37 +112,22 @@ const {topCards} = props.data;
       default: setVendorTableDetails({...vendorTableDetails, visible:false}); break;
     }
     switch(nextTableDetails.nextTable){
-      case "vendor" : console.log("vendor next!!!!!!", nextTableDetails.currentTable);setVendorTableDetails({...vendorTableDetails, visible: true, input: nextTableDetails.details}); break;
-      case "factory" :console.log("factory next!!!!!!", nextTableDetails.currentTable); setFactoryTableDetails({...factoryTableDetails, visible: true, input: nextTableDetails.details}); break;
+      case "vendor" : setCurrentTable("vendor"); setVendorTableDetails({...vendorTableDetails, visible: true, input: nextTableDetails.details}); break;
+      case "factory" : setCurrentTable("factory"); setFactoryTableDetails({...factoryTableDetails, visible: true, input: nextTableDetails.details}); break;
       default: setVendorTableDetails({...vendorTableDetails, visible: true, input: nextTableDetails.details}); break;
     }
-    setLoading(false);
-
   },[nextTableDetails.nextTable]);
-  const StyledTableRow = withStyles((theme) => ({
-    root: {
-      "&:nth-of-type(odd)": {
-        backgroundColor: theme.palette.action.hover,
-      },
-    },
-  }))(TableRow);
-  
-  const StyledTableCell = withStyles((theme) => ({
-    head: {
-      color: theme.palette.common.white,
-      fontSize: "0.75rem",
-    },
-    body: {
-      fontSize: "0.75rem",
-      padding: 0,
-    },
-  }))(TableCell);
 
+  const updateData = (msg) => {
+    switch(currentTable)
+    {
+      case "vendor": setVendorTableDetails({...vendorTableDetails, topCardsH: vendorTableDetails.topCards,  topCards: msg.topCards, graphData: msg.vendorGraphData, tableData: msg.vendorTableData}); break;
+      case "factory": setFactoryTableDetails({...factoryTableDetails,  topCardsH: factoryTableDetails.topCards, topCards: msg.topCards, graphData: msg.vendorGraphData, tableData: msg.vendorTableData}); break;
+      default: setVendorTableDetails({...vendorTableDetails, topCardsH: vendorTableDetails.topCards, topCards: msg.topCards, graphData: msg.vendorGraphData, tableData: msg.vendorTableData}); break;
+    }
+    setLoading(false);
+  }
 
-
-
-
-  const socketRef = props.data.socketRef;
 	const onTextChange = (e) => {
 		setState({ ...state, [e.target.name]: e.target.value })
 	}
@@ -120,134 +150,21 @@ const {topCards} = props.data;
 		))
 	}
 
-  const CustomTick = (tick: AxisTickProps<string>) => {
-
-    return (
-        <g transform={`translate(${tick.x},${tick.y + 22})`}>
-            {/* <rect x={-14} y={-6} rx={3} ry={3} width={28} height={24} fill="rgba(0, 0, 0, .05)" />
-            <rect x={-12} y={-12} rx={2} ry={2} width={24} height={24} fill="#25be3188" /> */}
-            <line stroke="#0000" strokeWidth={1.5} y1={-22} y2={-12} />
-            <text
-                textAnchor="middle"
-                dominantBaseline="middle"
-                style={{
-                    fontWeight:500,
-                    font:"Work",
-                    fill: '#25be31',
-                    fontSize: 14,
-                }}
-            >
-                {tick.value}
-            </text>
-        </g>
-    )
-}
-
-
-const CustomTick2 = (tick: AxisTickProps<string>) => {
-
-  return (
-      <g transform={`translate(${tick.x},${tick.y + 22})`}>
-          {/* <rect x={-14} y={-6} rx={3} ry={3} width={28} height={24} fill="rgba(0, 0, 0, .05)" />
-          <rect x={-12} y={-12} rx={2} ry={2} width={24} height={24} fill="#25be3188" /> */}
-          <line stroke="#0000" strokeWidth={1.5} y1={-22} y2={-12} />
-          <text
-              textAnchor="middle"
-              dominantBaseline="middle"
-              style={{
-                  fontWeight:500,
-                  font:"Work",
-                  fill: '#0a6aff',
-                  fontSize: 14,
-              }}
-          >
-              {tick.value}
-          </text>
-      </g>
-  )
-}
-
-const CustomTick3 = (tick: AxisTickProps<string>) => {
-
-  return (
-      <g transform={`translate(${tick.x},${tick.y + 22})`}>
-          {/* <rect x={-14} y={-6} rx={3} ry={3} width={28} height={24} fill="rgba(0, 0, 0, .05)" />
-          <rect x={-12} y={-12} rx={2} ry={2} width={24} height={24} fill="#25be3188" /> */}
-          <line stroke="#0000" strokeWidth={1.5} y1={-22} y2={-12} />
-          <text
-              textAnchor="middle"
-              dominantBaseline="middle"
-              style={{
-                  fontWeight:500,
-                  font:"Work",
-                  fill: '#ffce00',
-                  fontSize: 14,
-              }}
-          >
-              {tick.value}
-          </text>
-      </g>
-  )
-}
-
-const CustomTick4 = (tick: AxisTickProps<string>) => {
-
-  return (
-      <g transform={`translate(${tick.x},${tick.y + 22})`}>
-          {/* <rect x={-14} y={-6} rx={3} ry={3} width={28} height={24} fill="rgba(0, 0, 0, .05)" />
-          <rect x={-12} y={-12} rx={2} ry={2} width={24} height={24} fill="#25be3188" /> */}
-          <line stroke="#0000" strokeWidth={1.5} y1={-22} y2={-12} />
-          <text
-              textAnchor="middle"
-              dominantBaseline="middle"
-              style={{
-                  fontWeight:500,
-                  font:"Work",
-                  fill: '#ed5269',
-                  fontSize: 14,
-              }}
-          >
-              {tick.value}
-          </text>
-      </g>
-  )
-}
-
-const CustomTick5 = (tick: AxisTickProps<string>) => {
-
-  return (
-      <g transform={`translate(${tick.x},${tick.y + 22})`}>
-          {/* <rect x={-14} y={-6} rx={3} ry={3} width={28} height={24} fill="rgba(0, 0, 0, .05)" />
-          <rect x={-12} y={-12} rx={2} ry={2} width={24} height={24} fill="#25be3188" /> */}
-          <line stroke="#0000" strokeWidth={1.5} y1={-22} y2={-12} />
-          <text
-              textAnchor="middle"
-              dominantBaseline="middle"
-              style={{
-                  fontWeight:500,
-                  font:"Work",
-                  fill: '#ff9800',
-                  fontSize: 14,
-              }}
-          >
-              {tick.value}
-          </text>
-      </g>
-  )
-}
 
 const handleTimeChange = (event) => {
   setSelectedDate(event.target.value);
-  console.log("here!!!",props.data.socketRef.current );
-  props.data.socketRef.current.emit("setDateRangeFilter", event.target.value, (msg) => {
-    console.log("date range data is!!!!!!!!!", msg)
-  });
+  props.data.socketRef.current.emit("setDateRangeFilter", event.target.value);
+  console.log("date range changed");
+  setLoading(true);
   event.preventDefault();
 
 };
 
+if (props.data.loginState !== 1) {
+  return <Redirect to="/" />;
+}
 if (loading)
-return <CircularProgress color="inherit"/>
+return <CircularProgress color="inherit" />
 else
   return (
     <MuiThemeProvider theme={THEME}>
@@ -309,940 +226,15 @@ else
     verticalAlign: "middle",
     outline: "none",}}onChange={event => setSearchText(event.target.value)} />
         </Grid>
-          <Grid container style={{marginTop: 80}}>
-            <Grid item xs={4}>
-            <Grid
-              container
-              justifyContent="center"
-              spacing={2}
-              // style={{ margin: 16 }}
-            >
-                    <Grid
-                      item
-                      xs={6}
-                      align="center"
-                      
-                    >
-                      <div className={classes.cardG}>
-                        <Grid container>
-                          <Grid item xs={8}>
-                            <Typography className={classes.labelHeaderG}>
-                              {"Pcs Produced"}
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                        <Grid container>
-                          <Grid item xs={4}>
-                            </Grid>
-                            <Grid item xs={8}>
-                            {topCards.NO_OF_PCS != null ? (
-                                <CountUp
-                                  start={0}
-                                  end={topCards.NO_OF_PCS}
-                                  duration={1}
-                                  separator={","}
-                                  className={classes.topRightG}
-                                />
-                              ) :    
-                              <CountUp
-                              start={0}
-                              end={5000}
-                              duration={1}
-                              separator={","}
-                              className={classes.topRightG}
-                            />}
-                            </Grid>
-                        </Grid>
-                          </div>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={6}
-                      align="center"
-                      
-                    >
-                      <div className={classes.cardB}>
-                      <Grid container>
-                          <Grid item xs={8}>
-                            <Typography className={classes.labelHeaderB}>
-                              {"OK Pieces"}
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                        <Grid container>
-                          <Grid item xs={4}>
-                            </Grid>
-                            <Grid item xs={8}>
-                            {topCards.OK_PIECES != null ? (
-                                <CountUp
-                                  start={0}
-                                  end={topCards.OK_PIECES}
-                                  duration={1}
-                                  separator={","}
-                                  className={classes.topRightB}
-                                />
-                              ) :    
-                              <CountUp
-                              start={0}
-                              end={5000}
-                              duration={1}
-                              separator={","}
-                              className={classes.topRightB}
-                            />}
-                            </Grid>
-                        </Grid>
-                      </div>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={6}
-                      align="center"
-                      
-                    >
-                      <div className={classes.cardY}>
-                      <Grid container>
-                          <Grid item xs={8}>
-                            <Typography className={classes.labelHeaderY}>
-                              {"Rectified Pcs"}
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                        <Grid container>
-                          <Grid item xs={4}>
-                            </Grid>
-                            <Grid item xs={8}>
-                            {topCards.ALTERED_PIECES != null ? (
-                                <CountUp
-                                  start={0}
-                                  end={topCards.ALTERED_PIECES}
-                                  duration={1}
-                                  separator={","}
-                                  className={classes.topRightY}
-                                />
-                              ) :    
-                              <CountUp
-                              start={0}
-                              end={5000}
-                              duration={1}
-                              separator={","}
-                              className={classes.topRightY}
-                            />}
-                            </Grid>
-                        </Grid>
-                      </div>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={6}
-                      align="center"
-                      
-                    >
-                      <div className={classes.cardR}>
-                      <Grid container>
-                          <Grid item xs={8}>
-                            <Typography className={classes.labelHeaderR}>
-                              {"Rejected Pcs"}
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                        <Grid container>
-                          <Grid item xs={4}>
-                            </Grid>
-                            <Grid item xs={8}>
-                            {topCards.REJECTED_PIECES != null ? (
-                                <CountUp
-                                  start={0}
-                                  end={topCards.REJECTED_PIECES}
-                                  duration={1}
-                                  separator={","}
-                                  className={classes.topRightR}
-                                />
-                              ) :    
-                              <CountUp
-                              start={0}
-                              end={5000}
-                              duration={1}
-                              separator={","}
-                              className={classes.topRightR}
-                            />}
-                            </Grid>
-                        </Grid>
-                      </div>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={6}
-                      align="center"
-                      
-                    >
-                      <div className={classes.cardR}>
-                      <Grid container>
-                          <Grid item xs={8}>
-                            <Typography className={classes.labelHeaderR}>
-                              {"Rejected %"}
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                        <Grid container>
-                          <Grid item xs={4}>
-                            </Grid>
-                            <Grid item xs={8}>
-                            {topCards.REJECTED_PIECES != null ? (
-                                <CountUp
-                                  start={0}
-                                  end={topCards.REJECTED_PIECES*100/topCards.NO_OF_PCS}
-                                  duration={1}
-                                  separator={","}
-                                  decimals={2}
-                                  suffix={" %"}
-                                  className={classes.topRightR}
-                                />
-                              ) :    
-                              <CountUp
-                              start={0}
-                              end={0}
-                              duration={1}
-                              decimals={2}
-                              suffix={" %"}
-                              className={classes.topRightR}
-                            />}
-                            </Grid>
-                        </Grid>
-                      </div>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={6}
-                      align="center"
-                      
-                    >
-                      <div className={classes.cardO}>
-                      <Grid container>
-                          <Grid item xs={8}>
-                            <Typography className={classes.labelHeaderO}>
-                              {"DHU %"}
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                        <Grid container>
-                          <Grid item xs={4}>
-                            </Grid>
-                            <Grid item xs={8}>
-                            {topCards.NO_OF_DEFECTS != null ? (
-                                <CountUp
-                                  start={0}
-                                  end={topCards.NO_OF_DEFECTS*100/topCards.NO_OF_PCS}
-                                  duration={1}
-                                  separator={","}
-                                  decimals={2}
-                                  suffix={" %"}
-                                  className={classes.topRightO}
-                                />
-                              ) :    
-                              <CountUp
-                              start={0}
-                              end={0}
-                              duration={1}
-                              decimals={2}
-                              suffix={" %"}
-                              className={classes.topRightO}
-                            />}
-                            </Grid>
-                        </Grid>
-                      </div>
-                    </Grid>
-
-                  </Grid>
-                </Grid>
-        <div className={classes.graph}
-              style={{backgroundColor:age==""?"#eefef1":age=="Ok"?"#edf3ff":age=="Alter"?"#fffce6":age=="Rejected"?"#fff0f5":age=="DHU"?"#ffedd9":age=="All"?"#edf3ff":"#fff"}}
-                      >
-        <FormControl variant="outlined" className={classes.formControl}>
-       
-          <Select
-            value={age}
-            onChange={handleChange}
-            displayEmpty
-            className={classes.dropdown}
-            // input={
-            //   <OutlinedInput
-            //     labelWidth={40}
-            //     name="age"
-            //     id="outlined-age-simple"
-            //   />
-            // }
-          >
-            <MenuItem value="">
-            Pcs Produced
-            </MenuItem>
-            <MenuItem value={"Ok"}>Ok Pcs</MenuItem>
-            <MenuItem value={"Alter"}>Alter Pcs</MenuItem>
-            <MenuItem value={"Rejected"}>Rejected Pcs</MenuItem>
-            <MenuItem value={"All"}>All Pieces</MenuItem>
-            <MenuItem value={"DHU"}>DHU%</MenuItem>
-          </Select>
-        </FormControl>
-              {(age=="All")?
-              <ResponsiveBar
-              data={[
-                {
-                  "country": "Metro Clothing",
-                  "Pcs Produced":14933,
-                  "Ok Pieces": 13400,
-                  "Altered Pieces":1533,
-                  "Rejected Pieces":53,
-                  "DHU%":4
-                },
-                {
-                  "country": "Om Creations",
-                  "Pcs Produced":13933,
-                  "Ok Pieces": 12698,
-                  "Altered Pieces":1235,
-                  "Rejected Pieces":45,
-                  "DHU%":3.8
-                },
-                {
-                  "country": "CRI Indus",
-                  "Pcs Produced":11960,
-                  "Ok Pieces": 11508,
-                  "Altered Pieces":452,
-                  "DHU%":3.5,
-                  "Rejected Pieces":33
-                },
-                {
-                  "country": "RCR Exports",
-                  "Pcs Produced":10651,
-                  "Ok Pieces": 9866,
-                  "Altered Pieces":785,
-                  "DHU%":3.3,
-                  "Rejected Pieces":27
-                },
-                {
-                  "country": "Punit Creation",
-                  "Pcs Produced":9100,
-                  "Ok Pieces": 8745,
-                  "Altered Pieces":355,
-                  "DHU%":3,
-                  "Rejected Pieces":24
-                },
-                {
-                  "country": "Garland Apparels",
-                  "Pcs Produced":8179,
-                  "Ok Pieces": 7854,
-                  "Altered Pieces":325,
-                  "DHU%":2.9,
-                  "Rejected Pieces":21
-                },
-                {
-                  "country": "Girish Eports",
-                  "Pcs Produced":5529,
-                  "Ok Pieces": 5007,
-                  "Altered Pieces":522,
-                  "DHU%":2.7,
-                  "Rejected Pieces":19
-                }
-              ]}
-              keys={[ 'Ok Pieces',"Altered Pieces","Rejected Pieces" ]}
-              indexBy="country"
-              margin={{ top: 10, right: 30, bottom: 40, left: 0 }}
-                  padding={0.6}
-                       
-              height={300}
-              valueScale={{ type: 'linear' }}
-              indexScale={{ type: 'band', round: true }}
-              colors={["#6ea1ff","#ffe949","#ed5269"]}
-              borderRadius={1}
-              borderColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
-              axisTop={null}
-              axisRight={null}
-              axisBottom={{
-                  renderTick: CustomTick2,
-              }}
-              axisLeft={null}
-              labelSkipWidth={12}
-              labelSkipHeight={12}
-              labelTextColor={{ from: 'color', modifiers: [ [ 'darker', 1.8 ] ] }}
-              legends={[
-                  {
-                      dataFrom: 'keys',
-                      anchor: 'right',
-                      direction: 'column',
-                      justify: false,
-                      translateX: 10,
-                      translateY: -30,
-                      itemsSpacing: 2,
-                      itemWidth: 95,
-                      itemHeight: 20,
-                      itemDirection: 'left-to-right',
-                      itemOpacity: 0.85,
-                      symbolSize: 20,
-                      effects: [
-                          {
-                              on: 'hover',
-                              style: {
-                                  itemOpacity: 1
-                              }
-                          }
-                      ]
-                  }
-              ]}
-              enableGridY={false}
-              role="application"
-              motionConfig="wobbly"
-              ariaLabel="Nivo bar chart demo"
-              barAriaLabel={function(e){return e.id+": "+e.formattedValue+" in country: "+e.indexValue}}
-          />:(age=="Ok")?
-        <ResponsiveBar
-        data={[
-          {
-            "country": "Metro Clothing",
-            "Pcs Produced":14933,
-            "Ok Pieces": 13400,
-            "Altered Pieces":1533,
-            "Rejected Pieces":53,
-            "DHU%":4
-          },
-          {
-            "country": "Om Creations",
-            "Pcs Produced":13933,
-            "Ok Pieces": 12698,
-            "Altered Pieces":1235,
-            "Rejected Pieces":45,
-            "DHU%":3.8
-          },
-          {
-            "country": "CRI Indus",
-            "Pcs Produced":11960,
-            "Ok Pieces": 11508,
-            "Altered Pieces":452,
-            "DHU%":3.5,
-            "Rejected Pieces":33
-          },
-          {
-            "country": "RCR Exports",
-            "Pcs Produced":10651,
-            "Ok Pieces": 9866,
-            "Altered Pieces":785,
-            "DHU%":3.3,
-            "Rejected Pieces":27
-          },
-          {
-            "country": "Punit Creation",
-            "Pcs Produced":9100,
-            "Ok Pieces": 8745,
-            "Altered Pieces":355,
-            "DHU%":3,
-            "Rejected Pieces":24
-          },
-          {
-            "country": "Garland Apparels",
-            "Pcs Produced":8179,
-            "Ok Pieces": 7854,
-            "Altered Pieces":325,
-            "DHU%":2.9,
-            "Rejected Pieces":21
-          },
-          {
-            "country": "Girish Eports",
-            "Pcs Produced":5529,
-            "Ok Pieces": 5007,
-            "Altered Pieces":522,
-            "DHU%":2.7,
-            "Rejected Pieces":19
-          }
-        ]}
-          keys={[ 'Ok Pieces' ]}
-          indexBy="country"
-          margin={{ top: 10, right: 30, bottom: 40, left: 0 }}
-              padding={0.6}
-                       height={300}
-          valueScale={{ type: 'linear' }}
-          indexScale={{ type: 'band', round: true }}
-          colors={["#6ea1ff"]}
-          borderRadius={3}
-          borderColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
-          axisTop={null}
-          axisRight={null}
-          axisBottom={{
-              renderTick: CustomTick2,
-          }}
-          axisLeft={null}
-          labelSkipWidth={12}
-          labelSkipHeight={12}
-          labelTextColor={{ from: 'color', modifiers: [ [ 'darker', 1.8 ] ] }}
-          legends={[
-              {
-                  dataFrom: 'keys',
-                  anchor: 'top-right',
-                  direction: 'row',
-                  justify: false,
-                  translateX: 10,
-                  translateY: 10,
-                  itemsSpacing: 2,
-                  itemWidth: 95,
-                  itemHeight: 20,
-                  itemDirection: 'left-to-right',
-                  itemOpacity: 0.85,
-                  symbolSize: 20,
-                  effects: [
-                      {
-                          on: 'hover',
-                          style: {
-                              itemOpacity: 1
-                          }
-                      }
-                  ]
-              }
-          ]}
-          enableGridY={false}
-          role="application"
-          motionConfig="wobbly"
-          ariaLabel="Nivo bar chart demo"
-          barAriaLabel={function(e){return e.id+": "+e.formattedValue+" in country: "+e.indexValue}}
-      />:(age=="Alter")?
-          <ResponsiveBar
-          data={[
-            {
-              "country": "Metro Clothing",
-              "Pcs Produced":14933,
-              "Ok Pieces": 13400,
-              "Altered Pieces":1533,
-              "Rejected Pieces":53,
-              "DHU%":4
-            },
-            {
-              "country": "Om Creations",
-              "Pcs Produced":13933,
-              "Ok Pieces": 12698,
-              "Altered Pieces":1235,
-              "Rejected Pieces":45,
-              "DHU%":3.8
-            },
-            {
-              "country": "CRI Indus",
-              "Pcs Produced":11960,
-              "Ok Pieces": 11508,
-              "Altered Pieces":452,
-              "DHU%":3.5,
-              "Rejected Pieces":33
-            },
-            {
-              "country": "RCR Exports",
-              "Pcs Produced":10651,
-              "Ok Pieces": 9866,
-              "Altered Pieces":785,
-              "DHU%":3.3,
-              "Rejected Pieces":27
-            },
-            {
-              "country": "Punit Creation",
-              "Pcs Produced":9100,
-              "Ok Pieces": 8745,
-              "Altered Pieces":355,
-              "DHU%":3,
-              "Rejected Pieces":24
-            },
-            {
-              "country": "Garland Apparels",
-              "Pcs Produced":8179,
-              "Ok Pieces": 7854,
-              "Altered Pieces":325,
-              "DHU%":2.9,
-              "Rejected Pieces":21
-            },
-            {
-              "country": "Girish Eports",
-              "Pcs Produced":5529,
-              "Ok Pieces": 5007,
-              "Altered Pieces":522,
-              "DHU%":2.7,
-              "Rejected Pieces":19
-            }
-          ]}
-          keys={[ 'Altered Pieces' ]}
-          indexBy="country"
-          margin={{ top: 10, right: 30, bottom: 40, left: 0 }}
-              padding={0.6}
-                       height={300}
-          valueScale={{ type: 'linear' }}
-          indexScale={{ type: 'band', round: true }}
-          colors={["#ffe949"]}
-          borderRadius={3}
-          borderColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
-          axisTop={null}
-          axisRight={null}
-          axisBottom={{
-              renderTick: CustomTick3,
-          }}
-          axisLeft={null}
-          labelSkipWidth={12}
-          labelSkipHeight={12}
-          labelTextColor={{ from: 'color', modifiers: [ [ 'darker', 1.8 ] ] }}
-          legends={[
-            {
-                dataFrom: 'keys',
-                anchor: 'top-right',
-                direction: 'row',
-                justify: false,
-                translateX: 10,
-                translateY: 10,
-                itemsSpacing: 2,
-                itemWidth: 95,
-                itemHeight: 20,
-                itemDirection: 'left-to-right',
-                itemOpacity: 0.85,
-                symbolSize: 20,
-                effects: [
-                    {
-                        on: 'hover',
-                        style: {
-                            itemOpacity: 1
-                        }
-                    }
-                ]
-            }
-        ]}
-          enableGridY={false}
-          role="application"
-          motionConfig="wobbly"
-          ariaLabel="Nivo bar chart demo"
-          barAriaLabel={function(e){return e.id+": "+e.formattedValue+" in country: "+e.indexValue}}
-      />:(age=="")?
-      <ResponsiveBar
-          data={[
-            {
-              "country": "Metro Clothing",
-              "Pcs Produced":14933,
-              "Ok Pieces": 13400,
-              "Altered Pieces":1533,
-              "Rejected Pieces":53,
-              "DHU%":4
-            },
-            {
-              "country": "Om Creations",
-              "Pcs Produced":13933,
-              "Ok Pieces": 12698,
-              "Altered Pieces":1235,
-              "Rejected Pieces":45,
-              "DHU%":3.8
-            },
-            {
-              "country": "CRI Indus",
-              "Pcs Produced":11960,
-              "Ok Pieces": 11508,
-              "Altered Pieces":452,
-              "DHU%":3.5,
-              "Rejected Pieces":33
-            },
-            {
-              "country": "RCR Exports",
-              "Pcs Produced":10651,
-              "Ok Pieces": 9866,
-              "Altered Pieces":785,
-              "DHU%":3.3,
-              "Rejected Pieces":27
-            },
-            {
-              "country": "Punit Creation",
-              "Pcs Produced":9100,
-              "Ok Pieces": 8745,
-              "Altered Pieces":355,
-              "DHU%":3,
-              "Rejected Pieces":24
-            },
-            {
-              "country": "Garland Apparels",
-              "Pcs Produced":8179,
-              "Ok Pieces": 7854,
-              "Altered Pieces":325,
-              "DHU%":2.9,
-              "Rejected Pieces":21
-            },
-            {
-              "country": "Girish Eports",
-              "Pcs Produced":5529,
-              "Ok Pieces": 5007,
-              "Altered Pieces":522,
-              "DHU%":2.7,
-              "Rejected Pieces":19
-            }
-          ]}
-          keys={[ 'Pcs Produced' ]}
-          indexBy="country"
-          margin={{ top: 10, right: 30, bottom: 40, left: 0 }}
-              padding={0.6}
-                       height={300}
-          valueScale={{ type: 'linear' }}
-          indexScale={{ type: 'band', round: true }}
-          colors={["#25be31"]}
-          borderRadius={3}
-          borderColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
-          axisTop={null}
-          axisRight={null}
-          axisBottom={{
-              renderTick: CustomTick,
-          }}
-          axisLeft={null}
-          labelSkipWidth={12}
-          labelSkipHeight={12}
-          labelTextColor={{ from: 'color', modifiers: [ [ 'darker', 1.8 ] ] }}
-          legends={[
-            {
-                dataFrom: 'keys',
-                anchor: 'top-right',
-                direction: 'row',
-                justify: false,
-                translateX: 10,
-                translateY: 10,
-                itemsSpacing: 2,
-                itemWidth: 95,
-                itemHeight: 20,
-                itemDirection: 'left-to-right',
-                itemOpacity: 0.85,
-                symbolSize: 20,
-                effects: [
-                    {
-                        on: 'hover',
-                        style: {
-                            itemOpacity: 1
-                        }
-                    }
-                ]
-            }
-        ]}
-          enableGridY={false}
-          role="application"
-          motionConfig="wobbly"
-          ariaLabel="Nivo bar chart demo"
-          barAriaLabel={function(e){return e.id+": "+e.formattedValue+" in country: "+e.indexValue}}
-      />:(age=="Rejected")?
-      <ResponsiveBar
-      data={[
-        {
-          "country": "Metro Clothing",
-          "Pcs Produced":14933,
-          "Ok Pieces": 13400,
-          "Altered Pieces":1533,
-          "Rejected Pieces":53,
-          "DHU%":4
-        },
-        {
-          "country": "Om Creations",
-          "Pcs Produced":13933,
-          "Ok Pieces": 12698,
-          "Altered Pieces":1235,
-          "Rejected Pieces":45,
-          "DHU%":3.8
-        },
-        {
-          "country": "CRI Indus",
-          "Pcs Produced":11960,
-          "Ok Pieces": 11508,
-          "Altered Pieces":452,
-          "DHU%":3.5,
-          "Rejected Pieces":33
-        },
-        {
-          "country": "RCR Exports",
-          "Pcs Produced":10651,
-          "Ok Pieces": 9866,
-          "Altered Pieces":785,
-          "DHU%":3.3,
-          "Rejected Pieces":27
-        },
-        {
-          "country": "Punit Creation",
-          "Pcs Produced":9100,
-          "Ok Pieces": 8745,
-          "Altered Pieces":355,
-          "DHU%":3,
-          "Rejected Pieces":24
-        },
-        {
-          "country": "Garland Apparels",
-          "Pcs Produced":8179,
-          "Ok Pieces": 7854,
-          "Altered Pieces":325,
-          "DHU%":2.9,
-          "Rejected Pieces":21
-        },
-        {
-          "country": "Girish Eports",
-          "Pcs Produced":5529,
-          "Ok Pieces": 5007,
-          "Altered Pieces":522,
-          "DHU%":2.7,
-          "Rejected Pieces":19
-        }
-      ]}
-      keys={[ 'Rejected Pieces' ]}
-      indexBy="country"
-      margin={{ top: 10, right: 30, bottom: 40, left: 0 }}
-          padding={0.6}
-                       height={300}
-      valueScale={{ type: 'linear' }}
-      indexScale={{ type: 'band', round: true }}
-      colors={["#ed5269"]}
-      borderRadius={3}
-      borderColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
-      axisTop={null}
-      axisRight={null}
-      axisBottom={{
-          renderTick: CustomTick4,
-      }}
-      axisLeft={null}
-      labelSkipWidth={12}
-      labelSkipHeight={12}
-      labelTextColor={{ from: 'color', modifiers: [ [ 'darker', 1.8 ] ] }}
-      legends={[
-        {
-            dataFrom: 'keys',
-            anchor: 'top-right',
-            direction: 'row',
-            justify: false,
-            translateX: 10,
-            translateY: 10,
-            itemsSpacing: 2,
-            itemWidth: 95,
-            itemHeight: 20,
-            itemDirection: 'left-to-right',
-            itemOpacity: 0.85,
-            symbolSize: 20,
-            effects: [
-                {
-                    on: 'hover',
-                    style: {
-                        itemOpacity: 1
-                    }
-                }
-            ]
-        }
-    ]}
-      enableGridY={false}
-      role="application"
-      motionConfig="wobbly"
-      ariaLabel="Nivo bar chart demo"
-      barAriaLabel={function(e){return e.id+": "+e.formattedValue+" in country: "+e.indexValue}}
-  />: (age=="DHU")?
-        <ResponsiveBar
-        data={[
-          {
-            "country": "Metro Clothing",
-            "Pcs Produced":14933,
-            "Ok Pieces": 13400,
-            "Altered Pieces":1533,
-            "Rejected Pieces":53,
-            "DHU%":4
-          },
-          {
-            "country": "Om Creations",
-            "Pcs Produced":13933,
-            "Ok Pieces": 12698,
-            "Altered Pieces":1235,
-            "Rejected Pieces":45,
-            "DHU%":3.8
-          },
-          {
-            "country": "CRI Indus",
-            "Pcs Produced":11960,
-            "Ok Pieces": 11508,
-            "Altered Pieces":452,
-            "DHU%":3.5,
-            "Rejected Pieces":33
-          },
-          {
-            "country": "RCR Exports",
-            "Pcs Produced":10651,
-            "Ok Pieces": 9866,
-            "Altered Pieces":785,
-            "DHU%":3.3,
-            "Rejected Pieces":27
-          },
-          {
-            "country": "Punit Creation",
-            "Pcs Produced":9100,
-            "Ok Pieces": 8745,
-            "Altered Pieces":355,
-            "DHU%":3,
-            "Rejected Pieces":24
-          },
-          {
-            "country": "Garland Apparels",
-            "Pcs Produced":8179,
-            "Ok Pieces": 7854,
-            "Altered Pieces":325,
-            "DHU%":2.9,
-            "Rejected Pieces":21
-          },
-          {
-            "country": "Girish Eports",
-            "Pcs Produced":5529,
-            "Ok Pieces": 5007,
-            "Altered Pieces":522,
-            "DHU%":2.7,
-            "Rejected Pieces":19
-          }
-        ]}
-        keys={[ 'DHU%' ]}
-        indexBy="country"
-        margin={{ top: 10, right: 30, bottom: 40, left: 0 }}
-            padding={0.6}
-                      
-        height={300}
-        valueScale={{ type: 'linear' }}
-        indexScale={{ type: 'band', round: true }}
-        colors={["#ff9800"]}
-        borderRadius={3}
-        borderColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
-        axisTop={null}
-        axisRight={null}
-        axisBottom={{
-            renderTick: CustomTick5,
-        }}
-        axisLeft={null}
-        labelSkipWidth={12}
-        labelSkipHeight={12}
-        labelTextColor={{ from: 'color', modifiers: [ [ 'darker', 1.8 ] ] }}
-        legends={[
-          {
-              dataFrom: 'keys',
-              anchor: 'top-right',
-              direction: 'row',
-              justify: false,
-              translateX: 10,
-              translateY: 10,
-              itemsSpacing: 2,
-              itemWidth: 95,
-              itemHeight: 20,
-              itemDirection: 'left-to-right',
-              itemOpacity: 0.85,
-              symbolSize: 20,
-              effects: [
-                  {
-                      on: 'hover',
-                      style: {
-                          itemOpacity: 1
-                      }
-                  }
-              ]
-          }
-      ]}
-        enableGridY={false}
-        role="application"
-        motionConfig="wobbly"
-        ariaLabel="Nivo bar chart demo"
-        barAriaLabel={function(e){return e.id+": "+e.formattedValue+" in country: "+e.indexValue}}
-      />:null
-      }
-    </div>
-    </Grid>
+        {vendorTableDetails.visible && <VendorGraph age={age} handleChange={handleChange} topCardsH={vendorTableDetails.topCardsH} topCards={vendorTableDetails.topCards} graphData={vendorTableDetails.graphData} />}
+        {factoryTableDetails.visible && <VendorGraph age={age} handleChange={handleChange} topCardsH={factoryTableDetails.topCardsH} topCards={factoryTableDetails.topCards} graphData={factoryTableDetails.graphData} />}
       </section>
       <section className="two">
       <div className="wrapper">
               <div className={classes.tableO}>
               {/* <div className="tableI sc5"> */}
-              {vendorTableDetails.visible && <VendorTable data={vendorTableDetails.data} nextTableFunc={setNextTableDetails}/>}
-              {factoryTableDetails.visible && <FactoryTable data={factoryTableDetails.data} nextTableFunc={setNextTableDetails} />}
+              {vendorTableDetails.visible && <VendorTable data={vendorTableDetails.tableData} nextTableFunc={setNextTableDetails}/>}
+              {factoryTableDetails.visible && <FactoryTable data={factoryTableDetails.tableData} nextTableFunc={setNextTableDetails} />}
               </div>
             </div>
       </section>

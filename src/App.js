@@ -10,20 +10,30 @@ function App() {
 
   const socketRef = useRef();
   const [ chat, setChat ] = useState([]);
-  const [ topCards, setTopCards ] = useState({});
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loginPressed, setLoginPressed] = useState(false);
   const [loginState, setLoginState] = useState(-1);
+  const [socketID, setSocketID] = useState("");
+
+  useEffect(() =>{
+    //earlier this io connection was created evertime valid Login was called, so once user emits login, then io connection id is changed, hence we receive no data on new connection id. this will prevent app from making new connection ids
+    if(socketID === "")
+    {
+    socketRef.current = io.connect("https://zedqwsapi.bluekaktus.com/", { transports: ['websocket'] })
+    socketRef.current.on("connect", () => {
+      setSocketID(socketRef.current.id);
+    });
+  }
+  }, []);
 
   useEffect(
 		() => {
-			socketRef.current = io.connect("https://zedqwsapi.bluekaktus.com/", { transports: ['websocket'] })
       socketRef.current.on("fromServer", ( msg ) => {
-        // setChat([...chat, { emailID, password }])
-        setTopCards(msg.topCards)
         console.log("message",msg);
       })
+      socketRef.current.on("connect", () => {
+        console.log("socket id app!!!!!",socketRef.current.id); 
+      });
       socketRef.current.on("validLogin", (msg) => {
         setLoginState(1);
 				console.log("login successful", msg);
@@ -33,8 +43,8 @@ function App() {
         console.log("login unsuccessful", msg);
       })
 		},
-		[ chat, loginPressed ]
-	)
+		[ chat ]
+	);
 
   return (
     <React.Fragment>
@@ -43,12 +53,11 @@ function App() {
       </Helmet>
       <div></div>
       <Route exact path="/">
-        <Login data={{username: username, password: password, loginState: loginState, setUsername: setUsername, setPassword: setPassword, setLoginState: setLoginState,socketRef:socketRef, loginPressed: loginPressed, setLoginPressed: setLoginPressed}}
+        <Login data={{username: username, password: password, loginState: loginState, setUsername: setUsername, setPassword: setPassword, setLoginState: setLoginState,socketRef:socketRef}}
         />
       </Route>
       <Route exact path="/app">
-        <Summary data={{chat: chat, topCards: topCards, socketRef: socketRef}}
-        />
+        <Summary data={{chat: chat, socketRef: socketRef, loginState: loginState}}/>
       </Route>
     </React.Fragment>
   );

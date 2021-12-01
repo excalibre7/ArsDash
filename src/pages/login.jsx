@@ -12,6 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import logoBk from "../img/logo.png";
 import io from "socket.io-client";
 import { Redirect} from "react-router-dom";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const ApiUrl = "https://qualitylite.bluekaktus.com";
 const useStyles = makeStyles((theme) => ({
@@ -52,10 +53,10 @@ export default function Login(props) {
       const socketRef = props.data.socketRef;
 
       const updateLogin = (e) => {
-        props.data.setLoginPressed(!props.data.loginPressed);
         let emailID = username;
+        props.data.setLoginState(-2);
         props.data.socketRef.current.emit("login", { emailID, password });
-        e.preventDefault()
+        e.preventDefault();
       }
 
         useEffect(() => {
@@ -64,7 +65,11 @@ export default function Login(props) {
     if (props.data.loginState === 1) {
         return <Redirect to="/app" />;
       } 
-      else 
+      else if(props.data.loginState === -2)
+      return (
+        <CircularProgress color="inherit" />
+      )
+      else
     return (
         <Grid container component="main" className={classes.root}>
             <CssBaseline />

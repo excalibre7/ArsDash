@@ -56,234 +56,234 @@ export default function VendorTable(props) {
 
   return (
     <div className={classes.tableI}>
-    <Table stickyHeader={true} className="fixedtbl">
-      <TableHead>
-        <StyledTableRow style={{ backgroundColor: "#6495ED00" }}>
-          <StyledTableCell
-            style={{
-              padding: 0,
-              paddingLeft: 20,
-              paddingTop: 10,
-              paddingBottom: 10,
-              width: "20%",
-              backgroundColor: "#fff",
-              textAlign:"left",
-            //  zIndex: 1000,
-            }}
-          >
-            <Typography className={classes.superheaderTxt}>
-              Vendor
-            </Typography>
-          </StyledTableCell>
-          <StyledTableCell
-            style={{
-              padding: 10,
-          
-              width: "10%",
-              backgroundColor: "#fff",
-              textAlign:"right",
-            //  zIndex: 1000,
-            }}
-          >
-            <Typography className={classes.superheaderTxt}>
-              Order Qty
-            </Typography>
-          </StyledTableCell>
-          <StyledTableCell
-            style={{
-              padding: 10,
-          
-              width: "10%",
-              backgroundColor: "#fff",
-              textAlign:"right",
-            //  zIndex: 1000,
-            }}
-          >
-            <Typography className={classes.superheaderTxt}>
-              Pending
-            </Typography>
-          </StyledTableCell>
-          <StyledTableCell
-            style={{
-              padding: 10,
-          
-              width: "10%",
-              backgroundColor: "#fff",
-              textAlign:"right",
-            //  zIndex: 1000,
-            }}
-          >
-            <Typography className={classes.superheaderTxt}>
-              Pcs Produced
-            </Typography>
-          </StyledTableCell>
-          <StyledTableCell
-            style={{
-              padding: 10,
-          
-              width: "10%",
-              backgroundColor: "#fff",
-              textAlign:"right",
-           //   zIndex: 1000,
-            }}
-          >
-            <Typography className={classes.superheaderTxt}>
-              Ok Pieces
-            </Typography>
-          </StyledTableCell>
-          <StyledTableCell
-            style={{
-              padding: 10,
-          
-              width: "10%",
-              backgroundColor: "#fff",
-              textAlign:"right",
-          //    zIndex: 1000,
-            }}
-          >
-            <Typography className={classes.superheaderTxt}>
-              Rectified Pcs
-            </Typography>
-          </StyledTableCell>
-          <StyledTableCell
-            style={{
-              padding: 10,
-          
-              width: "10%",
-              backgroundColor: "#fff",
-              textAlign:"right",
-         //     zIndex: 1000,
-            }}
-          >
-            <Typography className={classes.superheaderTxt}>
-              Defects
-            </Typography>
-          </StyledTableCell>
-          <StyledTableCell
-            style={{
-              padding: 10,
-          
-              width: "10%",
-              backgroundColor: "#fff",
-              textAlign:"right",
-         //     zIndex: 1000,
-            }}
-          >
-            <Typography className={classes.superheaderTxt}>
-              Rejected Pcs
-            </Typography>
-          </StyledTableCell>
-          <StyledTableCell
-            style={{
-              padding: 10,
-          
-              width: "10%",
-              backgroundColor: "#fff",
-              textAlign:"right",
-         //     zIndex: 1000,
-            }}
-          >
-            <Typography className={classes.superheaderTxt}>
-              Rejection%
-            </Typography>
-          </StyledTableCell>
-          <StyledTableCell
-            style={{
-              padding: 10,
-              width: "10%",
-              backgroundColor: "#fff",
-              textAlign:"right",
-         //     zIndex: 1000,
-            }}
-          >
-            <Typography className={classes.superheaderTxt}>
-              DHU%
-            </Typography>
-          </StyledTableCell>
-        </StyledTableRow>
-      </TableHead>
+                <Table stickyHeader={true} className="fixedtbl">
+                  <TableHead>
+                    <StyledTableRow style={{ backgroundColor: "#6495ED00" }}>
+                      <StyledTableCell
+                        style={{
+                          padding: 0,
+                          paddingLeft: 20,
+                          paddingTop: 10,
+                          paddingBottom: 10,
+                          width: "20%",
+                          backgroundColor: "#fff",
+                          textAlign:"left",
+                          zIndex: 1000,
+                        }}
+                      >
+                        <Typography className={classes.superheaderTxt}>
+                          Vendor
+                        </Typography>
+                      </StyledTableCell>
+                      <StyledTableCell
+                        style={{
+                          padding: 10,
+                      
+                          width: "10%",
+                          backgroundColor: "#fff",
+                          textAlign:"right",
+                          zIndex: 1000,
+                        }}
+                      >
+                        <Typography className={classes.superheaderTxt}>
+                          Order Qty
+                        </Typography>
+                      </StyledTableCell>
+                      <StyledTableCell
+                        style={{
+                          padding: 10,
+                      
+                          width: "10%",
+                          backgroundColor: "#fff",
+                          textAlign:"right",
+                          zIndex: 1000,
+                        }}
+                      >
+                        <Typography className={classes.superheaderTxt}>
+                          Pending
+                        </Typography>
+                      </StyledTableCell>
+                      <StyledTableCell
+                        style={{
+                          padding: 10,
+                      
+                          width: "10%",
+                          backgroundColor: "#fff",
+                          textAlign:"right",
+                          zIndex: 1000,
+                        }}
+                      >
+                        <Typography className={classes.superheaderTxt}>
+                          Pcs Produced
+                        </Typography>
+                      </StyledTableCell>
+                      <StyledTableCell
+                        style={{
+                          padding: 10,
+                      
+                          width: "10%",
+                          backgroundColor: "#fff",
+                          textAlign:"right",
+                          zIndex: 1000,
+                        }}
+                      >
+                        <Typography className={classes.superheaderTxt}>
+                          Ok Pieces
+                        </Typography>
+                      </StyledTableCell>
+                      <StyledTableCell
+                        style={{
+                          padding: 10,
+                      
+                          width: "10%",
+                          backgroundColor: "#fff",
+                          textAlign:"right",
+                          zIndex: 1000,
+                        }}
+                      >
+                        <Typography className={classes.superheaderTxt}>
+                          Rectified Pcs
+                        </Typography>
+                      </StyledTableCell>
+                      <StyledTableCell
+                        style={{
+                          padding: 10,
+                      
+                          width: "10%",
+                          backgroundColor: "#fff",
+                          textAlign:"right",
+                          zIndex: 1000,
+                        }}
+                      >
+                        <Typography className={classes.superheaderTxt}>
+                          Pcs in Alter
+                        </Typography>
+                      </StyledTableCell>
+                      <StyledTableCell
+                        style={{
+                          padding: 10,
+                      
+                          width: "10%",
+                          backgroundColor: "#fff",
+                          textAlign:"right",
+                          zIndex: 1000,
+                        }}
+                      >
+                        <Typography className={classes.superheaderTxt}>
+                          Rejected Pcs
+                        </Typography>
+                      </StyledTableCell>
+                      <StyledTableCell
+                        style={{
+                          padding: 10,
+                      
+                          width: "10%",
+                          backgroundColor: "#fff",
+                          textAlign:"right",
+                          zIndex: 1000,
+                        }}
+                      >
+                        <Typography className={classes.superheaderTxt}>
+                          Rejection%
+                        </Typography>
+                      </StyledTableCell>
+                      <StyledTableCell
+                        style={{
+                          padding: 10,
+                          width: "10%",
+                          backgroundColor: "#fff",
+                          textAlign:"right",
+                          zIndex: 1000,
+                        }}
+                      >
+                        <Typography className={classes.superheaderTxt}>
+                          DHU%
+                        </Typography>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  </TableHead>
 
-      {[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
-        .map((row) => (
-          <StyledTableRow onClick={() =>{
-            nextTableFunc({currentTable : "vendor", nextTable: "factory", details: {item: row}})
-          }}>
-            <StyledTableCell>{"Shree Raj Apparels"}</StyledTableCell>
-            <StyledTableCell>
-              <Typography  
-                style={{
-                textAlign:"right",
-              }}>
-                {"98547"}
-              </Typography>
-            </StyledTableCell>
-            <StyledTableCell>
-              <Typography  
-                style={{
-                textAlign:"right",
-              }}>
-                {"98547"}
-              </Typography>
-            </StyledTableCell>
-            <StyledTableCell>
-              <Typography  
-                style={{
-                textAlign:"right",
-              }}>
-                {"98547"}
-              </Typography>
-            </StyledTableCell>
-            <StyledTableCell>
-              <Typography  
-                style={{
-                textAlign:"right",
-              }}>
-                {"98547"}
-              </Typography>
-            </StyledTableCell>
-            <StyledTableCell>
-              <Typography  
-                style={{
-                textAlign:"right",
-              }}>
-                {"98547"}
-              </Typography>
-            </StyledTableCell>
-            <StyledTableCell>
-              <Typography  
-                style={{
-                textAlign:"right",
-              }}>
-                {"98547"}
-              </Typography>
-            </StyledTableCell>
-            <StyledTableCell>
-              <Typography  
-                style={{
-                textAlign:"right",
-              }}>
-                {"98547"}
-              </Typography>
-            </StyledTableCell>
-            <StyledTableCell>
-              <Typography  
-                style={{
-                textAlign:"right",
-              }}>
-                {"3%"}
-              </Typography>
-            </StyledTableCell>
-            <StyledTableCell>
-              <Typography  
-                style={{
-                textAlign:"right",
-              }}>
-                {"5%"}
-              </Typography>
-            </StyledTableCell>
-          </StyledTableRow>
-        ))}
-    </Table>
-    </div>
+                  {data
+                    .map((row) => (
+                      <StyledTableRow onClick={() =>{
+                        nextTableFunc({currentTable : "vendor", nextTable: "factory", details: {item: row}})
+                      }}>
+                        <StyledTableCell>{row.locationName}</StyledTableCell>
+                        <StyledTableCell>
+                          <Typography  
+                            style={{
+                            textAlign:"right",
+                          }}>
+                            {row.orderQty}
+                          </Typography>
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          <Typography  
+                            style={{
+                            textAlign:"right",
+                          }}>
+                            {row.pendingPieces}
+                          </Typography>
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          <Typography  
+                            style={{
+                            textAlign:"right",
+                          }}>
+                            {row.producedPieces}
+                          </Typography>
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          <Typography  
+                            style={{
+                            textAlign:"right",
+                          }}>
+                            {row.okPieces}
+                          </Typography>
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          <Typography  
+                            style={{
+                            textAlign:"right",
+                          }}>
+                            {row.alteredPieces}
+                          </Typography>
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          <Typography  
+                            style={{
+                            textAlign:"right",
+                          }}>
+                            {row.pcsInAlteration}
+                          </Typography>
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          <Typography  
+                            style={{
+                            textAlign:"right",
+                          }}>
+                            {row.rejectedPieces}
+                          </Typography>
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          <Typography  
+                            style={{
+                            textAlign:"right",
+                          }}>
+                            {row.dhu}
+                          </Typography>
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          <Typography  
+                            style={{
+                            textAlign:"right",
+                          }}>
+                            {row.rejPerc}
+                          </Typography>
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    ))}
+                </Table>
+                </div>
   );
 }
