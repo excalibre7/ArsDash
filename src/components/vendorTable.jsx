@@ -36,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
 export default function VendorTable(props) {
   const { data, nextTableFunc} = props;
   const classes = useStyles();
-  console.log("vendor Data updated!!!!!", data);
   const StyledTableRow = withStyles((theme) => ({
     root: {
       "&:nth-of-type(odd)": {

@@ -67,6 +67,7 @@ const [ topCards, setTopCards ] = useState({
   const [selectedDate, setSelectedDate] = useState("today");
   const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useState(true);
+  const [msg, setMsg] = useState({});
   const [vendorTableDetails, setVendorTableDetails] = useState(
     {visible: true, 
       topCards: {
@@ -81,7 +82,7 @@ const [ topCards, setTopCards ] = useState({
     "REJECTED_PIECES": 0,
     "NO_OF_DEFECTS": 0,
     "NO_OF_PCS": 0
-  }, topCardsH:{}, graphData: {}, tableData: [], inupt: {}}); // input will take the data for next screen API
+  }, topCardsH:{},graphData: {}, tableData: [], input: {}}); // input will take the data for next screen API
   const [factoryTableDetails, setFactoryTableDetails] = useState({visible: false, topCards: {}, topCardsH:{}, graphData: {}, tableData: [], input: {}});
   const [nextTableDetails, setNextTableDetails] = useState({currentTable : "", nextTable: "", details: {}}); 
   const [currentTable, setCurrentTable] = useState("vendor");
@@ -93,7 +94,7 @@ const [ topCards, setTopCards ] = useState({
     {
       socketRef.current.on("fromServer", ( msg ) => {
         console.log("message summary!!",msg);
-        updateData(msg);
+        setMsg(msg);
       })
       socketRef.current.on("connect", () => {
         console.log("socket id summary!!!!!",socketRef.current.id); 
@@ -102,6 +103,16 @@ const [ topCards, setTopCards ] = useState({
   ,
 		[]
 	)
+
+  useEffect(() =>{
+    switch(currentTable)
+    {
+      case "vendor": setVendorTableDetails({...vendorTableDetails, topCardsH: vendorTableDetails.topCards,  topCards: msg.topCards, graphData: msg.vendorGraphData, tableData: msg.vendorTableData}); break;
+      case "factory": setFactoryTableDetails({...factoryTableDetails,  topCardsH: factoryTableDetails.topCards, topCards: msg.topCards, graphData: msg.vendorGraphData, tableData: msg.vendorTableData}); break;
+      default: setVendorTableDetails({...vendorTableDetails, topCardsH: vendorTableDetails.topCards, topCards: msg.topCards, graphData: msg.vendorGraphData, tableData: msg.vendorTableData}); break;
+    }
+    setLoading(false);
+  },[msg])
 
   useEffect(()=>{
     //make useEffect or call a function here for each table data.
@@ -117,15 +128,6 @@ const [ topCards, setTopCards ] = useState({
     }
   },[nextTableDetails.nextTable]);
 
-  const updateData = (msg) => {
-    switch(currentTable)
-    {
-      case "vendor": setVendorTableDetails({...vendorTableDetails, topCardsH: vendorTableDetails.topCards,  topCards: msg.topCards, graphData: msg.vendorGraphData, tableData: msg.vendorTableData}); break;
-      case "factory": setFactoryTableDetails({...factoryTableDetails,  topCardsH: factoryTableDetails.topCards, topCards: msg.topCards, graphData: msg.vendorGraphData, tableData: msg.vendorTableData}); break;
-      default: setVendorTableDetails({...vendorTableDetails, topCardsH: vendorTableDetails.topCards, topCards: msg.topCards, graphData: msg.vendorGraphData, tableData: msg.vendorTableData}); break;
-    }
-    setLoading(false);
-  }
 
 	const onTextChange = (e) => {
 		setState({ ...state, [e.target.name]: e.target.value })

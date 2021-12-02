@@ -561,7 +561,6 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                       
                     >
                       <div className={classes.cardR}>
-                        {console.log("top cards H is!!!!!!!", topCardsH, "top Cards!!!!!!!", topCards)}
                       <Grid container>
                           <Grid item xs={8}>
                             <Typography className={classes.labelHeaderR}>
