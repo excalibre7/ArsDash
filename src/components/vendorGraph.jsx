@@ -212,7 +212,7 @@ import {
       
   },
   topRightG: {
-    fontSize: 40,
+    fontSize: "3vw",
     fontWeight: "bold",
     justifyContent:"flex-end",
     textAlign: "right",
@@ -225,7 +225,7 @@ import {
     letterSpacing:"-1px"
   },
   topRightB: {
-    fontSize: 40,
+    fontSize: "3vw",
     fontWeight: "bold",
     justifyContent:"flex-end",
     textAlign: "right",
@@ -238,7 +238,7 @@ import {
     letterSpacing:"-1px"
   },
   topRightY: {
-    fontSize: 40,
+    fontSize: "3vw",
     fontWeight: "bold",
     justifyContent:"flex-end",
     textAlign: "right",
@@ -251,7 +251,7 @@ import {
     letterSpacing:"-1px"
   },
   topRightR: {
-    fontSize: 40,
+    fontSize: "3vw",
     fontWeight: "bold",
     justifyContent:"flex-end",
     textAlign: "right",
@@ -264,7 +264,7 @@ import {
     letterSpacing:"-1px"
   },
   topRightO: {
-    fontSize: 40,
+    fontSize: "3vw",
     fontWeight: "bold",
     justifyContent:"flex-end",
     textAlign: "right",
@@ -318,25 +318,6 @@ import {
 export default function VendorGraph(props) {
   const { topCards, topCardsH, age, handleChange, graphData} = props;
   const classes = useStyles();
-  const StyledTableRow = withStyles((theme) => ({
-    root: {
-      "&:nth-of-type(odd)": {
-        backgroundColor: theme.palette.action.hover,
-      },
-    },
-  }))(TableRow);
-  
-  const StyledTableCell = withStyles((theme) => ({
-    head: {
-      color: theme.palette.common.white,
-      fontSize: "0.75rem",
-    },
-    body: {
-      fontSize: "0.75rem",
-      padding: 0,
-    },
-  }))(TableCell);
-
 
   const CustomTick = (tick: AxisTickProps<string>) => {
 
@@ -580,6 +561,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                       
                     >
                       <div className={classes.cardR}>
+                        {console.log("top cards H is!!!!!!!", topCardsH, "top Cards!!!!!!!", topCards)}
                       <Grid container>
                           <Grid item xs={8}>
                             <Typography className={classes.labelHeaderR}>
@@ -636,7 +618,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                                   duration={1}
                                   separator={","}
                                   decimals={2}
-                                  suffix={" %"}
+                                  suffix={"%"}
                                   className={classes.topRightR}
                                 />
                               ) :    
@@ -645,7 +627,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                               end={0}
                               duration={1}
                               decimals={2}
-                              suffix={" %"}
+                              suffix={"%"}
                               className={classes.topRightR}
                             />}
                             </Grid>
@@ -677,7 +659,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                                   duration={1}
                                   separator={","}
                                   decimals={2}
-                                  suffix={" %"}
+                                  suffix={"%"}
                                   className={classes.topRightO}
                                 />
                               ) :    
@@ -686,7 +668,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                               end={0}
                               duration={1}
                               decimals={2}
-                              suffix={" %"}
+                              suffix={"%"}
                               className={classes.topRightO}
                             />}
                             </Grid>

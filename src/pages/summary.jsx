@@ -89,7 +89,6 @@ const [ topCards, setTopCards ] = useState({
 
  
   useEffect(() => {
-    console.log("props.data.loginStat!!!!!!",props.data.loginState, props.data.loginState === 1)
     if(props.data.loginState === 1)
     {
       socketRef.current.on("fromServer", ( msg ) => {
@@ -230,16 +229,159 @@ else
         {factoryTableDetails.visible && <VendorGraph age={age} handleChange={handleChange} topCardsH={factoryTableDetails.topCardsH} topCards={factoryTableDetails.topCards} graphData={factoryTableDetails.graphData} />}
       </section>
       <section className="two">
+        <Grid item xs={5} className={classes.fgCard1}>
+          <div >
+            <Grid container style={{ flexDirection: "row"}}>
+              <Grid>
+                <Typography >
+                {"fgCode:"}
+                </Typography>
+              </Grid>
+               <Grid>
+                <Typography>
+                {"  xyz"}
+                </Typography>
+               </Grid>
+            </Grid>
+            </div>
+        <div >
+        <Grid container style={{ flexDirection: "row"}}>
+              <Grid>
+                <Typography >
+                {"Company Name:"}
+                </Typography>
+              </Grid>
+               <Grid>
+                <Typography>
+                {"  CRI INDUS"}
+                </Typography>
+               </Grid>
+            </Grid>
+            </div>
+        <div >
+        <Grid container style={{ flexDirection: "row"}}>
+              <Grid>
+                <Typography >
+                {"Start Date"}
+                </Typography>
+              </Grid>
+               <Grid>
+                <Typography>
+                {"02/12/2021"}
+                </Typography>
+               </Grid>
+            </Grid>
+            </div>
+        <div >
+        <Grid container style={{ flexDirection: "row"}}>
+              <Grid>
+                <Typography >
+                {"End Date"}
+                </Typography>
+              </Grid>
+               <Grid>
+                <Typography>
+                {"02/12/2021"}
+                </Typography>
+               </Grid>
+            </Grid>
+            </div>
+            <div >
+        <Grid container style={{ flexDirection: "row"}}>
+              <Grid>
+                <Typography >
+                {"Pcs Produced:"}
+                </Typography>
+              </Grid>
+               <Grid>
+                <Typography>
+                {"xyz"}
+                </Typography>
+               </Grid>
+            </Grid>
+            </div>
+            <div >
+        <Grid container style={{ flexDirection: "row"}}>
+              <Grid>
+                <Typography >
+                {"Ok Pcs:"}
+                </Typography>
+              </Grid>
+               <Grid>
+                <Typography>
+                {"xyz"}
+                </Typography>
+               </Grid>
+            </Grid>
+            </div>
+            <div >
+        <Grid container style={{ flexDirection: "row"}}>
+              <Grid>
+                <Typography >
+                {"Rectified Pcs:"}
+                </Typography>
+              </Grid>
+               <Grid>
+                <Typography>
+                {"xyz"}
+                </Typography>
+               </Grid>
+            </Grid>
+            </div>
+            <div >
+        <Grid container style={{ flexDirection: "row"}}>
+              <Grid>
+                <Typography >
+                {"Rejected Pcs: "}
+                </Typography>
+              </Grid>
+               <Grid>
+                <Typography>
+                {"xyz"}
+                </Typography>
+               </Grid>
+            </Grid>
+            </div>
+            <div >
+        <Grid container style={{ flexDirection: "row"}}>
+              <Grid>
+                <Typography >
+                {"Rejected %"}
+                </Typography>
+              </Grid>
+               <Grid>
+                <Typography>
+                {"xyz"}
+                </Typography>
+               </Grid>
+            </Grid>
+            </div>
+            <div >
+        <Grid container style={{ flexDirection: "row"}}>
+              <Grid>
+                <Typography >
+                {"DHU %"}
+                </Typography>
+              </Grid>
+               <Grid>
+                <Typography>
+                {"02/12/2021"}
+                </Typography>
+               </Grid>
+            </Grid>
+            </div>
+        </Grid>
+      </section>
+      <section className="three">
       <div className="wrapper">
               <div className={classes.tableO}>
-              {/* <div className="tableI sc5"> */}
               {vendorTableDetails.visible && <VendorTable data={vendorTableDetails.tableData} nextTableFunc={setNextTableDetails}/>}
               {factoryTableDetails.visible && <FactoryTable data={factoryTableDetails.tableData} nextTableFunc={setNextTableDetails} />}
               </div>
             </div>
       </section>
 
-      <section className="two">
+      <section className="three">
         <div className="card">
         <form onSubmit={onMessageSubmit}>
           <h1>Messenger</h1>
@@ -310,26 +452,6 @@ cardG: {
     transform: "scale(1.1)"
   },
 },
-labelHeaderG: {
-  fontSize: 22,
-  fontFamily: "Work",
-  margin: 2,
-  marginLeft:10,
-  padding: 2,
-  color: "#49b667",
-  fontWeight:800,
-  textAlign:"left",
-  letterSpacing:"-1px"
-},
-labelValG: {
-  fontSize: 45,
-  fontFamily: "Work",
-  margin:5,
-  color: "#49b667",
-  fontWeight:800,
-  textAlign:"right",
-  letterSpacing:"-1px"
-},
 cardB: {
   height: 110,
   width: "100%",
@@ -344,17 +466,6 @@ cardB: {
     backgroundColor: "#edf3ff",
     transform: "scale(1.1)"
   },
-},
-labelHeaderB: {
-  fontSize: 22,
-  fontFamily: "Work",
-  margin: 2,
-  marginLeft:10,
-  padding: 2,
-  color: "#0a6aff",
-  fontWeight:800,
-  textAlign:"left",
-  letterSpacing:"-1px"
 },
 cardY: {
   height: 110,
@@ -371,17 +482,6 @@ cardY: {
     transform: "scale(1.1)"
   },
 },
-labelHeaderY: {
-  fontSize: 20,
-  fontFamily: "Work",
-  margin: 2,
-  marginLeft:10,
-  padding: 2,
-  color: "#ebc033",
-  fontWeight:800,
-  textAlign:"left",
-  letterSpacing:"-1px"
-},
 cardR: {
   height: 110,
   width: "100%",
@@ -397,17 +497,6 @@ cardR: {
     transform: "scale(1.1)"
   },
 },
-labelHeaderR: {
-  fontSize: 23,
-  fontFamily: "Work",
-  margin: 2,
-  marginLeft:10,
-  padding: 2,
-  color: "#ff0025",
-  fontWeight:800,
-  textAlign:"left",
-  letterSpacing:"-1px"
-},
 cardO: {
   height: 110,
   width: "100%",
@@ -422,17 +511,6 @@ cardO: {
     backgroundColor: "#ffedd9",
     transform: "scale(1.1)"
   },
-},
-labelHeaderO: {
-  fontSize: 25,
-  fontFamily: "Work",
-  margin: 2,
-  marginLeft:10,
-  padding: 2,
-  color: "#ff9800",
-  fontWeight:800,
-  textAlign:"left",
-  letterSpacing:"-1px"
 },
 graph:{
   height: 365 ,
@@ -475,71 +553,6 @@ tableI:{
       backgroundColor: "rgba(255, 255, 255, 0.1)" }
     
 },
-topRightG: {
-  fontSize: 40,
-  fontWeight: "bold",
-  justifyContent:"flex-end",
-  textAlign: "right",
-  alignSelf: "flex-end",
-  fontFamily: "Work",
-  margin:5,
-  color: "#49b667",
-  fontWeight:800,
-  textAlign:"right",
-  letterSpacing:"-1px"
-},
-topRightB: {
-  fontSize: 40,
-  fontWeight: "bold",
-  justifyContent:"flex-end",
-  textAlign: "right",
-  alignSelf: "flex-end",
-  fontFamily: "Work",
-  margin:5,
-  color: "#0a6aff",
-  fontWeight:800,
-  textAlign:"right",
-  letterSpacing:"-1px"
-},
-topRightY: {
-  fontSize: 40,
-  fontWeight: "bold",
-  justifyContent:"flex-end",
-  textAlign: "right",
-  alignSelf: "flex-end",
-  fontFamily: "Work",
-  margin:5,
-  color: "#ebc033",
-  fontWeight:800,
-  textAlign:"right",
-  letterSpacing:"-1px"
-},
-topRightR: {
-  fontSize: 40,
-  fontWeight: "bold",
-  justifyContent:"flex-end",
-  textAlign: "right",
-  alignSelf: "flex-end",
-  fontFamily: "Work",
-  margin:5,
-  color: "#ff0025",
-  fontWeight:800,
-  textAlign:"right",
-  letterSpacing:"-1px"
-},
-topRightO: {
-  fontSize: 40,
-  fontWeight: "bold",
-  justifyContent:"flex-end",
-  textAlign: "right",
-  alignSelf: "flex-end",
-  fontFamily: "Work",
-  margin:5,
-  color: "#ff9800",
-  fontWeight:800,
-  textAlign:"right",
-  letterSpacing:"-1px"
-},
   wrapper: {
    width:"100%",
   },
@@ -575,7 +588,13 @@ topRightO: {
       alignContent: "space-between",
       alignItems: "center",
       justifyContent: "space-evenly",
-
+    },
+    fgCard1: {
+      marginTop: 80,
+      backgroundColor: '#ffffffaa',
+      alignContent: 'center',
+      borderRadius: 10,
+      padding: 10
     }
 }));
 export default Summary;
