@@ -225,8 +225,8 @@ else
     verticalAlign: "middle",
     outline: "none",}}onChange={event => setSearchText(event.target.value)} />
         </Grid>
-        {vendorTableDetails.visible && <VendorGraph age={age} handleChange={handleChange} topCardsH={vendorTableDetails.topCardsH} topCards={vendorTableDetails.topCards} graphData={vendorTableDetails.graphData} />}
-        {factoryTableDetails.visible && <VendorGraph age={age} handleChange={handleChange} topCardsH={factoryTableDetails.topCardsH} topCards={factoryTableDetails.topCards} graphData={factoryTableDetails.graphData} />}
+        {vendorTableDetails.visible ? <VendorGraph age={age} handleChange={handleChange} topCardsH={vendorTableDetails.topCardsH} topCards={vendorTableDetails.topCards} graphData={vendorTableDetails.graphData} />:null}
+        {factoryTableDetails.visible ? <VendorGraph age={age} handleChange={handleChange} topCardsH={factoryTableDetails.topCardsH} topCards={factoryTableDetails.topCards} graphData={factoryTableDetails.graphData} />:null}
       </section>
       <section className="two">
         <Grid item xs={5} className={classes.fgCard1}>
@@ -577,12 +577,14 @@ tableI:{
       border: "none",
     },
     header: {
-      height:"10vh",
-      width:"100%", 
+      height:"8vh",
+      width:"95%", 
       position: 'fixed ',
-      top: 0, right: 0,
+      top: 10, left: 10,
       zIndex:200,
       paddingTop: 10, 
+      margin:10,
+      borderRadius:10,
       backgroundColor: 'white',
       display: "flex",
       alignContent: "space-between",
