@@ -271,7 +271,7 @@ export default function VendorTable(props) {
                             style={{
                             textAlign:"right",
                           }}>
-                            {row.dhu}
+                            {row.rejPerc}
                           </Typography>
                         </StyledTableCell>
                         <StyledTableCell>
@@ -279,7 +279,7 @@ export default function VendorTable(props) {
                             style={{
                             textAlign:"right",
                           }}>
-                            {row.rejPerc}
+                            {row.dhu}
                           </Typography>
                         </StyledTableCell>
                       </StyledTableRow>

@@ -55,7 +55,12 @@ const [ topCards, setTopCards ] = useState({
   "PCS_IN_ALTERATION": 0,
   "REJECTED_PIECES": 0,
   "NO_OF_DEFECTS": 0,
-  "NO_OF_PCS": 0
+  "NO_OF_PCS": 0,
+  "AUDITS_FAILED":0,
+  "AUDITS_PASSED":0,
+  "AUDITS_DONE":0,
+  "ACTIVE_LINES":0,  
+  "INACTIVE_LINES":0,
 })
 
   //const [ topCards, setTopCards ] = useState({})
@@ -82,14 +87,19 @@ const [ topCards, setTopCards ] = useState({
     "PCS_IN_ALTERATION": 0,
     "REJECTED_PIECES": 0,
     "NO_OF_DEFECTS": 0,
-    "NO_OF_PCS": 0
-  }, topCardsH:{},graphData: {}, tableData: [], input: {}}); // input will take the data for next screen API
+    "AUDITS_FAILED":0,
+    "AUDITS_PASSED":0,
+    "AUDITS_DONE":0,
+    "ACTIVE_LINES":0,  
+    "INACTIVE_LINES":0,
+    "ACTIVE_VENDORS":0,
+    
+  }, topCardsH:{}, graphData: {}, tableData: [], inupt: {}}); // input will take the data for next screen API
   const [factoryTableDetails, setFactoryTableDetails] = useState({visible: false, topCards: {}, topCardsH:{}, graphData: {}, tableData: [], input: {}});
   const [nextTableDetails, setNextTableDetails] = useState({currentTable : "", nextTable: "", details: {}}); 
   const [currentTable, setCurrentTable] = useState("vendor");
-  const socketRef = props.data.socketRef;
 
- 
+  const socketRef = props.data.socketRef;
   useEffect(() => {
     if(props.data.loginState === 1)
     {
@@ -165,64 +175,85 @@ const handleTimeChange = (event) => {
 if (props.data.loginState !== 1) {
   return <Redirect to="/" />;
 }
-if (loading)
-return <CircularProgress color="inherit" />
-else
+
   return (
     <MuiThemeProvider theme={THEME}>
     <div className="sc5">
       <section class="one">
         <Grid className={classes.header}>
-    <Select
-                                style={{ width: 200,marginLeft: 10}}
-                                value={selectedDate}
-                                onChange={handleTimeChange}
-                                name="country"
-                                displayEmpty
-                                autoWidth
-                                className={classes.selectEmpty}
-                            >
-                                <MenuItem value="today">Today</MenuItem>
-                                <MenuItem value="yesterday">Yesterday</MenuItem>
-                                <MenuItem value="lastSevenDays">
-                                    Last 7 Days
-                                </MenuItem>
-                                <MenuItem value="lastThirtyDays">
-                                    Last 30 Days
-                                </MenuItem>
-                                <MenuItem value="custom">Custom</MenuItem>
-                            </Select>
-                            {selectedDate === "custom" &&
-                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-<KeyboardDatePicker
-        autoOk
-        variant="inline"
-        inputVariant="outlined"
-        label="Start Date"
-        format="dd-MMM-yyyy"
-        value={startDate}
-        onChange={date => setStartDate(Moment(date).format('DD-MMM-yyyy'))}
-        InputAdornmentProps={{ position: "start" }}
-        maxDate={endDate}
-      />
+          <Select
+            style={{ width: 200,marginLeft: 10}}
+            value={selectedDate}
+            onChange={handleTimeChange}
+            name="country"
+            displayEmpty
+            autoWidth
+            className={classes.selectEmpty}
+            >
+            <MenuItem value="today">Today</MenuItem>
+            <MenuItem value="yesterday">Yesterday</MenuItem>
+            <MenuItem value="lastSevenDays">
+                Last 7 Days
+            </MenuItem>
+            <MenuItem value="lastThirtyDays">
+                Last 30 Days
+            </MenuItem>
+            <MenuItem value="custom">Custom</MenuItem>
+            </Select>                                     
+            {selectedDate === "custom" &&
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>                            
+              <KeyboardDatePicker
+                      autoOk
+                      variant="inline"
+                      inputVariant="outlined"
+                      label="Start Date"
+                      format="dd-MMM-yyyy"
+                      value={startDate}
+                      onChange={date => setStartDate(Moment(date).format('DD-MMM-yyyy'))}
+                      InputAdornmentProps={{ position: "start" }}
+                      maxDate={endDate}
+                    />
     </MuiPickersUtilsProvider>
 }
+{/* {loading?
+<div style={{width:300,height:"7vh",justifyContent:"center",alignContent:"center",alignItems:"center"}}>
+      <div class="loader">
+      <svg viewBox="0 0 80 80">
+          <circle id="test" cx="40" cy="40" r="32"></circle>
+      </svg>
+    </div>
+
+    <div class="loader triangle">
+      <svg viewBox="0 0 86 80">
+          <polygon points="43 8 79 72 7 72"></polygon>
+      </svg>
+    </div>
+
+    <div class="loader">
+      <svg viewBox="0 0 80 80">
+          <rect x="8" y="8" width="64" height="64"></rect>
+      </svg>
+    </div>
+</div>:null} */}
+
 {selectedDate === "custom" &&
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-<KeyboardDatePicker
-        autoOk
-        variant="inline"
-        inputVariant="outlined"
-        label="End Date"
-        format="dd-MMM-yyyy"
-        value={endDate}
-        onChange={date => setEndDate(Moment(date).format('DD-MMM-yyyy'))}
-        InputAdornmentProps={{ position: "start" }}
-        minDate={startDate}
-      />
+      <KeyboardDatePicker
+              autoOk
+              variant="inline"
+              inputVariant="outlined"
+              label="End Date"
+              format="dd-MMM-yyyy"
+              value={endDate}
+              onChange={date => setEndDate(Moment(date).format('DD-MMM-yyyy'))}
+              InputAdornmentProps={{ position: "start" }}
+              minDate={startDate}
+            />
     </MuiPickersUtilsProvider>
 }
-    <input placeholder="Search" style={{    border: "1px solid #00000044",
+
+
+    <input placeholder="Search..." style={{    border: "0px solid #00000044",
     borderRadius: "3px",
     padding:"8px 10px",
     verticalAlign: "middle",
@@ -431,7 +462,8 @@ else
             </div>
       </section>
 
-      <section className="three">
+      <section className="two">
+
         <div className="card">
         <form onSubmit={onMessageSubmit}>
           <h1>Messenger</h1>
@@ -648,19 +680,19 @@ tableI:{
     },
     header: {
       height:"8vh",
-      width:"95%", 
+      width:"98%", 
       position: 'fixed ',
-      top: 10, left: 10,
-      zIndex:200,
-      paddingTop: 10, 
-      margin:10,
+      top: 10, left: 10,right:10,
+      zIndex:1200,
+      padding: 10, 
+      // margin:10,
       borderRadius:10,
       backgroundColor: 'white',
       display: "flex",
       alignContent: "space-between",
       alignItems: "center",
-      justifyContent: "space-evenly",
-    },
+      justifyContent: "space-between",
+    }
     fgCard1: {
       marginTop: 80,
       backgroundColor: '#ffffffcc',
