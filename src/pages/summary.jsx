@@ -74,6 +74,7 @@ const [ topCards, setTopCards ] = useState({
   const [selectedDate, setSelectedDate] = useState("today");
   const [searchText, setSearchText] = useState("");
   const [fgCodeList, setFgCodeList] = useState([]);
+  const [selectedFgCode, setSelectedFgCode] = useState([]);
   const [loading, setLoading] = useState(true);
   const [msg, setMsg] = useState({});
   const [vendorTableDetails, setVendorTableDetails] = useState(
@@ -210,6 +211,15 @@ const handleTimeChange = (event) => {
 
 };
 
+const handleFgCodeChange = (event) => {
+  setSelectedFgCode(event);
+  console.log("event!!!!!!!!!!!!1", event);
+  if(event.length > 0)
+  props.data.socketRef.current.emit("setFgCodesFilter", [event[0]]);
+  else
+  props.data.socketRef.current.emit("setFgCodesFilter", []);
+}
+
 if (props.data.loginState !== 1) {
   return <Redirect to="/" />;
 }
@@ -300,39 +310,10 @@ if (props.data.loginState !== 1) {
   displayValue="key"
   id="css_custom"
   //onKeyPressFn={function noRefCheck(){}}
-  onRemove={(e) => console.log("removed", e)}
+  onRemove={(e) => handleFgCodeChange(e)}
   onSearch={(e) => console.log ("searcheed", e)}
-  onSelect={(e) => console.log("selected", e)}
-  options={[
-    {
-      cat: 'Group 1',
-      key: 'Option 1'
-    },
-    {
-      cat: 'Group 1',
-      key: 'Option 2'
-    },
-    {
-      cat: 'Group 1',
-      key: 'Option 3'
-    },
-    {
-      cat: 'Group 2',
-      key: 'Option 4'
-    },
-    {
-      cat: 'Group 2',
-      key: 'Option 5'
-    },
-    {
-      cat: 'Group 2',
-      key: 'Option 6'
-    },
-    {
-      cat: 'Group 2',
-      key: 'Option 7'
-    }
-  ]}
+  onSelect={(e) => handleFgCodeChange(e)}
+  options={fgCodeList}
   placeholder="Search Brand or FgCode"
   style={{
     chips: {

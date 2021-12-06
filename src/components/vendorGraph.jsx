@@ -48,7 +48,7 @@ import {
     },
   },
   labelHeaderG: {
-    fontSize: 22,
+    fontSize: "2.8vh",
     fontFamily: "Work",
     margin: 2,
     marginLeft:10,
@@ -169,7 +169,7 @@ import {
     },
   },
   labelHeaderB: {
-    fontSize: 22,
+    fontSize: "3.1vh",
     fontFamily: "Work",
     margin: 2,
     marginLeft:10,
@@ -195,7 +195,7 @@ import {
     },
   },
   labelHeaderY: {
-    fontSize: 20,
+    fontSize: "2.8vh",
     fontFamily: "Work",
     margin: 2,
     marginLeft:10,
@@ -221,7 +221,7 @@ import {
     },
   },
   labelHeaderR: {
-    fontSize: 23,
+    fontSize: "2.8vh",
     fontFamily: "Work",
     margin: 2,
     marginLeft:10,
@@ -257,7 +257,7 @@ import {
     },
   },
   labelHeaderO: {
-    fontSize: 25,
+    fontSize: "3.1vh",
     fontFamily: "Work",
     margin: 2,
     marginLeft:10,
@@ -693,7 +693,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
             <Grid
               container
               justifyContent="center"
-              spacing={1}
+              spacing={"1"}
                
             >
                     <Grid
