@@ -1308,6 +1308,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                                 enableCrosshair={false}
                                 pointLabelYOffset={-12}
                                 lineWidth={4}
+                                tooltip={false}
                                 // tooltip={(input) => {
                                 //     return (
                                 //     <div style={{whiteSpace: 'pre', backgroundColor: 'white', border: `2px solid ${col}`, borderRadius: 5, padding: 5, backgroundColor: '#ffaa0088'}}>
@@ -1318,7 +1319,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                                 enableGridY={false}
                                 enableArea={true}
                                 areaOpacity={0.2}
-                                useMesh={true}
+                                useMesh={false}
                                 animate={true}
                                 borderColor="#ffffffff"
                             />
@@ -1363,7 +1364,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                                 enableGridY={false}
                                 enableArea={true}
                                 areaOpacity={0.2}
-                                useMesh={true}
+                                useMesh={false}
                                 animate={true}
                                 borderColor="#ffffffff"
                             />
