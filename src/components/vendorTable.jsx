@@ -11,6 +11,7 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   tableI:{
+    paddingBottom: 20,
     alignContent:'center',
     height:"90vh",
     overflowX:"scroll",

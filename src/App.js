@@ -24,13 +24,13 @@ function App() {
       setSocketID(socketRef.current.id);
     });
   }
-  }, []);
+  }, [socketID]);
 
   useEffect(
 		() => {
-      socketRef.current.on("fromServer", ( msg ) => {
-        console.log("message",msg);
-      })
+      // socketRef.current.on("fromServer", ( msg ) => {
+      //   console.log("message",msg);
+      // })
       socketRef.current.on("connect", () => {
         console.log("socket id app!!!!!",socketRef.current.id); 
       });
@@ -57,7 +57,7 @@ function App() {
         />
       </Route>
       <Route exact path="/app">
-        <Summary data={{chat: chat, socketRef: socketRef, loginState: loginState}}/>
+        <Summary data={{chat: chat, socketRef: socketRef, loginState: loginState, setSocketID: setSocketID}}/>
       </Route>
     </React.Fragment>
   );

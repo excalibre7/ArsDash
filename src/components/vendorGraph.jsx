@@ -324,7 +324,7 @@ import {
       
   },
   topRightG: {
-    fontSize: 40,
+    fontSize: "3vw",
     fontWeight: "bold",
     justifyContent:"flex-end",
     textAlign: "right",
@@ -363,7 +363,7 @@ import {
     letterSpacing:"-1px"
   },
   topRightB: {
-    fontSize: 40,
+    fontSize: "3vw",
     fontWeight: "bold",
     justifyContent:"flex-end",
     textAlign: "right",
@@ -376,7 +376,7 @@ import {
     letterSpacing:"-1px"
   },
   topRightY: {
-    fontSize: 40,
+    fontSize: "3vw",
     fontWeight: "bold",
     justifyContent:"flex-end",
     textAlign: "right",
@@ -389,7 +389,7 @@ import {
     letterSpacing:"-1px"
   },
   topRightR: {
-    fontSize: 40,
+    fontSize: "3vw",
     fontWeight: "bold",
     justifyContent:"flex-end",
     textAlign: "right",
@@ -402,7 +402,7 @@ import {
     letterSpacing:"-1px"
   },
   topRightO: {
-    fontSize: 40,
+    fontSize: "3vw",
     fontWeight: "bold",
     justifyContent:"flex-end",
     textAlign: "right",
@@ -775,7 +775,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                                   duration={.6}
                                   separator={","}
                                   decimals={2}
-                                  suffix={" %"}
+                                  suffix={"%"}
                                   className={classes.topRightR}
                                 />
                               ) :    
@@ -784,7 +784,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                               end={0}
                               duration={.6}
                               decimals={2}
-                              suffix={" %"}
+                              suffix={"%"}
                               className={classes.topRightR}
                             />}
                             </Grid>
@@ -816,7 +816,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                                   duration={.6}
                                   separator={","}
                                   decimals={2}
-                                  suffix={" %"}
+                                  suffix={"%"}
                                   className={classes.topRightO}
                                 />
                               ) :    
@@ -825,7 +825,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                               end={0}
                               duration={.6}
                               decimals={2}
-                              suffix={" %"}
+                              suffix={"%"}
                               className={classes.topRightO}
                             />}
                             </Grid>
