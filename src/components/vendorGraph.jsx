@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {
     Typography,
     makeStyles,
@@ -14,6 +14,7 @@ import {
   import { withStyles } from "@material-ui/styles";
   import CountUp from "react-countup";
   import { ResponsiveBar } from '@nivo/bar';
+  import { ResponsiveLine } from '@nivo/line';
 
   const useStyles = makeStyles((theme) => ({
     paper: {
@@ -267,7 +268,7 @@ import {
     letterSpacing:"-1px"
   },
   graph:{
-    height: "48vh" ,
+    height: "50vh" ,
      width: "65%",
     alignContent:'center',
     borderRadius:10,
@@ -454,8 +455,107 @@ import {
   }));
 
 export default function VendorGraph(props) {
-  const { topCards, topCardsH, age, handleChange, graphData} = props;
+  const [data,setData] = useState([]);
+  const { topCards, topCardsH, age, handleChange, graphData, lineGraph} = props;
   const classes = useStyles();
+
+  useEffect(() =>{
+    if(age !== "All")
+    {
+    let temp = [], start =0, end = 0;
+    switch(age)
+    {
+      case "": temp =  lineGraph.producedPieces; break;
+      case "Ok" : temp = lineGraph.okPieces;break;
+      case "Alter" : temp = lineGraph.alteredPieces;break;
+      case "Rejected" : temp = lineGraph.rejectedPieces;break;
+      case "DHU" : temp = lineGraph.dhu;break;
+    }
+      if(temp)
+      {
+      for(let i = 0; i < temp.length; i++)
+      {
+        if(parseFloat(temp[i].y) > 0.00 )
+        {
+          start = i;
+          break;
+        }
+      }
+      for(let i = temp.length - 1; i >= 0; i--)
+      {
+        if(parseFloat(temp[i].y) > 0.00 )
+        {
+          end = i + 1;
+          break;
+        }
+      }
+      setData(temp.slice(start, end));
+      }
+    }
+  else{
+    let start = 0, end = 0;
+    if(lineGraph.okPieces)
+    {
+    for(let i = 0; i < lineGraph.okPieces.length; i++)
+    {
+      if(parseFloat(lineGraph.okPieces[i].y) > 0.00 )
+      {
+        start = i;
+        break;
+      }
+    }
+    for(let i = 0; i < lineGraph.alteredPieces.length; i++)
+    {
+      if(parseFloat(lineGraph.alteredPieces[i].y) > 0.00 )
+      {
+        if(i < start){
+        start = i;
+        }
+        break;
+      }
+    }
+    for(let i = 0; i < lineGraph.rejectedPieces.length; i++)
+    {
+      if(parseFloat(lineGraph.rejectedPieces[i].y) > 0.00 )
+      {
+        if(i < start){
+        start = i;
+        }
+        break;
+      }
+    }
+    for(let i = lineGraph.okPieces.length - 1; i >= 0; i--)
+    {
+      if(parseFloat(lineGraph.okPieces[i].y) > 0.00 )
+      {
+        end = i;
+        break;
+      }
+    }
+    for(let i = lineGraph.alteredPieces.length - 1; i >= 0; i--)
+    {
+      if(parseFloat(lineGraph.alteredPieces[i].y) > 0.00 )
+      {
+        if(i > end){
+        end = i;
+        }
+        break;
+      }
+    }
+    for(let i = lineGraph.rejectedPieces.length - 1; i >= 0; i--)
+    {
+      if(parseFloat(lineGraph.rejectedPieces[i].y) > 0.00 )
+      {
+        if(i > end){
+        end = i;
+        }
+        break;
+      }
+    }
+    }
+    setData([{id: "Ok Pieces", color: 'red', data: lineGraph.okPieces.slice(start, end + 1)},{id: "Altered Pieces", color: 'blue', data: lineGraph.alteredPieces.slice(start, end + 1)},{id: "Rejected Pieces", color: 'green', data: lineGraph.rejectedPieces.slice(start, end + 1)}])
+  }
+  }, [age, lineGraph])
   const StyledTableRow = withStyles((theme) => ({
     root: {
       "&:nth-of-type(odd)": {
@@ -463,7 +563,6 @@ export default function VendorGraph(props) {
       },
     },
   }))(TableRow);
-  console.log(topCards)
   const StyledTableCell = withStyles((theme) => ({
     head: {
       color: theme.palette.common.white,
@@ -474,7 +573,6 @@ export default function VendorGraph(props) {
       padding: 0,
     },
   }))(TableCell);
-
 
   const CustomTick = (tick: AxisTickProps<string>) => {
 
@@ -1179,7 +1277,98 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
         <Grid container style={{marginTop: 15}}>
         <div className={classes.graph2}
               style={{backgroundColor:age==""?"#eefef1":age=="Ok"?"#edf3ff":age=="Alter"?"#fffce6":age=="Rejected"?"#fff0f5":age=="DHU"?"#ffedd9":age=="All"?"#edf3ff":"#fff"}}
-                      ></div>
+                      >
+                        {lineGraph.producedPieces && age !== "All" ?
+                        <ResponsiveLine
+                                //data={[{id: "value", color: "hsl(64, 70%, 50%)", data: age==""?lineGraph.producedPieces:age=="Ok"?lineGraph.okPieces:age=="Alter"?lineGraph.alteredPieces:age=="Rejected"?lineGraph.rejectedPieces:age=="DHU"?lineGraph.dhu : []}]}
+                              data ={[{id: "value", color: "hsl(64, 70%, 50%)", data: data}]}
+                              //  indexBy="vendor"
+                                curve='monotoneX'
+                                margin={{ top: 50, right: 60, bottom: 50, left: 60 }}
+                                xScale={{ type: 'point' }}
+                                yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+                                yFormat=" >-.2f"
+                                enablePointLabel={true}
+                                axisTop={null}
+                                axisRight={null}
+                                axisLeft={null}
+                                axisBottom={{
+                                    orient: 'bottom',
+                                    tickSize: 5,
+                                    tickPadding: 5,
+                                    tickRotation: -33,
+                                    legendOffset: 36,
+                                    legendPosition: 'middle'
+                                }}
+                                pointSize={8}
+                                pointColor={[age==""?"#25be31":age=="Ok"?"#6ea1ff":age=="Alter"?"#ffe949":age=="Rejected"?"#ed5269":age=="DHU"?"#ff9800": "#ffffff"]}
+                                pointBorderWidth={2}
+                                colors={[age==""?"#25be31":age=="Ok"?"#6ea1ff":age=="Alter"?"#ffe949":age=="Rejected"?"#ed5269":age=="DHU"?"#ff9800": "#ffffff"]}
+                                pointBorderColor={{ from: 'serieColor' }}
+                                enableCrosshair={false}
+                                pointLabelYOffset={-12}
+                                lineWidth={4}
+                                // tooltip={(input) => {
+                                //     return (
+                                //     <div style={{whiteSpace: 'pre', backgroundColor: 'white', border: `2px solid ${col}`, borderRadius: 5, padding: 5, backgroundColor: '#ffaa0088'}}>
+                                //       {input.point.data.l}
+                                //     </div>
+                                //   )}}
+                                enableGridX={false}
+                                enableGridY={false}
+                                enableArea={true}
+                                areaOpacity={0.2}
+                                useMesh={true}
+                                animate={true}
+                                borderColor="#ffffffff"
+                            />
+                            : null}
+                            {lineGraph.producedPieces && age === "All" ?
+                        <ResponsiveLine
+                              //  data={[{id: "Ok Pieces", color: "blue", data: lineGraph.okPieces},{id: "Altered Pieces", color: "red", data: lineGraph.alteredPieces},{id: "Rejected Pieces", color: "green", data: lineGraph.rejectedPieces}]}
+                                data={data}
+                              //  indexBy="vendor"
+                                curve='monotoneX'
+                                margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+                                xScale={{ type: 'point' }}
+                                yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+                                yFormat=" >-.2f"
+                                enablePointLabel={true}
+                                axisTop={null}
+                                axisRight={null}
+                                axisLeft={null}
+                                axisBottom={{
+                                    orient: 'bottom',
+                                    tickSize: 5,
+                                    tickPadding: 5,
+                                    tickRotation: -33,
+                                    legendOffset: 36,
+                                    legendPosition: 'middle'
+                                }}
+                                pointSize={8}
+                              //  pointColor={["#6ea1ff","#ffe949","#ed5269"]}
+                                pointBorderWidth={2}
+                                colors={["#6ea1ff","#ffe949","#ed5269"]}
+                                pointBorderColor={{ from: 'serieColor' }}
+                                enableCrosshair={false}
+                                pointLabelYOffset={-12}
+                                lineWidth={4}
+                                // tooltip={(input) => {
+                                //     return (
+                                //     <div style={{whiteSpace: 'pre', backgroundColor: 'white', border: `2px solid ${col}`, borderRadius: 5, padding: 5, backgroundColor: '#ffaa0088'}}>
+                                //       {input.point.data.l}
+                                //     </div>
+                                //   )}}
+                                enableGridX={false}
+                                enableGridY={false}
+                                enableArea={true}
+                                areaOpacity={0.2}
+                                useMesh={true}
+                                animate={true}
+                                borderColor="#ffffffff"
+                            />
+                            : null}
+                      </div>
             <Grid item xs={4}>
             <Grid
               container

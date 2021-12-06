@@ -39,7 +39,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import VendorGraph from "../components/vendorGraph";
 import Button from "@mui/material/Button";
 import FgCards from "../components/fgCards";
-
+import Multiselect from 'multiselect-react-dropdown';
 
 const Summary = (props) => {
   let classes = useStyles();
@@ -73,6 +73,7 @@ const [ topCards, setTopCards ] = useState({
   const [endDate, setEndDate] = useState(Moment(new Date()).format('DD-MMM-yyyy'));
   const [selectedDate, setSelectedDate] = useState("today");
   const [searchText, setSearchText] = useState("");
+  const [fgCodeList, setFgCodeList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [msg, setMsg] = useState({});
   const [vendorTableDetails, setVendorTableDetails] = useState(
@@ -95,8 +96,8 @@ const [ topCards, setTopCards ] = useState({
     "INACTIVE_LINES":0,
     "ACTIVE_VENDORS":0,
     
-  }, topCardsH:{}, graphData: {}, tableData: [], inupt: {}}); // input will take the data for next screen API
-  const [factoryTableDetails, setFactoryTableDetails] = useState({visible: false, topCards: {}, topCardsH:{}, graphData: {}, tableData: [], input: {}});
+  }, topCardsH:{}, graphData: {}, lineGraph:[], tableData: [], inupt: {}}); // input will take the data for next screen API
+  const [factoryTableDetails, setFactoryTableDetails] = useState({visible: false, topCards: {}, topCardsH:{}, graphData: {}, lineGraph: [], tableData: [], input: {}});
   const [nextTableDetails, setNextTableDetails] = useState({currentTable : "", nextTable: "", details: {}}); 
   const [currentTable, setCurrentTable] = useState("vendor");
 
@@ -117,11 +118,16 @@ const [ topCards, setTopCards ] = useState({
 	)
 
   useEffect(() =>{
+    let temp = []
+    if(msg.vendorLineGraph)
+    {
+      temp = msg.vendorLineGraph[0].locationDetails;
+    }
     switch(currentTable)
     {
-      case "vendor": setVendorTableDetails({...vendorTableDetails, topCardsH: vendorTableDetails.topCards,  topCards: msg.topCards, graphData: msg.vendorGraphData, tableData: msg.vendorTableData}); break;
-      case "factory": setFactoryTableDetails({...factoryTableDetails,  topCardsH: factoryTableDetails.topCards, topCards: msg.topCards, graphData: msg.vendorGraphData, tableData: msg.vendorTableData}); break;
-      default: setVendorTableDetails({...vendorTableDetails, topCardsH: vendorTableDetails.topCards, topCards: msg.topCards, graphData: msg.vendorGraphData, tableData: msg.vendorTableData}); break;
+      case "vendor": setVendorTableDetails({...vendorTableDetails, topCardsH: vendorTableDetails.topCards,  topCards: msg.topCards, graphData: msg.vendorGraphData, lineGraph: temp, tableData: msg.vendorTableData}); break;
+      case "factory": setFactoryTableDetails({...factoryTableDetails,  topCardsH: factoryTableDetails.topCards, topCards: msg.topCards, graphData: msg.vendorGraphData, lineGraph: temp, tableData: msg.vendorTableData}); break;
+      default: setVendorTableDetails({...vendorTableDetails, topCardsH: vendorTableDetails.topCards, topCards: msg.topCards, graphData: msg.vendorGraphData, lineGraph: temp, tableData: msg.vendorTableData}); break;
     }
     setLoading(false);
   },[msg])
@@ -140,6 +146,30 @@ const [ topCards, setTopCards ] = useState({
     }
   },[nextTableDetails.nextTable]);
 
+  useEffect(() =>{
+    fetch(` https://zedqwsapi.bluekaktus.com/filters/getFiltersList`, {
+      method: "POST",
+      body: JSON.stringify({
+        "userID": 0,
+        "companyID": 0
+    })
+    })
+      .then((response) => response.json())
+      .then((data) => {
+    //         {
+    //   cat: 'Group 1',
+    //   key: 'Option 1'
+    // },
+        let temp = data.result;
+        console.log("data is", data.result);
+        for(let i = 0; i< temp.length; i++)
+        {
+          temp[i].cat = temp[i].filterCode;
+          temp[i].key = temp[i].filterCode === "BRAND" ? "Brand Name: " + temp[i].filterDetails.BRAND_NAME :"Order No.: " + temp[i].filterDetails.ORDER_NO + "Style No.: " + temp[i].filterDetails.STYLE_NO
+        }
+        setFgCodeList(temp);
+      });
+  }, [])
 
 	const onTextChange = (e) => {
 		setState({ ...state, [e.target.name]: e.target.value })
@@ -254,11 +284,65 @@ if (props.data.loginState !== 1) {
 }
 
 
-    <input placeholder="Search..." style={{    border: "0px solid #00000044",
+    {/* <input placeholder="Search..." style={{    border: "0px solid #00000044",
     borderRadius: "3px",
     padding:"8px 10px",
     verticalAlign: "middle",
-    outline: "none",}}onChange={event => setSearchText(event.target.value)} />
+    outline: "none",}}onChange={event => setSearchText(event.target.value)} /> */}
+    {/* <Multiselect
+  displayValue="key"
+  id="css_custom"
+  //onKeyPressFn={function noRefCheck(){}}
+  onRemove={(e) => console.log("removed", e)}
+  onSearch={(e) => console.log ("searcheed", e)}
+  onSelect={(e) => console.log("selected", e)}
+  options={[
+    {
+      cat: 'Group 1',
+      key: 'Option 1'
+    },
+    {
+      cat: 'Group 1',
+      key: 'Option 2'
+    },
+    {
+      cat: 'Group 1',
+      key: 'Option 3'
+    },
+    {
+      cat: 'Group 2',
+      key: 'Option 4'
+    },
+    {
+      cat: 'Group 2',
+      key: 'Option 5'
+    },
+    {
+      cat: 'Group 2',
+      key: 'Option 6'
+    },
+    {
+      cat: 'Group 2',
+      key: 'Option 7'
+    }
+  ]}
+  placeholder="Search Brand or FgCode"
+  style={{
+    chips: {
+      background: 'red'
+    },
+    multiselectContainer: {
+      color: 'red'
+    },
+    searchBox: {
+      border: 'none',
+      'border-bottom': '1px solid blue',
+      'border-radius': '0px',
+      marginLeft: 20,
+      marginRight: 20
+    }
+  }}
+/> */}
     <div><Button   onClick={() => {
       console.log("socket.current", socketRef.current);
     //  socketRef.current.disconnect();
@@ -267,12 +351,12 @@ if (props.data.loginState !== 1) {
   }}>SignOut</Button>
   </div>
         </Grid>
-        {vendorTableDetails.visible ? <VendorGraph age={age} handleChange={handleChange} topCardsH={vendorTableDetails.topCardsH} topCards={vendorTableDetails.topCards} graphData={vendorTableDetails.graphData} />:null}
-        {factoryTableDetails.visible ? <VendorGraph age={age} handleChange={handleChange} topCardsH={factoryTableDetails.topCardsH} topCards={factoryTableDetails.topCards} graphData={factoryTableDetails.graphData} />:null}
+        {vendorTableDetails.visible ? <VendorGraph age={age} handleChange={handleChange} topCardsH={vendorTableDetails.topCardsH} topCards={vendorTableDetails.topCards} graphData={vendorTableDetails.graphData} lineGraph={vendorTableDetails.lineGraph}/>:null}
+        {factoryTableDetails.visible ? <VendorGraph age={age} handleChange={handleChange} topCardsH={factoryTableDetails.topCardsH} topCards={factoryTableDetails.topCards} graphData={factoryTableDetails.graphData} lineGraph={factoryTableDetails.lineGraph}/>:null}
       </section>
-      <section className="two">
+      {/* <section className="two">
         <FgCards />
-      </section>
+      </section> */}
       <section className="three">
       <div className="wrapper">
               <div className={classes.tableO}>

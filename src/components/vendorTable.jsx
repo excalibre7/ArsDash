@@ -206,9 +206,11 @@ export default function VendorTable(props) {
 
                   {data
                     .map((row) => (
-                      <StyledTableRow onClick={() =>{
-                        nextTableFunc({currentTable : "vendor", nextTable: "factory", details: {item: row}})
-                      }}>
+                      <StyledTableRow 
+                      // onClick={() =>{
+                      //   nextTableFunc({currentTable : "vendor", nextTable: "factory", details: {item: row}})
+                      // }}
+                      >
                         <StyledTableCell>{row.locationName}</StyledTableCell>
                         <StyledTableCell>
                           <Typography  
