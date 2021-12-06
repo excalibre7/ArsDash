@@ -471,11 +471,19 @@ export default function VendorGraph(props) {
       case "Rejected" : temp = lineGraph.rejectedPieces;break;
       case "DHU" : temp = lineGraph.dhu;break;
     }
+     if(age === "DHU")
+     {
+       for(let i = 0; i < lineGraph.dhu.length; i++)
+       {
+         temp[i].y = parseFloat(temp[i].y)  * 100;
+       }
+     }
+     console.log("new temp is!!!!!!!!!!!", temp);
       if(temp)
       {
       for(let i = 0; i < temp.length; i++)
       {
-        if(parseFloat(temp[i].y) > 0.00 )
+        if(parseInt(temp[i].y) !== 0 )
         {
           start = i;
           break;
@@ -483,7 +491,7 @@ export default function VendorGraph(props) {
       }
       for(let i = temp.length - 1; i >= 0; i--)
       {
-        if(parseFloat(temp[i].y) > 0.00 )
+        if(parseInt(temp[i].y) !== 0 )
         {
           end = i + 1;
           break;
@@ -498,7 +506,7 @@ export default function VendorGraph(props) {
     {
     for(let i = 0; i < lineGraph.okPieces.length; i++)
     {
-      if(parseFloat(lineGraph.okPieces[i].y) > 0.00 )
+      if(parseInt(lineGraph.okPieces[i].y) !== 0 )
       {
         start = i;
         break;
@@ -506,7 +514,7 @@ export default function VendorGraph(props) {
     }
     for(let i = 0; i < lineGraph.alteredPieces.length; i++)
     {
-      if(parseFloat(lineGraph.alteredPieces[i].y) > 0.00 )
+      if(parseInt(lineGraph.alteredPieces[i].y) !== 0 )
       {
         if(i < start){
         start = i;
@@ -516,7 +524,7 @@ export default function VendorGraph(props) {
     }
     for(let i = 0; i < lineGraph.rejectedPieces.length; i++)
     {
-      if(parseFloat(lineGraph.rejectedPieces[i].y) > 0.00 )
+      if(parseInt(lineGraph.rejectedPieces[i].y) !== 0 )
       {
         if(i < start){
         start = i;
@@ -526,7 +534,7 @@ export default function VendorGraph(props) {
     }
     for(let i = lineGraph.okPieces.length - 1; i >= 0; i--)
     {
-      if(parseFloat(lineGraph.okPieces[i].y) > 0.00 )
+      if(parseInt(lineGraph.okPieces[i].y) !== 0 )
       {
         end = i;
         break;
@@ -534,7 +542,7 @@ export default function VendorGraph(props) {
     }
     for(let i = lineGraph.alteredPieces.length - 1; i >= 0; i--)
     {
-      if(parseFloat(lineGraph.alteredPieces[i].y) > 0.00 )
+      if(parseInt(lineGraph.alteredPieces[i].y) !== 0 )
       {
         if(i > end){
         end = i;
@@ -544,7 +552,7 @@ export default function VendorGraph(props) {
     }
     for(let i = lineGraph.rejectedPieces.length - 1; i >= 0; i--)
     {
-      if(parseFloat(lineGraph.rejectedPieces[i].y) > 0.00 )
+      if(parseInt(lineGraph.rejectedPieces[i].y) !== 0 )
       {
         if(i > end){
         end = i;

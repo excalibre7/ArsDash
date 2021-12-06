@@ -246,7 +246,7 @@ if (props.data.loginState !== 1) {
             <MenuItem value="lastThirtyDays">
                 Last 30 Days
             </MenuItem>
-            <MenuItem value="custom">Custom</MenuItem>
+            {/* <MenuItem value="custom">Custom</MenuItem> */}
             </Select>                                     
             {selectedDate === "custom" &&
               <MuiPickersUtilsProvider utils={DateFnsUtils}>                            
