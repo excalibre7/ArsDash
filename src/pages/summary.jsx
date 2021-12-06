@@ -24,7 +24,7 @@ import TopBar from "../components/topbar";
 import "../stylesheets/App.css";
 // import "../stylesheets/activeOrders.css";
 import { Redirect, Link } from "react-router-dom";
-import { mdiFormatLetterCase, mdiDotsVertical } from '@mdi/js'
+import { mdiFormatLetterCase, mdiDotsVertical, mdiChevronLeft, mdiChevronRight } from '@mdi/js';
 import Icon from '@mdi/react';
 import { ResponsiveBar } from '@nivo/bar';
 import "../stylesheets/progressBar.css";
@@ -37,7 +37,8 @@ import VendorTable from "../components/vendorTable.jsx";
 import FactoryTable from "../components/factoryTable.jsx";
 import CircularProgress from '@mui/material/CircularProgress';
 import VendorGraph from "../components/vendorGraph";
-
+import Button from "@mui/material/Button";
+import DefectStyle from "../components/DefectStyle";
 
 const Summary = (props) => {
   let classes = useStyles();
@@ -117,8 +118,8 @@ const [ topCards, setTopCards ] = useState({
   useEffect(()=>{
     //make useEffect or call a function here for each table data.
     switch(nextTableDetails.currentTable){
-      case "vendor" : console.log("vendor!!!!!!", nextTableDetails.currentTable);setVendorTableDetails({...vendorTableDetails, visible:false}); break;
-      case "factory" :console.log("factory!!!!!!", nextTableDetails.currentTable); setFactoryTableDetails({...factoryTableDetails, visible:false}); break;
+      case "vendor" : setVendorTableDetails({...vendorTableDetails, visible:false}); break;
+      case "factory" : setFactoryTableDetails({...factoryTableDetails, visible:false}); break;
       default: setVendorTableDetails({...vendorTableDetails, visible:false}); break;
     }
     switch(nextTableDetails.nextTable){
@@ -226,65 +227,82 @@ else
     padding:"8px 10px",
     verticalAlign: "middle",
     outline: "none",}}onChange={event => setSearchText(event.target.value)} />
+    <div><Button   onClick={() => {
+      console.log("socket.current", socketRef.current);
+    //  socketRef.current.disconnect();
+      props.data.setLoginState(-1);
+    //  props.data.setSocketID("");
+  }}>SignOut</Button>
+  </div>
         </Grid>
         {vendorTableDetails.visible ? <VendorGraph age={age} handleChange={handleChange} topCardsH={vendorTableDetails.topCardsH} topCards={vendorTableDetails.topCards} graphData={vendorTableDetails.graphData} />:null}
         {factoryTableDetails.visible ? <VendorGraph age={age} handleChange={handleChange} topCardsH={factoryTableDetails.topCardsH} topCards={factoryTableDetails.topCards} graphData={factoryTableDetails.graphData} />:null}
       </section>
       <section className="two">
-        <Grid item xs={5} className={classes.fgCard1}>
+        <Grid style={{display: 'flex'}}>
+        <Icon path={mdiChevronRight}
+                        title="Sync"
+                        size={1.5}
+                        horizontal
+                        vertical
+                        style={{alignSelf: 'center', marginRight: 20}}
+                      //  onClick={() =>{}}
+                        color="white"
+                    />
+        <Grid item xs={6} className={classes.fgCard1}>
           <div >
             <Grid container style={{ flexDirection: "row"}}>
-              <Grid>
-                <Typography >
+              <Grid style={{justifyContent : 'center'}}>
+                <h1 >
                 {"fgCode:"}
-                </Typography>
+                </h1>
               </Grid>
                <Grid>
-                <Typography>
+                <h1>
                 {"  xyz"}
-                </Typography>
+                </h1>
                </Grid>
             </Grid>
             </div>
         <div >
         <Grid container style={{ flexDirection: "row"}}>
               <Grid>
-                <Typography >
+                <h2 >
                 {"Company Name:"}
-                </Typography>
+                </h2>
               </Grid>
                <Grid>
-                <Typography>
+                <h2>
                 {"  CRI INDUS"}
-                </Typography>
+                </h2>
                </Grid>
             </Grid>
             </div>
         <div >
         <Grid container style={{ flexDirection: "row"}}>
               <Grid>
-                <Typography >
+                <h4>
                 {"Start Date"}
-                </Typography>
+                </h4>
               </Grid>
                <Grid>
-                <Typography>
+                <h4>
                 {"02/12/2021"}
-                </Typography>
+                </h4>
                </Grid>
             </Grid>
             </div>
         <div >
         <Grid container style={{ flexDirection: "row"}}>
               <Grid>
-                <Typography >
+                <h4 >
                 {"End Date"}
-                </Typography>
+                </h4>
               </Grid>
                <Grid>
-                <Typography>
+                <h4>
                 {"02/12/2021"}
-                </Typography>
+                </h4>
                </Grid>
             </Grid>
             </div>
@@ -373,12 +391,42 @@ else
             </Grid>
             </div>
         </Grid>
+        <div className={classes.fgCard2}>
+                        <DefectStyle
+                            data={{
+                              BackDefects: [
+                              {X: '2.80887318', Y: '1.96479666'},
+                              {X: '0.253577858', Y: '2.09484267'}
+                              ],
+                              Defect: "All Defects",
+                              FrontDefects:[
+                              {X: '2.67720532', Y: '1.23814964'},
+                              {X: '0.6491022', Y: '0.4926785'},
+                              {X: '0.586651', Y: '0.955641448'},
+                              {X: '1.19034612', Y: '2.33932853'}
+                              ],
+                              frequency: "6",
+                              }}
+                            frontUrl={"https://qualitylite.bluekaktus.com/Sketches/202/1d657adc-14a3-4776-949a-675763534e35.jpg"}
+                            backUrl={"https://qualitylite.bluekaktus.com/Sketches/202/9b913962-2c7f-436e-9117-edeff1043d4e.jpg"}
+                        />
+        </div>
+        <Icon path={mdiChevronLeft}
+                        title="Sync"
+                        size={1.5}
+                        horizontal
+                        vertical
+                        style={{alignSelf: 'center', marginLeft: 20}}
+                      //  onClick={() =>{}}
+                        color="white"
+                    />
+        </Grid>
       </section>
       <section className="three">
       <div className="wrapper">
               <div className={classes.tableO}>
-              {vendorTableDetails.visible && <VendorTable data={vendorTableDetails.tableData} nextTableFunc={setNextTableDetails}/>}
-              {factoryTableDetails.visible && <FactoryTable data={factoryTableDetails.tableData} nextTableFunc={setNextTableDetails} />}
+              {vendorTableDetails.visible ? <VendorTable data={vendorTableDetails.tableData} nextTableFunc={setNextTableDetails} /> : null}
+              {factoryTableDetails.visible ? <FactoryTable data={factoryTableDetails.tableData} nextTableFunc={setNextTableDetails} /> : null}
               </div>
             </div>
       </section>
@@ -516,11 +564,31 @@ cardO: {
 },
 graph:{
   height: 365 ,
-   width: "62%",
+   width: "20%",
   alignContent:'center',
   borderRadius:10,
   marginLeft:25,
   fontWeight: "bold",
+  // transition: "all .5s ease-in-out",
+  // "&:hover": {
+  //   fontWeight: "bold",
+  //   cursor: "pointer",
+  //   textDecoration: "none",
+  //   transform: "scale(1.05)"
+  // },
+  boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+},
+fgCard2:{
+  marginTop: 80,
+  height: 365 ,
+   width: "55%",
+  alignContent:'center',
+  display: "flex",
+  justifyContent: "center",
+  borderRadius:10,
+  marginLeft:25,
+  fontWeight: "bold",
+  backgroundColor: '#ffffffcc',
   // transition: "all .5s ease-in-out",
   // "&:hover": {
   //   fontWeight: "bold",
@@ -595,10 +663,11 @@ tableI:{
     },
     fgCard1: {
       marginTop: 80,
-      backgroundColor: '#ffffffaa',
+      backgroundColor: '#ffffffcc',
       alignContent: 'center',
       borderRadius: 10,
-      padding: 10
+      padding: 10,
+      justifyContent: 'center'
     }
 }));
 export default Summary;

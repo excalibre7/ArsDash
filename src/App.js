@@ -57,7 +57,7 @@ function App() {
         />
       </Route>
       <Route exact path="/app">
-        <Summary data={{chat: chat, socketRef: socketRef, loginState: loginState, setSocketID: setSocketID}}/>
+        <Summary data={{chat: chat, socketRef: socketRef, loginState: loginState, setSocketID: setSocketID, setLoginState:setLoginState}}/>
       </Route>
     </React.Fragment>
   );
