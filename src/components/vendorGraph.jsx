@@ -268,7 +268,7 @@ import {
     letterSpacing:"-1px"
   },
   graph:{
-    height: "50vh" ,
+    height: "48vh" ,
      width: "65%",
     alignContent:'center',
     borderRadius:10,
@@ -586,7 +586,7 @@ export default function VendorGraph(props) {
          <Typography style={{textAlign:"center",
                              color: '#25be31',
                              fontWeight:800,
-                             fontSize:11,
+                             fontSize:"1.4vh",
                              height:60,
                              letterSpacing:"-1px"}}>
            {tick.value}
@@ -609,7 +609,7 @@ const CustomTick2 = (tick: AxisTickProps<string>) => {
         <Typography style={{textAlign:"center",
                             color: "#6ea1ff",
                             fontWeight:800,
-                            fontSize:11,
+                            fontSize:"1.4vh",
                             height:60,
                             letterSpacing:"-1px"}}>
           {tick.value}
@@ -631,7 +631,7 @@ const CustomTick3 = (tick: AxisTickProps<string>) => {
           <Typography style={{textAlign:"center",
                               color: '#ffce00',
                               fontWeight:800,
-                              fontSize:11,
+                              fontSize:"1.4vh",
                               height:60,
                               letterSpacing:"-1px"}}>
             {tick.value}
@@ -653,7 +653,7 @@ const CustomTick4 = (tick: AxisTickProps<string>) => {
         <Typography style={{textAlign:"center",
                             color: "#ff0025",
                             fontWeight:800,
-                            fontSize:11,
+                            fontSize:"1.4vh",
                             height:60,
                             letterSpacing:"-1px"}}>
           {tick.value}
@@ -675,7 +675,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
          <Typography style={{textAlign:"center",
                              color: '#ff9800',
                              fontWeight:800,
-                             fontSize:11,
+                             fontSize:"1.4vh",
                              height:60,
                              letterSpacing:"-1px"}}>
            {tick.value}
@@ -693,8 +693,8 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
             <Grid
               container
               justifyContent="center"
-              spacing={2}
-              // style={{ margin: 16 }}
+              spacing={1}
+               
             >
                     <Grid
                       item

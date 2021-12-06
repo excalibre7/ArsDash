@@ -107,7 +107,14 @@ const [ topCards, setTopCards ] = useState({
     {
       socketRef.current.on("fromServer", ( msg ) => {
         console.log("message summary!!",msg);
-        setMsg(msg);
+        let temp = msg;
+        temp.vendorGraphData.producedPieces.sort((a,b) => a["Produced Pieces"] - b["Produced Pieces"]).reverse();
+        temp.vendorGraphData.okPieces.sort((a,b) => a["Ok Pieces"] - b["Ok Pieces"]).reverse();
+        temp.vendorGraphData.alteredPieces.sort((a,b) => a["Altered Pieces"] - b["Altered Pieces"]).reverse();
+        temp.vendorGraphData.rejectedPieces.sort((a,b) => a["Rejected Pieces"] - b["Rejected Pieces"]).reverse();
+        temp.vendorGraphData.allPieces.sort((a,b) => a["All Pieces"] - b["All Pieces"]).reverse();
+        temp.vendorGraphData.dhu.sort((a,b) => a["DHU"] - b["DHU"]).reverse();
+        setMsg(temp);
       })
       socketRef.current.on("connect", () => {
         console.log("socket id summary!!!!!",socketRef.current.id); 
@@ -146,30 +153,30 @@ const [ topCards, setTopCards ] = useState({
     }
   },[nextTableDetails.nextTable]);
 
-  useEffect(() =>{
-    fetch(` https://zedqwsapi.bluekaktus.com/filters/getFiltersList`, {
-      method: "POST",
-      body: JSON.stringify({
-        "userID": 0,
-        "companyID": 0
-    })
-    })
-      .then((response) => response.json())
-      .then((data) => {
-    //         {
-    //   cat: 'Group 1',
-    //   key: 'Option 1'
-    // },
-        let temp = data.result;
-        console.log("data is", data.result);
-        for(let i = 0; i< temp.length; i++)
-        {
-          temp[i].cat = temp[i].filterCode;
-          temp[i].key = temp[i].filterCode === "BRAND" ? "Brand Name: " + temp[i].filterDetails.BRAND_NAME :"Order No.: " + temp[i].filterDetails.ORDER_NO + "Style No.: " + temp[i].filterDetails.STYLE_NO
-        }
-        setFgCodeList(temp);
-      });
-  }, [])
+  // useEffect(() =>{
+  //   fetch(` https://zedqwsapi.bluekaktus.com/filters/getFiltersList`, {
+  //     method: "POST",
+  //     body: JSON.stringify({
+  //       "userID": 0,
+  //       "companyID": 0
+  //   })
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //   //         {
+  //   //   cat: 'Group 1',
+  //   //   key: 'Option 1'
+  //   // },
+  //       let temp = data.result;
+  //       console.log("data is", data.result);
+  //       for(let i = 0; i< temp.length; i++)
+  //       {
+  //         temp[i].cat = temp[i].filterCode;
+  //         temp[i].key = temp[i].filterCode === "BRAND" ? "Brand Name: " + temp[i].filterDetails.BRAND_NAME :"Order No.: " + temp[i].filterDetails.ORDER_NO + "Style No.: " + temp[i].filterDetails.STYLE_NO
+  //       }
+  //       setFgCodeList(temp);
+  //     });
+  // }, [])
 
 	const onTextChange = (e) => {
 		setState({ ...state, [e.target.name]: e.target.value })
