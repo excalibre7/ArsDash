@@ -57,6 +57,92 @@ import {
     textAlign:"left",
     letterSpacing:"-1px"
   },
+  labelHeaderGX: {
+    fontSize: 22,
+    fontFamily: "Work",
+    margin: 2,
+    padding: 2,
+    color: "#49b667",
+    fontWeight:800,
+    textAlign:"center",
+    letterSpacing:"-1px"
+  },
+  cardCB: {
+    height: "16vh",
+    width: "100%",
+    backgroundColor: "#e1ecf8",
+    boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+    transition: "all .2s ease-in-out",
+    borderRadius: 8,
+    "&:hover": {
+      fontWeight: "bold",
+      cursor: "pointer",
+      textDecoration: "none",
+      backgroundColor: "#e1ecf8",
+      transform: "scale(1.05)"
+    },
+  },
+  labelHeaderCB: {
+    fontSize: 25,
+    fontFamily: "Work",
+    margin: 2,
+    marginLeft:10,
+    padding: 2,
+    color: "#0090d4",
+    fontWeight:800,
+    textAlign:"left",
+    letterSpacing:"-1px"
+  },
+  labelHeaderCBX: {
+    fontSize: 22,
+    fontFamily: "Work",
+    margin: 2,
+    padding: 2,
+    color: "#0090d4",
+    fontWeight:800,
+    textAlign:"center",
+    letterSpacing:"-1px"
+  },
+
+  cardCG: {
+    height: "16vh",
+    width: "100%",
+    backgroundColor: "#d7e8e5",
+    boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+    transition: "all .2s ease-in-out",
+    borderRadius: 8,
+    "&:hover": {
+      fontWeight: "bold",
+      cursor: "pointer",
+      textDecoration: "none",
+      backgroundColor: "#d7e8e5",
+      transform: "scale(1.05)"
+    },
+  },
+  labelHeaderCG: {
+    fontSize: 20,
+    fontFamily: "Work",
+    margin: 2,
+    marginLeft:10,
+    padding: 2,
+    paddingBottom:-10,
+    lineHeight:1.1,
+    color: "#036e67",
+    fontWeight:800,
+    textAlign:"center",
+    letterSpacing:"-1px"
+  },
+  labelHeaderCGX: {
+    fontSize: 22,
+    fontFamily: "Work",
+    margin: 2,
+    padding: 2,
+    color: "#036e67",
+    fontWeight:800,
+    textAlign:"center",
+    letterSpacing:"-1px"
+  },
+
   labelValG: {
     fontSize: 45,
     fontFamily: "Work",
@@ -144,6 +230,16 @@ import {
     textAlign:"left",
     letterSpacing:"-1px"
   },
+  labelHeaderRX: {
+    fontSize: 23,
+    fontFamily: "Work",
+    margin: 2,
+    padding: 2,
+    color: "#ff0025",
+    fontWeight:800,
+    textAlign:"center",
+    letterSpacing:"-1px"
+  },
   cardO: {
     height: 110,
     width: "100%",
@@ -171,11 +267,27 @@ import {
     letterSpacing:"-1px"
   },
   graph:{
-    height: 365 ,
-     width: "62%",
+    height: "48vh" ,
+     width: "65%",
     alignContent:'center',
     borderRadius:10,
-    marginLeft:25,
+    marginLeft:15,
+    fontWeight: "bold",
+    // transition: "all .5s ease-in-out",
+    // "&:hover": {
+    //   fontWeight: "bold",
+    //   cursor: "pointer",
+    //   textDecoration: "none",
+    //   transform: "scale(1.05)"
+    // },
+    boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+  },
+  graph2:{
+    height: "35vh" ,
+     width: "65%",
+     marginRight:15,
+    alignContent:'center',
+    borderRadius:10,
     fontWeight: "bold",
     // transition: "all .5s ease-in-out",
     // "&:hover": {
@@ -220,6 +332,32 @@ import {
     fontFamily: "Work",
     margin:5,
     color: "#49b667",
+    fontWeight:800,
+    textAlign:"right",
+    letterSpacing:"-1px"
+  },
+  topRightCB: {
+    fontSize: 40 ,
+    fontWeight: "bold",
+    justifyContent:"flex-end",
+    textAlign: "right",
+    alignSelf: "flex-end",
+    fontFamily: "Work",
+    margin:5,
+    color: "#0090d4",
+    fontWeight:800,
+    textAlign:"right",
+    letterSpacing:"-1px"
+  },
+  topRightCG: {
+    fontSize: 40 ,
+    fontWeight: "bold",
+    justifyContent:"flex-end",
+    textAlign: "right",
+    alignSelf: "flex-end",
+    fontFamily: "Work",
+    margin:5,
+    color: "#036e67",
     fontWeight:800,
     textAlign:"right",
     letterSpacing:"-1px"
@@ -325,7 +463,7 @@ export default function VendorGraph(props) {
       },
     },
   }))(TableRow);
-  
+  console.log(topCards)
   const StyledTableCell = withStyles((theme) => ({
     head: {
       color: theme.palette.common.white,
@@ -451,6 +589,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
 
 
   return (
+    <Grid>
             <Grid container style={{marginTop: 80}}>
             <Grid item xs={4}>
             <Grid
@@ -481,7 +620,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                                 <CountUp
                                   start={topCardsH.TOT_PCS}
                                   end={topCards.TOT_PCS}
-                                  duration={1}
+                                  duration={.6}
                                   separator={","}
                                   className={classes.topRightG}
                                 />
@@ -489,7 +628,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                               <CountUp
                               start={0}
                               end={5000}
-                              duration={1}
+                              duration={.6}
                               separator={","}
                               className={classes.topRightG}
                             />}
@@ -519,7 +658,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                                 <CountUp
                                   start={topCardsH.OK_PIECES}
                                   end={topCards.OK_PIECES}
-                                  duration={1}
+                                  duration={.6}
                                   separator={","}
                                   className={classes.topRightB}
                                 />
@@ -527,7 +666,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                               <CountUp
                               start={0}
                               end={5000}
-                              duration={1}
+                              duration={.6}
                               separator={","}
                               className={classes.topRightB}
                             />}
@@ -557,7 +696,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                                 <CountUp
                                   start={topCardsH.ALTERED_PIECES}
                                   end={topCards.ALTERED_PIECES}
-                                  duration={1}
+                                  duration={.6}
                                   separator={","}
                                   className={classes.topRightY}
                                 />
@@ -565,7 +704,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                               <CountUp
                               start={0}
                               end={5000}
-                              duration={1}
+                              duration={.6}
                               separator={","}
                               className={classes.topRightY}
                             />}
@@ -595,7 +734,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                                 <CountUp
                                   start={topCardsH.REJECTED_PIECES}
                                   end={topCards.REJECTED_PIECES}
-                                  duration={1}
+                                  duration={.6}
                                   separator={","}
                                   className={classes.topRightR}
                                 />
@@ -603,7 +742,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                               <CountUp
                               start={0}
                               end={5000}
-                              duration={1}
+                              duration={.6}
                               separator={","}
                               className={classes.topRightR}
                             />}
@@ -633,7 +772,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                                 <CountUp
                                   start={topCardsH.REJECTED_PIECES*100/topCardsH.NO_OF_PCS}
                                   end={topCards.REJECTED_PIECES*100/topCards.NO_OF_PCS}
-                                  duration={1}
+                                  duration={.6}
                                   separator={","}
                                   decimals={2}
                                   suffix={" %"}
@@ -643,7 +782,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                               <CountUp
                               start={0}
                               end={0}
-                              duration={1}
+                              duration={.6}
                               decimals={2}
                               suffix={" %"}
                               className={classes.topRightR}
@@ -674,7 +813,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                                 <CountUp
                                   start={topCardsH.NO_OF_DEFECTS*100/topCardsH.NO_OF_PCS}
                                   end={topCards.NO_OF_DEFECTS*100/topCards.NO_OF_PCS}
-                                  duration={1}
+                                  duration={.6}
                                   separator={","}
                                   decimals={2}
                                   suffix={" %"}
@@ -684,7 +823,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                               <CountUp
                               start={0}
                               end={0}
-                              duration={1}
+                              duration={.6}
                               decimals={2}
                               suffix={" %"}
                               className={classes.topRightO}
@@ -727,7 +866,7 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
         {(age=="All"&& graphData.allPieces!=null)?
               <ResponsiveBar
               data={graphData.allPieces}
-              keys={[ 'OK Pieces',"Altered Pieces","Pieces In Alteration" ]}
+              keys={[ 'Ok Pieces',"Altered Pieces","Rejected Pieces" ]}
               indexBy="vendor"
               margin={{ top: 10, right: 30, bottom: 60, left: 0 }}
                   padding={0.6}
@@ -1035,6 +1174,234 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
         />:null
         }
         </div>
+        </Grid>
+        
+        <Grid container style={{marginTop: 15}}>
+        <div className={classes.graph2}
+              style={{backgroundColor:age==""?"#eefef1":age=="Ok"?"#edf3ff":age=="Alter"?"#fffce6":age=="Rejected"?"#fff0f5":age=="DHU"?"#ffedd9":age=="All"?"#edf3ff":"#fff"}}
+                      ></div>
+            <Grid item xs={4}>
+            <Grid
+              container
+              justifyContent="center"
+              spacing={2}
+              // style={{ margin: 16 }}
+            >
+                    <Grid
+                      item
+                      xs={12}
+                      align="center"
+                      
+                    >
+                      <div className={classes.cardCB}>
+                        <Grid container>
+                          <Grid item xs={3}>
+                            <Typography className={classes.labelHeaderCB}>
+                              {"Audits"}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={3}>
+                            <Typography className={classes.labelHeaderCBX}>
+                              {"Total"}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={3}>
+                            <Typography className={classes.labelHeaderGX}>
+                              {"Pass"}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={3}>
+                            <Typography className={classes.labelHeaderRX}>
+                              {"Fail"}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                        <Grid container>
+                          <Grid item xs={3}>
+                            </Grid>
+                            <Grid item xs={3}>
+                            {topCards.AUDITS_DONE != null ? (
+                              <div style={{justifyContent:"space-between"}}>
+                                 <CountUp
+                                  start={topCardsH.AUDITS_DONE}
+                                  end={topCards.AUDITS_DONE}
+                                  duration={.6}
+                                  separator={","}
+                                  className={classes.topRightCB}
+                                />
+                            </div>
+                              ) :    
+                              <CountUp
+                              start={0}
+                              end={0}
+                              duration={.6}
+                              separator={","}
+                              className={classes.topRightCB}
+                            />}
+                            </Grid>
+                            <Grid item xs={3}>
+                            {topCards.AUDITS_PASSED != null ? (
+                              <div style={{justifyContent:"space-between"}}>
+                                 <CountUp
+                                  start={topCardsH.AUDITS_PASSED}
+                                  end={topCards.AUDITS_PASSED}
+                                  duration={.6}
+                                  separator={","}
+                                  className={classes.topRightG}
+                                />
+                            </div>
+                              ) :    
+                              <CountUp
+                              start={0}
+                              end={0}
+                              duration={.6}
+                              separator={","}
+                              className={classes.topRightG}
+                            />}
+                            </Grid>
+                            <Grid item xs={3}>
+                            {topCards.AUDITS_FAILED != null ? (
+                              <div style={{justifyContent:"space-between"}}>
+                                 <CountUp
+                                  start={topCardsH.AUDITS_FAILED}
+                                  end={topCards.AUDITS_FAILED}
+                                  duration={.6}
+                                  separator={","}
+                                  className={classes.topRightR}
+                                />
+                            </div>
+                              ) :    
+                              <CountUp
+                              start={0}
+                              end={0}
+                              duration={.6}
+                              separator={","}
+                              className={classes.topRightR}
+                            />}
+                            </Grid>
+                        </Grid>
+                          </div>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      align="center"
+                      
+                    >
+                      <div className={classes.cardCG}>
+                        <Grid container>
+                          <Grid item xs={3}>
+                            <Typography className={classes.labelHeaderCG}>
+                              {"Active Vendors"}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={3}>
+                            <Typography className={classes.labelHeaderCG}>
+                            {"Inactive Vendors"}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={3}>
+                            <Typography className={classes.labelHeaderCG}>
+                              {"Active Lines"}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={3}>
+                            <Typography className={classes.labelHeaderCG}>
+                              {"Inactive Lines"}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                        <Grid container>
+                        <Grid item xs={3}>
+                            {topCards.ACTIVE_VENDORS != null ? (
+                              <div style={{justifyContent:"space-between"}}>
+                                 <CountUp
+                                  start={topCardsH.ACTIVE_VENDORS}
+                                  end={topCards.ACTIVE_VENDORS}
+                                  duration={.6}
+                                  separator={","}
+                                  className={classes.topRightCG}
+                                />
+                            </div>
+                              ) :    
+                              <CountUp
+                              start={0}
+                              end={0}
+                              duration={.6}
+                              separator={","}
+                              className={classes.topRightCG }
+                            />}
+                            </Grid>
+                            <Grid item xs={3}>
+                            {topCards.INACTIVE_VENDORS != null ? (
+                              <div style={{justifyContent:"space-between"}}>
+                                 <CountUp
+                                  start={topCardsH.INACTIVE_VENDORS}
+                                  end={topCards.INACTIVE_VENDORS}
+                                  duration={.6}
+                                  separator={","}
+                                  className={classes.topRightCG}
+                                />
+                            </div>
+                              ) :    
+                              <CountUp
+                              start={0}
+                              end={0}
+                              duration={.6}
+                              separator={","}
+                              className={classes.topRightCG }
+                            />}
+                            </Grid>
+                            <Grid item xs={3}>
+                            {topCards.ACTIVE_LINES != null ? (
+                              <div style={{justifyContent:"space-between"}}>
+                                 <CountUp
+                                  start={topCardsH.ACTIVE_LINES}
+                                  end={topCards.ACTIVE_LINES}
+                                  duration={.6}
+                                  separator={","}
+                                  className={classes.topRightCG}
+                                />
+                            </div>
+                              ) :    
+                              <CountUp
+                              start={0}
+                              end={0}
+                              duration={.6}
+                              separator={","}
+                              className={classes.topRightCG }
+                              
+                            />
+                            }
+                            </Grid>
+                            <Grid item xs={3}>
+                            {topCards.INACTIVE_LINES != null ? (
+                              <div style={{justifyContent:"space-between"}}>
+                                 <CountUp
+                                  start={topCardsH.INACTIVE_LINES}
+                                  end={topCards.INACTIVE_LINES}
+                                  duration={.6}
+                                  separator={","}
+                                  className={classes.topRightCG}
+                                />
+                            </div>
+                              ) :    
+                              <CountUp
+                              start={0}
+                              end={0}
+                              duration={.6}
+                              separator={","}
+                              className={classes.topRightCG }
+                            />}
+                            </Grid>
+                        </Grid>
+                          </div>
+                    </Grid>
+                
+
+                  </Grid>
+                </Grid>
+        </Grid>
         </Grid>
   );
 }
