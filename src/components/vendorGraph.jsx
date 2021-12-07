@@ -473,6 +473,7 @@ export default function VendorGraph(props) {
     }
      if(age === "DHU")
      {
+      end = temp.length;
        for(let i = 0; i < lineGraph.dhu.length; i++)
        {
          temp[i].y = parseFloat(temp[i].y)  * 100;
@@ -481,6 +482,7 @@ export default function VendorGraph(props) {
      console.log("new temp is!!!!!!!!!!!", temp);
       if(temp)
       {
+        end = temp.length;
       for(let i = 0; i < temp.length; i++)
       {
         if(parseInt(temp[i].y) !== 0 )
@@ -497,13 +499,21 @@ export default function VendorGraph(props) {
           break;
         }
       }
-      setData(temp.slice(start-1, end));
+      if(start === 0)
+      {
+      setData(temp.slice(start, end));
+      }
+      else
+      {
+        setData(temp.slice(start - 1, end));
+      }
       }
     }
   else{
     let start = 0, end = 0;
     if(lineGraph.okPieces)
     {
+      end = lineGraph.okPieces.length;
     for(let i = 0; i < lineGraph.okPieces.length; i++)
     {
       if(parseInt(lineGraph.okPieces[i].y) !== 0 )
@@ -561,6 +571,7 @@ export default function VendorGraph(props) {
       }
     }
     }
+
     setData([{id: "Ok Pieces", color: 'red', data: lineGraph.okPieces.slice(start, end + 1)},{id: "Altered Pieces", color: 'blue', data: lineGraph.alteredPieces.slice(start, end + 1)},{id: "Rejected Pieces", color: 'green', data: lineGraph.rejectedPieces.slice(start, end + 1)}])
   }
   }, [age, lineGraph])
