@@ -497,7 +497,7 @@ export default function VendorGraph(props) {
           break;
         }
       }
-      setData(temp.slice(start, end));
+      setData(temp.slice(start-1, end));
       }
     }
   else{
@@ -604,6 +604,29 @@ export default function VendorGraph(props) {
    );
 }
 
+const CustomTickX = (tick: AxisTickProps<string>) => {
+
+  return (
+    <foreignObject
+      width={80}
+      height={90}
+      transform={`translate(${tick.x - 40},${tick.y})`}
+    >
+      <div stlye={{justifyContent:"center"}}>
+        <Typography style={{textAlign:"center",
+                             color: '#25be31',
+                            fontWeight:800,
+                            fontSize:"2vh",
+                            height:60,
+                            marginTop:5,
+                            letterSpacing:"-1px"}}>
+          {tick.value}
+        </Typography>
+      </div>
+    </foreignObject>
+  );
+}
+
 
 const CustomTick2 = (tick: AxisTickProps<string>) => {
 
@@ -619,6 +642,29 @@ const CustomTick2 = (tick: AxisTickProps<string>) => {
                             fontWeight:800,
                             fontSize:"1.4vh",
                             height:60,
+                            letterSpacing:"-1px"}}>
+          {tick.value}
+        </Typography>
+      </div>
+    </foreignObject>
+  );
+}
+
+const CustomTick2X = (tick: AxisTickProps<string>) => {
+
+  return (
+    <foreignObject
+      width={80}
+      height={90}
+      transform={`translate(${tick.x - 40},${tick.y})`}
+    >
+      <div stlye={{justifyContent:"center"}}>
+        <Typography style={{textAlign:"center",
+                            color: "#6ea1ff",
+                            fontWeight:800,
+                            fontSize:"2vh",
+                            height:60,
+                            marginTop:5,
                             letterSpacing:"-1px"}}>
           {tick.value}
         </Typography>
@@ -648,6 +694,29 @@ const CustomTick3 = (tick: AxisTickProps<string>) => {
       </foreignObject>
   )
 }
+const CustomTick3X = (tick: AxisTickProps<string>) => {
+
+  return (
+    <foreignObject
+      width={80}
+      height={90}
+      transform={`translate(${tick.x - 40},${tick.y})`}
+    >
+      <div stlye={{justifyContent:"center"}}>
+        <Typography style={{textAlign:"center",
+                            color: '#ffce00',
+                            fontWeight:800,
+                            fontSize:"2vh",
+                            height:60,
+                            marginTop:5,
+                            letterSpacing:"-1px"}}>
+          {tick.value}
+        </Typography>
+      </div>
+    </foreignObject>
+  );
+}
+
 
 const CustomTick4 = (tick: AxisTickProps<string>) => {
 
@@ -663,6 +732,29 @@ const CustomTick4 = (tick: AxisTickProps<string>) => {
                             fontWeight:800,
                             fontSize:"1.4vh",
                             height:60,
+                            letterSpacing:"-1px"}}>
+          {tick.value}
+        </Typography>
+      </div>
+    </foreignObject>
+  );
+}
+
+const CustomTick4X = (tick: AxisTickProps<string>) => {
+
+  return (
+    <foreignObject
+      width={80}
+      height={90}
+      transform={`translate(${tick.x - 40},${tick.y})`}
+    >
+      <div stlye={{justifyContent:"center"}}>
+        <Typography style={{textAlign:"center",
+                            color: "#ff0025",
+                            fontWeight:800,
+                            fontSize:"2vh",
+                            height:60,
+                            marginTop:5,
                             letterSpacing:"-1px"}}>
           {tick.value}
         </Typography>
@@ -692,6 +784,44 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
      </foreignObject>
   )
 }
+
+const CustomTick5X = (tick: AxisTickProps<string>) => {
+
+  return (
+    <foreignObject
+      width={80}
+      height={90}
+      transform={`translate(${tick.x - 40},${tick.y})`}
+    >
+      <div stlye={{justifyContent:"center"}}>
+        <Typography style={{textAlign:"center",
+                             color: '#ff9800',
+                            fontWeight:800,
+                            fontSize:"2vh",
+                            height:60,
+                            marginTop:5,
+                            letterSpacing:"-1px"}}>
+          {tick.value}
+        </Typography>
+      </div>
+    </foreignObject>
+  );
+}
+
+
+const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
+  <g>
+      <circle fill="#fff" r={size / 2} strokeWidth={borderWidth} stroke={borderColor} />
+      <circle
+          r={size / 5}
+          strokeWidth={borderWidth}
+          stroke={borderColor}
+          fill={color}
+          fillOpacity={0.35}
+      />
+  </g>
+)
+
 
 
   return (
@@ -1286,32 +1416,37 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
         <div className={classes.graph2}
               style={{backgroundColor:age==""?"#eefef1":age=="Ok"?"#edf3ff":age=="Alter"?"#fffce6":age=="Rejected"?"#fff0f5":age=="DHU"?"#ffedd9":age=="All"?"#edf3ff":"#fff"}}
                       >
-                        {lineGraph.producedPieces && age !== "All" ?
+                        
+                        {lineGraph.producedPieces && age == "" ?
                         <ResponsiveLine
                                 //data={[{id: "value", color: "hsl(64, 70%, 50%)", data: age==""?lineGraph.producedPieces:age=="Ok"?lineGraph.okPieces:age=="Alter"?lineGraph.alteredPieces:age=="Rejected"?lineGraph.rejectedPieces:age=="DHU"?lineGraph.dhu : []}]}
                               data ={[{id: "value", color: "hsl(64, 70%, 50%)", data: data}]}
                               //  indexBy="vendor"
-                                curve='monotoneX'
-                                margin={{ top: 50, right: 60, bottom: 50, left: 60 }}
+                                curve='linear'
+                                theme={{
+                                  dots: {
+                                      text: {
+                                          fill: '#25be31',
+                                          font:"Work",
+                                          fontSize:14,
+                                      },
+                                  },
+                              }}
+                                margin={{ top: 30, right: 30, bottom: 30, left: 30 }}
                                 xScale={{ type: 'point' }}
-                                yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
-                                yFormat=" >-.2f"
+                                yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: false, reverse: false }}
+                                // yFormat=" >-.2f"
                                 enablePointLabel={true}
+                                // pointLabel={{renderLabel:CustomTick2X}}
                                 axisTop={null}
                                 axisRight={null}
                                 axisLeft={null}
-                                axisBottom={{
-                                    orient: 'bottom',
-                                    tickSize: 5,
-                                    tickPadding: 5,
-                                    tickRotation: -33,
-                                    legendOffset: 36,
-                                    legendPosition: 'middle'
-                                }}
-                                pointSize={8}
-                                pointColor={[age==""?"#25be31":age=="Ok"?"#6ea1ff":age=="Alter"?"#ffe949":age=="Rejected"?"#ed5269":age=="DHU"?"#ff9800": "#ffffff"]}
-                                pointBorderWidth={2}
-                                colors={[age==""?"#25be31":age=="Ok"?"#6ea1ff":age=="Alter"?"#ffe949":age=="Rejected"?"#ed5269":age=="DHU"?"#ff9800": "#ffffff"]}
+                                axisBottom={{renderTick:CustomTickX}}
+                                pointSymbol={CustomSymbol}
+                                pointSize={15}
+                                pointColor="#25be31"
+                                pointBorderWidth={1}
+                                colors="#25be31"
                                 pointBorderColor={{ from: 'serieColor' }}
                                 enableCrosshair={false}
                                 pointLabelYOffset={-12}
@@ -1331,7 +1466,199 @@ const CustomTick5 = (tick: AxisTickProps<string>) => {
                                 animate={true}
                                 borderColor="#ffffffff"
                             />
-                            : null}
+                            : (age=="Ok"&& lineGraph.okPieces)?
+                                  <ResponsiveLine
+                                  //data={[{id: "value", color: "hsl(64, 70%, 50%)", data: age==""?lineGraph.producedPieces:age=="Ok"?lineGraph.okPieces:age=="Alter"?lineGraph.alteredPieces:age=="Rejected"?lineGraph.rejectedPieces:age=="DHU"?lineGraph.dhu : []}]}
+                                data ={[{id: "value", color: "hsl(64, 70%, 50%)", data: data}]}
+                                //  indexBy="vendor"
+                                  curve='linear'
+                                  theme={{
+                                    dots: {
+                                        text: {
+                                            fill: "#6ea1ff",
+                                            font:"Work",
+                                            fontSize:14,
+                                        },
+                                    },
+                                }}
+                                  margin={{ top: 30, right: 30, bottom: 30, left: 30 }}
+                                  xScale={{ type: 'point' }}
+                                  yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+                                  // yFormat=" >-.2f"
+                                  enablePointLabel={true}
+                                  // pointLabel={{renderLabel:CustomTick2X}}
+                                  axisTop={null}
+                                  axisRight={null}
+                                  axisLeft={null}
+                                  axisBottom={{renderTick:CustomTick2X}}
+                                  pointSymbol={CustomSymbol}
+                                  pointSize={15}
+                                  pointColor="#6ea1ff"
+                                  pointBorderWidth={1}
+                                  colors="#6ea1ff"
+                                  pointBorderColor={{ from: 'serieColor' }}
+                                  enableCrosshair={false}
+                                  pointLabelYOffset={-12}
+                                  lineWidth={4}
+                                  tooltip={false}
+                                  // tooltip={(input) => {
+                                  //     return (
+                                  //     <div style={{whiteSpace: 'pre', backgroundColor: 'white', border: `2px solid ${col}`, borderRadius: 5, padding: 5, backgroundColor: '#ffaa0088'}}>
+                                  //       {input.point.data.l}
+                                  //     </div>
+                                  //   )}}
+                                  enableGridX={false}
+                                  enableGridY={false}
+                                  enableArea={true}
+                                  areaOpacity={0.2}
+                                  useMesh={false}
+                                  animate={true}
+                                  borderColor="#ffffffff"
+                              />:(age=="Alter"&& lineGraph.okPieces)?
+                                  <ResponsiveLine
+                                  //data={[{id: "value", color: "hsl(64, 70%, 50%)", data: age==""?lineGraph.producedPieces:age=="Ok"?lineGraph.okPieces:age=="Alter"?lineGraph.alteredPieces:age=="Rejected"?lineGraph.rejectedPieces:age=="DHU"?lineGraph.dhu : []}]}
+                                data ={[{id: "value", color: "hsl(64, 70%, 50%)", data: data}]}
+                                //  indexBy="vendor"
+                                  curve='linear'
+                                  margin={{ top: 30, right: 30, bottom: 30, left: 30 }}
+                                  xScale={{ type: 'point' }}
+                                  yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+                                  // yFormat=" >-.2f"
+                                  theme={{
+                                    dots: {
+                                        text: {
+                                            fill: "#ffe949",
+                                            font:"Work",
+                                            fontSize:14,
+                                        },
+                                    },
+                                }}
+                                  enablePointLabel={true}
+                                  // pointLabel={{renderLabel:CustomTick2X}}
+                                  axisTop={null}
+                                  axisRight={null}
+                                  axisLeft={null}
+                                  axisBottom={{renderTick:CustomTick3X}}
+                                  pointSymbol={CustomSymbol}
+                                  pointSize={15}
+                                  pointColor="#ffe949"
+                                  pointBorderWidth={1}
+                                  colors="#ffe949"
+                                  pointBorderColor={{ from: 'serieColor' }}
+                                  enableCrosshair={false}
+                                  pointLabelYOffset={-12}
+                                  lineWidth={4}
+                                  tooltip={false}
+                                  // tooltip={(input) => {
+                                  //     return (
+                                  //     <div style={{whiteSpace: 'pre', backgroundColor: 'white', border: `2px solid ${col}`, borderRadius: 5, padding: 5, backgroundColor: '#ffaa0088'}}>
+                                  //       {input.point.data.l}
+                                  //     </div>
+                                  //   )}}
+                                  enableGridX={false}
+                                  enableGridY={false}
+                                  enableArea={true}
+                                  areaOpacity={0.2}
+                                  useMesh={false}
+                                  animate={true}
+                                  borderColor="#ffffffff"
+                              />:(age=="Rejected"&& lineGraph.okPieces)?
+                                    <ResponsiveLine
+                                    //data={[{id: "value", color: "hsl(64, 70%, 50%)", data: age==""?lineGraph.producedPieces:age=="Ok"?lineGraph.okPieces:age=="Alter"?lineGraph.alteredPieces:age=="Rejected"?lineGraph.rejectedPieces:age=="DHU"?lineGraph.dhu : []}]}
+                                  data ={[{id: "value", color: "hsl(64, 70%, 50%)", data: data}]}
+                                  //  indexBy="vendor"
+                                    curve='linear'
+                                    theme={{
+                                      dots: {
+                                          text: {
+                                              fill: '#ed5269',
+                                              font:"Work",
+                                              fontSize:14,
+                                          },
+                                      },
+                                  }}
+                                    margin={{ top: 30, right: 30, bottom: 30, left: 30 }}
+                                    xScale={{ type: 'point' }}
+                                    yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+                                    // yFormat=" >-.2f"
+                                    enablePointLabel={true}
+                                    // pointLabel={{renderLabel:CustomTick2X}}
+                                    axisTop={null}
+                                    axisRight={null}
+                                    axisLeft={null}
+                                    axisBottom={{renderTick:CustomTick4X}}
+                                    pointSymbol={CustomSymbol}
+                                    pointSize={15}
+                                    pointColor="#ed5269"
+                                    pointBorderWidth={1}
+                                    colors="#ed5269"
+                                    pointBorderColor={{ from: 'serieColor' }}
+                                    enableCrosshair={false}
+                                    pointLabelYOffset={-12}
+                                    lineWidth={4}
+                                    tooltip={false}
+                                    // tooltip={(input) => {
+                                    //     return (
+                                    //     <div style={{whiteSpace: 'pre', backgroundColor: 'white', border: `2px solid ${col}`, borderRadius: 5, padding: 5, backgroundColor: '#ffaa0088'}}>
+                                    //       {input.point.data.l}
+                                    //     </div>
+                                    //   )}}
+                                    enableGridX={false}
+                                    enableGridY={false}
+                                    enableArea={true}
+                                    areaOpacity={0.2}
+                                    useMesh={false}
+                                    animate={true}
+                                    borderColor="#ffffffff"
+                                />:(age=="DHU"&& lineGraph.okPieces)?
+                                      <ResponsiveLine
+                                      //data={[{id: "value", color: "hsl(64, 70%, 50%)", data: age==""?lineGraph.producedPieces:age=="Ok"?lineGraph.okPieces:age=="Alter"?lineGraph.alteredPieces:age=="Rejected"?lineGraph.rejectedPieces:age=="DHU"?lineGraph.dhu : []}]}
+                                    data ={[{id: "value", color: "hsl(64, 70%, 50%)", data: data}]}
+                                    //  indexBy="vendor"
+                                      curve='linear'
+                                      theme={{
+                                        dots: {
+                                            text: {
+                                                fill: '#ff9800',
+                                                font:"Work",
+                                                fontSize:12,
+                                            },
+                                        },
+                                    }}
+                                      margin={{ top: 30, right: 30, bottom: 30, left: 30 }}
+                                      xScale={{ type: 'point' }}
+                                      yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+                                      yFormat=" >-.2f"
+                                      enablePointLabel={true}
+                                      // pointLabel={{renderLabel:CustomTick2X}}
+                                      axisTop={null}
+                                      axisRight={null}
+                                      axisLeft={null}
+                                      axisBottom={{renderTick:CustomTick5X}}
+                                      pointSymbol={CustomSymbol}
+                                      pointSize={15}
+                                      pointColor="#ff9800"
+                                      pointBorderWidth={1}
+                                      colors="#ff9800"
+                                      pointBorderColor={{ from: 'serieColor' }}
+                                      enableCrosshair={false}
+                                      pointLabelYOffset={-12}
+                                      lineWidth={4}
+                                      tooltip={false}
+                                      // tooltip={(input) => {
+                                      //     return (
+                                      //     <div style={{whiteSpace: 'pre', backgroundColor: 'white', border: `2px solid ${col}`, borderRadius: 5, padding: 5, backgroundColor: '#ffaa0088'}}>
+                                      //       {input.point.data.l}
+                                      //     </div>
+                                      //   )}}
+                                      enableGridX={false}
+                                      enableGridY={false}
+                                      enableArea={true}
+                                      areaOpacity={0.2}
+                                      useMesh={false}
+                                      animate={true}
+                                      borderColor="#ffffffff"
+                                  />:null}
                             {lineGraph.producedPieces && age === "All" ?
                         <ResponsiveLine
                               //  data={[{id: "Ok Pieces", color: "blue", data: lineGraph.okPieces},{id: "Altered Pieces", color: "red", data: lineGraph.alteredPieces},{id: "Rejected Pieces", color: "green", data: lineGraph.rejectedPieces}]}
