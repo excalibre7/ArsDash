@@ -24,12 +24,12 @@ import TopBar from "../components/topbar";
 import "../stylesheets/App.css";
 // import "../stylesheets/activeOrders.css";
 import { Redirect, Link } from "react-router-dom";
-import { mdiFormatLetterCase, mdiDotsVertical, mdiChevronLeft, mdiChevronRight } from '@mdi/js';
+import { mdiFormatLetterCase, mdiDotsVertical, mdiMagnify } from '@mdi/js';
 import Icon from '@mdi/react';
 import { ResponsiveBar } from '@nivo/bar';
 import "../stylesheets/progressBar.css";
 import CountUp from "react-countup";
-import { fontWeight, margin } from "@mui/system";
+import { borderRadius, fontWeight, margin } from "@mui/system";
 import DateFnsUtils from '@date-io/date-fns';
 import { DatePicker,KeyboardDatePicker, MuiPickersUtilsProvider  } from "@material-ui/pickers";
 import Moment from 'moment';
@@ -40,6 +40,7 @@ import VendorGraph from "../components/vendorGraph";
 import Button from "@mui/material/Button";
 import FgCards from "../components/fgCards";
 import Multiselect from 'multiselect-react-dropdown';
+import Loader from "react-loader-spinner";
 
 const Summary = (props) => {
   let classes = useStyles();
@@ -101,6 +102,7 @@ const [ topCards, setTopCards ] = useState({
   const [factoryTableDetails, setFactoryTableDetails] = useState({visible: false, topCards: {}, topCardsH:{}, graphData: {}, lineGraph: [], tableData: [], input: {}});
   const [nextTableDetails, setNextTableDetails] = useState({currentTable : "", nextTable: "", details: {}}); 
   const [currentTable, setCurrentTable] = useState("vendor");
+  const [ searchWidthPh, setSearchWidthPh] = useState({width: "0px", ph: ""});
 
   const socketRef = props.data.socketRef;
   useEffect(() => {
@@ -125,9 +127,10 @@ const [ topCards, setTopCards ] = useState({
 		[]
 	)
 
+  console.log("loading is!!!!!!!!!!!!!!!!!", loading)
   useEffect(() =>{
     let temp = []
-    if(msg.vendorLineGraph)
+    if(msg.vendorLineGraph && msg.vendorLineGraph.length != 0)
     {
       temp = msg.vendorLineGraph[0].locationDetails;
     }
@@ -154,39 +157,37 @@ const [ topCards, setTopCards ] = useState({
     }
   },[nextTableDetails.nextTable]);
 
-  // useEffect(() =>{
-  //   fetch(` https://zedqwsapi.bluekaktus.com/filters/getFiltersList`, {
-  //     method: "POST",
-  //     body: JSON.stringify({
-  //       "userID": 0,
-  //       "companyID": 0
-  //   })
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //   //         {
-  //   //   cat: 'Group 1',
-  //   //   key: 'Option 1'
-  //   // },
-  //       let temp = data.result;
-  //       console.log("data is", data.result);
-  //       for(let i = 0; i< temp.length; i++)
-  //       {
-  //         temp[i].cat = temp[i].filterCode;
-  //         temp[i].key = temp[i].filterCode === "BRAND" ? "Brand Name: " + temp[i].filterDetails.BRAND_NAME :"Order No.: " + temp[i].filterDetails.ORDER_NO + "Style No.: " + temp[i].filterDetails.STYLE_NO
-  //       }
-  //       setFgCodeList(temp);
-  //     });
-  // }, [])
+  useEffect(() =>{
+    fetch(` https://zedqwsapi.bluekaktus.com/filters/getFiltersList`, {
+      method: "POST",
+      body: JSON.stringify({
+        "userID": 0,
+        "companyID": 0
+    })
+    })
+      .then((response) => response.json())
+      .then((data) => {
+    //         {
+    //   cat: 'Group 1',
+    //   key: 'Option 1'
+    // },
+        let temp = data.result;
+        console.log("data is", data.result);
+        for(let i = 0; i< temp.length; i++)
+        {
+          temp[i].cat = temp[i].filterCode;
+          temp[i].key = temp[i].filterCode === "BRAND" ? "Brand Name: " + temp[i].filterDetails.BRAND_NAME :"Order No.: " + temp[i].filterDetails.ORDER_NO + "Style No.: " + temp[i].filterDetails.STYLE_NO
+        }
+        setFgCodeList(temp);
+      });
+  }, [])
 
 
 const handleTimeChange = (event) => {
   setSelectedDate(event.target.value);
   props.data.socketRef.current.emit("setDateRangeFilter", event.target.value);
-  console.log("date range changed");
+  console.log("date range changed", event.target.value);
   setLoading(true);
-  event.preventDefault();
-
 };
 
 const handleFgCodeChange = (event) => {
@@ -202,6 +203,12 @@ if (props.data.loginState !== 1) {
   return <Redirect to="/" />;
 }
 
+if(loading)
+return(
+
+<Loader type="ThreeDots" color="white" style={{position: 'absolute', right : "50%"}} height={80} width={80}/>
+  
+)
   return (
     <MuiThemeProvider theme={THEME}>
     <div className="sc5">
@@ -277,14 +284,8 @@ if (props.data.loginState !== 1) {
             />
     </MuiPickersUtilsProvider>
 }
-
-
-    {/* <input placeholder="Search..." style={{    border: "0px solid #00000044",
-    borderRadius: "3px",
-    padding:"8px 10px",
-    verticalAlign: "middle",
-    outline: "none",}}onChange={event => setSearchText(event.target.value)} /> */}
-    {/* <Multiselect
+{/* <div>
+<Multiselect
   displayValue="key"
   id="css_custom"
   //onKeyPressFn={function noRefCheck(){}}
@@ -305,10 +306,57 @@ if (props.data.loginState !== 1) {
       'border-bottom': '1px solid blue',
       'border-radius': '0px',
       marginLeft: 20,
-      marginRight: 20
+      marginRight: 20,
+    //  float:"left",
+      transition: "0.4s",
+      width: searchWidthPh.width,
     }
   }}
-/> */}
+/>
+</div> */}
+    {/* <input placeholder="Search..." style={{    border: "0px solid #00000044",
+    borderRadius: "3px",
+    padding:"8px 10px",
+    verticalAlign: "middle",
+    outline: "none",}}onChange={event => setSearchText(event.target.value)} /> */}
+    <div style ={{display: 'flex', maxWidth: "600px", marginLeft: 20, marginRight: 20 }}                         
+    onMouseEnter={() => setSearchWidthPh({width: "550px", ph: "Search Brand or FgCode"})}
+    onMouseLeave={() => {if(selectedFgCode.length === 0)
+                          setSearchWidthPh({width: "0px", ph: ""})
+                        }}>
+    <Icon path={mdiMagnify}
+                        size={2}
+                        style={{alignSelf: 'center', marginLeft: 20}}
+                        color="blue"
+                    />
+    <Multiselect
+  displayValue="key"
+  id="css_custom"
+  //onKeyPressFn={function noRefCheck(){}}
+  onRemove={(e) => handleFgCodeChange(e)}
+  onSearch={(e) => console.log ("searched", e)}
+  onSelect={(e) => handleFgCodeChange(e)}
+  options={fgCodeList}
+  placeholder={searchWidthPh.ph}
+  style={{
+    chips: {
+      background: 'blue'
+    },
+    multiselectContainer: {
+      color: 'blue',
+    },
+    searchBox: 
+    {
+      border:"none",
+      'border-bottom': '1px solid blue',
+      'border-radius': '0px',
+    //  float:"left", // this gives error
+      transition: "0.4s",
+      width: searchWidthPh.width,
+  }
+  }}
+/>
+</div>
     <div><Button   onClick={() => {
       console.log("socket.current", socketRef.current);
     //  socketRef.current.disconnect();
@@ -570,6 +618,6 @@ tableI:{
       borderRadius: 10,
       padding: 10,
       justifyContent: 'center'
-    }
+    },
 }));
 export default Summary;

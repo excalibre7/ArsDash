@@ -49,7 +49,7 @@ function App() {
   return (
     <React.Fragment>
       <Helmet>
-        <title>Delivery Analysis</title>
+        <title>ZQ Socket</title>
       </Helmet>
       <div></div>
       <Route exact path="/">

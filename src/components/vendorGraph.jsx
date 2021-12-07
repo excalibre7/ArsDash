@@ -480,7 +480,6 @@ export default function VendorGraph(props) {
          temp[i].y = parseFloat(temp[i].y)  * 100;
        }
      }
-     console.log("new temp is!!!!!!!!!!!", temp);
       if(temp)
       {
         end = temp.length;
