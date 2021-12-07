@@ -179,28 +179,6 @@ const [ topCards, setTopCards ] = useState({
   //     });
   // }, [])
 
-	const onTextChange = (e) => {
-		setState({ ...state, [e.target.name]: e.target.value })
-	}
-
-	const onMessageSubmit = (e) => {
-		const { emailID, password } = state
-    console.log(emailID,password)
-		socketRef.current.emit("login", { emailID, password })
-		e.preventDefault()
-		// setState({ message: "", name })
-	}
-
-	const renderChat = () => {
-		return chat.map(({ name, message }, index) => (
-			<div key={index}>
-				<h3>
-					{name}: <span>{message}</span>
-				</h3>
-			</div>
-		))
-	}
-
 
 const handleTimeChange = (event) => {
   setSelectedDate(event.target.value);
