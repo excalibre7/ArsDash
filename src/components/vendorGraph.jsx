@@ -59,7 +59,7 @@ import {
     letterSpacing:"-1px"
   },
   labelHeaderGX: {
-    fontSize: 22,
+    fontSize: "2.5vh",
     fontFamily: "Work",
     margin: 2,
     padding: 2,
@@ -69,7 +69,7 @@ import {
     letterSpacing:"-1px"
   },
   cardCB: {
-    height: "15vh",
+    height: "16vh",
     width: "100%",
     backgroundColor: "#e1ecf8",
     boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
@@ -106,7 +106,7 @@ import {
   },
 
   cardCG: {
-    height: "15vh",
+    height: "16vh",
     width: "100%",
     backgroundColor: "#d7e8e5",
     boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
@@ -232,7 +232,7 @@ import {
     letterSpacing:"-1px"
   },
   labelHeaderRX: {
-    fontSize: 23,
+    fontSize: "2.5vh",
     fontFamily: "Work",
     margin: 2,
     padding: 2,
@@ -337,8 +337,21 @@ import {
     textAlign:"right",
     letterSpacing:"-1px"
   },
+  topRightGX: {
+    fontSize: "2.6vw",
+    fontWeight: "bold",
+    justifyContent:"flex-end",
+    textAlign: "right",
+    alignSelf: "flex-end",
+    fontFamily: "Work",
+    margin:5,
+    color: "#49b667",
+    fontWeight:800,
+    textAlign:"right",
+    letterSpacing:"-1px"
+  },
   topRightCB: {
-    fontSize: "2.8vw",
+    fontSize: "2.6vw",
     fontWeight: "bold",
     justifyContent:"flex-end",
     textAlign: "right",
@@ -391,6 +404,19 @@ import {
   },
   topRightR: {
     fontSize: "3vw",
+    fontWeight: "bold",
+    justifyContent:"flex-end",
+    textAlign: "right",
+    alignSelf: "flex-end",
+    fontFamily: "Work",
+    margin:5,
+    color: "#ff0025",
+    fontWeight:800,
+    textAlign:"right",
+    letterSpacing:"-1px"
+  },
+  topRightRX: {
+    fontSize: "2.6vw",
     fontWeight: "bold",
     justifyContent:"flex-end",
     textAlign: "right",
@@ -1803,7 +1829,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                                   end={topCards.AUDITS_PASSED}
                                   duration={.6}
                                   separator={","}
-                                  className={classes.topRightG}
+                                  className={classes.topRightGX}
                                 />
                             </div>
                               ) :    
@@ -1812,7 +1838,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                               end={0}
                               duration={.6}
                               separator={","}
-                              className={classes.topRightG}
+                              className={classes.topRightGX}
                             />}
                             </Grid>
                             <Grid item xs={3}>
@@ -1823,7 +1849,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                                   end={topCards.AUDITS_FAILED}
                                   duration={.6}
                                   separator={","}
-                                  className={classes.topRightR}
+                                  className={classes.topRightRX}
                                 />
                             </div>
                               ) :    
@@ -1832,7 +1858,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                               end={0}
                               duration={.6}
                               separator={","}
-                              className={classes.topRightR}
+                              className={classes.topRightRX}
                             />}
                             </Grid>
                         </Grid>
