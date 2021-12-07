@@ -460,8 +460,8 @@ export default function VendorGraph(props) {
   const classes = useStyles();
 
   useEffect(() =>{
-    if(age !== "All")
-    {
+   // if(age !== "All")
+  //  {
     let temp = [], start =0, end = 0;
     switch(age)
     {
@@ -470,6 +470,7 @@ export default function VendorGraph(props) {
       case "Alter" : temp = lineGraph.alteredPieces;break;
       case "Rejected" : temp = lineGraph.rejectedPieces;break;
       case "DHU" : temp = lineGraph.dhu;break;
+      case "All" : temp = lineGraph.producedPieces; break;
     }
      if(age === "DHU")
      {
@@ -508,72 +509,79 @@ export default function VendorGraph(props) {
         setData(temp.slice(start - 1, end));
       }
       }
-    }
-  else{
-    let start = 0, end = 0;
-    if(lineGraph.okPieces)
-    {
-      end = lineGraph.okPieces.length;
-    for(let i = 0; i < lineGraph.okPieces.length; i++)
-    {
-      if(parseInt(lineGraph.okPieces[i].y) !== 0 )
-      {
-        start = i;
-        break;
-      }
-    }
-    for(let i = 0; i < lineGraph.alteredPieces.length; i++)
-    {
-      if(parseInt(lineGraph.alteredPieces[i].y) !== 0 )
-      {
-        if(i < start){
-        start = i;
-        }
-        break;
-      }
-    }
-    for(let i = 0; i < lineGraph.rejectedPieces.length; i++)
-    {
-      if(parseInt(lineGraph.rejectedPieces[i].y) !== 0 )
-      {
-        if(i < start){
-        start = i;
-        }
-        break;
-      }
-    }
-    for(let i = lineGraph.okPieces.length - 1; i >= 0; i--)
-    {
-      if(parseInt(lineGraph.okPieces[i].y) !== 0 )
-      {
-        end = i;
-        break;
-      }
-    }
-    for(let i = lineGraph.alteredPieces.length - 1; i >= 0; i--)
-    {
-      if(parseInt(lineGraph.alteredPieces[i].y) !== 0 )
-      {
-        if(i > end){
-        end = i;
-        }
-        break;
-      }
-    }
-    for(let i = lineGraph.rejectedPieces.length - 1; i >= 0; i--)
-    {
-      if(parseInt(lineGraph.rejectedPieces[i].y) !== 0 )
-      {
-        if(i > end){
-        end = i;
-        }
-        break;
-      }
-    }
-    }
+  //  }
+  // else{
+  //   let start = 0, end = 0;
+  //   if(lineGraph.okPieces)
+  //   {
+  //     end = lineGraph.okPieces.length;
+  //   for(let i = 0; i < lineGraph.okPieces.length; i++)
+  //   {
+  //     if(parseInt(lineGraph.okPieces[i].y) !== 0 )
+  //     {
+  //       start = i;
+  //       break;
+  //     }
+  //   }
+  //   for(let i = 0; i < lineGraph.alteredPieces.length; i++)
+  //   {
+  //     if(parseInt(lineGraph.alteredPieces[i].y) !== 0 )
+  //     {
+  //       if(i < start){
+  //       start = i;
+  //       }
+  //       break;
+  //     }
+  //   }
+  //   for(let i = 0; i < lineGraph.rejectedPieces.length; i++)
+  //   {
+  //     if(parseInt(lineGraph.rejectedPieces[i].y) !== 0 )
+  //     {
+  //       if(i < start){
+  //       start = i;
+  //       }
+  //       break;
+  //     }
+  //   }
+  //   for(let i = lineGraph.okPieces.length - 1; i >= 0; i--)
+  //   {
+  //     if(parseInt(lineGraph.okPieces[i].y) !== 0 )
+  //     {
+  //       end = i;
+  //       break;
+  //     }
+  //   }
+  //   for(let i = lineGraph.alteredPieces.length - 1; i >= 0; i--)
+  //   {
+  //     if(parseInt(lineGraph.alteredPieces[i].y) !== 0 )
+  //     {
+  //       if(i > end){
+  //       end = i;
+  //       }
+  //       break;
+  //     }
+  //   }
+  //   for(let i = lineGraph.rejectedPieces.length - 1; i >= 0; i--)
+  //   {
+  //     if(parseInt(lineGraph.rejectedPieces[i].y) !== 0 )
+  //     {
+  //       if(i > end){
+  //       end = i;
+  //       }
+  //       break;
+  //     }
+  //   }
+  //   }
 
-    setData([{id: "Ok Pieces", color: 'red', data: lineGraph.okPieces.slice(start, end + 1)},{id: "Altered Pieces", color: 'blue', data: lineGraph.alteredPieces.slice(start, end + 1)},{id: "Rejected Pieces", color: 'green', data: lineGraph.rejectedPieces.slice(start, end + 1)}])
-  }
+  //   if(start === 0)
+  //   {
+  //   setData([{id: "Ok Pieces", color: 'red', data: lineGraph.okPieces.slice(start, end + 1)},{id: "Altered Pieces", color: 'blue', data: lineGraph.alteredPieces.slice(start, end + 1)},{id: "Rejected Pieces", color: 'green', data: lineGraph.rejectedPieces.slice(start, end + 1)}])
+  //   }
+  //   else
+  //   {
+  //   setData([{id: "Ok Pieces", color: 'red', data: lineGraph.okPieces.slice(start - 1, end + 1)},{id: "Altered Pieces", color: 'blue', data: lineGraph.alteredPieces.slice(start - 1, end + 1)},{id: "Rejected Pieces", color: 'green', data: lineGraph.rejectedPieces.slice(start - 1, end + 1)}])
+  //   }
+  // }
   }, [age, lineGraph])
   const StyledTableRow = withStyles((theme) => ({
     root: {
@@ -1428,7 +1436,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
               style={{backgroundColor:age==""?"#eefef1":age=="Ok"?"#edf3ff":age=="Alter"?"#fffce6":age=="Rejected"?"#fff0f5":age=="DHU"?"#ffedd9":age=="All"?"#edf3ff":"#fff"}}
                       >
                         
-                        {lineGraph.producedPieces && age == "" ?
+                        {lineGraph.producedPieces && (age == "" || age == "All") ?
                         <ResponsiveLine
                                 //data={[{id: "value", color: "hsl(64, 70%, 50%)", data: age==""?lineGraph.producedPieces:age=="Ok"?lineGraph.okPieces:age=="Alter"?lineGraph.alteredPieces:age=="Rejected"?lineGraph.rejectedPieces:age=="DHU"?lineGraph.dhu : []}]}
                               data ={[{id: "value", color: "hsl(64, 70%, 50%)", data: data}]}
@@ -1670,7 +1678,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                                       animate={true}
                                       borderColor="#ffffffff"
                                   />:null}
-                            {lineGraph.producedPieces && age === "All" ?
+                            {/* {lineGraph.producedPieces && age === "All" ?
                         <ResponsiveLine
                               //  data={[{id: "Ok Pieces", color: "blue", data: lineGraph.okPieces},{id: "Altered Pieces", color: "red", data: lineGraph.alteredPieces},{id: "Rejected Pieces", color: "green", data: lineGraph.rejectedPieces}]}
                                 data={data}
@@ -1714,7 +1722,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                                 animate={true}
                                 borderColor="#ffffffff"
                             />
-                            : null}
+                            : null} */}
                       </div>
             <Grid item xs={4}>
             <Grid
