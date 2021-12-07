@@ -33,7 +33,7 @@ import {
     border:"1px #6ea1ff"
   },
   cardG: {
-    height: 110,
+    height: "15vh",
     width: "100%",
     backgroundColor: "#eefef1",
     boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
@@ -69,7 +69,7 @@ import {
     letterSpacing:"-1px"
   },
   cardCB: {
-    height: "16vh",
+    height: "15vh",
     width: "100%",
     backgroundColor: "#e1ecf8",
     boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
@@ -84,7 +84,7 @@ import {
     },
   },
   labelHeaderCB: {
-    fontSize: 25,
+    fontSize: "2.5vh",
     fontFamily: "Work",
     margin: 2,
     marginLeft:10,
@@ -95,7 +95,7 @@ import {
     letterSpacing:"-1px"
   },
   labelHeaderCBX: {
-    fontSize: 22,
+    fontSize: "2.5vh",
     fontFamily: "Work",
     margin: 2,
     padding: 2,
@@ -106,7 +106,7 @@ import {
   },
 
   cardCG: {
-    height: "16vh",
+    height: "15vh",
     width: "100%",
     backgroundColor: "#d7e8e5",
     boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
@@ -121,7 +121,7 @@ import {
     },
   },
   labelHeaderCG: {
-    fontSize: 20,
+    fontSize: "2.5vh",
     fontFamily: "Work",
     margin: 2,
     marginLeft:10,
@@ -134,7 +134,7 @@ import {
     letterSpacing:"-1px"
   },
   labelHeaderCGX: {
-    fontSize: 22,
+    fontSize: "2.5vh",
     fontFamily: "Work",
     margin: 2,
     padding: 2,
@@ -145,7 +145,7 @@ import {
   },
 
   labelValG: {
-    fontSize: 45,
+    fontSize: "25vh",
     fontFamily: "Work",
     margin:5,
     color: "#49b667",
@@ -154,7 +154,7 @@ import {
     letterSpacing:"-1px"
   },
   cardB: {
-    height: 110,
+    height: "15vh",
     width: "100%",
     backgroundColor: "#edf3ff",
     boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
@@ -180,7 +180,7 @@ import {
     letterSpacing:"-1px"
   },
   cardY: {
-    height: 110,
+    height: "15vh",
     width: "100%",
     backgroundColor: "#fffce6",
     boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
@@ -206,7 +206,7 @@ import {
     letterSpacing:"-1px"
   },
   cardR: {
-    height: 110,
+    height: "15vh",
     width: "100%",
     backgroundColor: "#fff0f5",
     boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
@@ -242,7 +242,7 @@ import {
     letterSpacing:"-1px"
   },
   cardO: {
-    height: 110,
+    height: "15vh",
     width: "100%",
     backgroundColor: "#ffedd9",
     boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
@@ -268,7 +268,7 @@ import {
     letterSpacing:"-1px"
   },
   graph:{
-    height: "48vh" ,
+    height: "47vh" ,
      width: "65%",
     alignContent:'center',
     borderRadius:10,
@@ -338,7 +338,7 @@ import {
     letterSpacing:"-1px"
   },
   topRightCB: {
-    fontSize: 40 ,
+    fontSize: "2.8vw",
     fontWeight: "bold",
     justifyContent:"flex-end",
     textAlign: "right",
@@ -351,7 +351,7 @@ import {
     letterSpacing:"-1px"
   },
   topRightCG: {
-    fontSize: 40 ,
+    fontSize: "2.8vw",
     fontWeight: "bold",
     justifyContent:"flex-end",
     textAlign: "right",
@@ -453,11 +453,22 @@ import {
   
       }
   }));
+  
 
 export default function VendorGraph(props) {
   const [data,setData] = useState([]);
   const { topCards, topCardsH, age, handleChange, graphData, lineGraph} = props;
   const classes = useStyles();
+  const [width, setWidth]   = useState(window.innerWidth);
+  const [height, setHeight] = useState(window.innerHeight);
+  const updateDimensions = () => {
+      setWidth(window.innerWidth);
+      setHeight(window.innerHeight);
+  }
+  useEffect(() => {
+      window.addEventListener("resize", updateDimensions);
+      return () => window.removeEventListener("resize", updateDimensions);
+  }, []);
 
   useEffect(() =>{
    // if(age !== "All")
@@ -845,7 +856,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
 
   return (
     <Grid>
-            <Grid container style={{marginTop: 80}}>
+            <Grid container style={{marginTop: "9vh"}}>
             <Grid item xs={4}>
             <Grid
               container
@@ -1126,7 +1137,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
               margin={{ top: 10, right: 30, bottom: 60, left: 0 }}
                   padding={0.6}
                       
-              height={300}
+              height={height/2.5}
               valueScale={{ type: 'linear' }}
               indexScale={{ type: 'band', round: true }}
               colors={["#6ea1ff","#ffe949","#ed5269"]}
@@ -1144,7 +1155,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
               legends={[
                 {
                     dataFrom: 'keys',
-                    anchor: 'top',
+                    anchor: 'top-right',
                     direction: 'row',
                     justify: false,
                     translateX: 0,
@@ -1177,7 +1188,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
           indexBy="vendor"
           margin={{ top: 10, right: 30, bottom: 60, left: 0 }}
               padding={0.6}
-                      height={300}
+              height={height/2.5}
           valueScale={{ type: 'linear' }}
           indexScale={{ type: 'band', round: true }}
           colors={["#6ea1ff"]}
@@ -1228,7 +1239,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
           indexBy="vendor"
           margin={{ top: 10, right: 30, bottom: 60, left: 0 }}
               padding={0.6}
-                      height={300}
+              height={height/2.5}
           valueScale={{ type: 'linear' }}
           indexScale={{ type: 'band', round: true }}
           colors={["#ffe949"]}
@@ -1279,7 +1290,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
         indexBy="vendor"
         margin={{ top: 10, right: 30, bottom: 60, left: 0 }}
               padding={0.6}
-                      height={300}
+              height={height/2.5}
           valueScale={{ type: 'linear' }}
           indexScale={{ type: 'band', round: true }}
           colors={["#25be31"]}
@@ -1330,7 +1341,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
         indexBy="vendor"
         margin={{ top: 10, right: 30, bottom: 60, left: 0 }}
         padding={0.6}
-              height={300}
+        height={height/2.5}
         valueScale={{ type: 'linear' }}
         indexScale={{ type: 'band', round: true }}
         colors={["#ed5269"]}
@@ -1382,7 +1393,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
         margin={{ top: 10, right: 30, bottom: 60, left: 0 }}
             padding={0.6}
                       
-        height={300}
+            height={height/2.5}
         valueScale={{ type: 'linear' }}
         indexScale={{ type: 'band', round: true }}
         colors={["#ff9800"]}
@@ -1447,10 +1458,11 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                                       text: {
                                           fill: '#25be31',
                                           font:"Work",
-                                          fontSize:14,
+                                          fontSize:"1.7vh",
                                       },
                                   },
                               }}
+                              height={height/3.5}
                                 margin={{ top: 30, right: 30, bottom: 30, left: 30 }}
                                 xScale={{ type: 'point' }}
                                 yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: false, reverse: false }}
@@ -1496,7 +1508,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                                         text: {
                                             fill: "#6ea1ff",
                                             font:"Work",
-                                            fontSize:14,
+                                            fontSize:"1.7vh",
                                         },
                                     },
                                 }}
@@ -1548,7 +1560,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                                         text: {
                                             fill: "#ffe949",
                                             font:"Work",
-                                            fontSize:14,
+                                            fontSize:"1.7vh",
                                         },
                                     },
                                 }}
@@ -1592,7 +1604,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                                           text: {
                                               fill: '#ed5269',
                                               font:"Work",
-                                              fontSize:14,
+                                              fontSize:"1.7vh",
                                           },
                                       },
                                   }}
@@ -1640,7 +1652,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                                             text: {
                                                 fill: '#ff9800',
                                                 font:"Work",
-                                                fontSize:12,
+                                                fontSize:"1.7vh",
                                             },
                                         },
                                     }}
