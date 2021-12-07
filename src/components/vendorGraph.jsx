@@ -325,7 +325,7 @@ import {
       
   },
   topRightG: {
-    fontSize: "3vw",
+    fontSize: "2.8vw",
     fontWeight: "bold",
     justifyContent:"flex-end",
     textAlign: "right",
@@ -377,7 +377,7 @@ import {
     letterSpacing:"-1px"
   },
   topRightB: {
-    fontSize: "3vw",
+    fontSize: "2.8vw",
     fontWeight: "bold",
     justifyContent:"flex-end",
     textAlign: "right",
@@ -1488,8 +1488,8 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                                       },
                                   },
                               }}
-                              height={height/3.5}
-                                margin={{ top: 30, right: 30, bottom: 30, left: 30 }}
+                              // height={height/3.5}
+                                margin={{ top: 30, right: 45, bottom: 30, left: 45 }}
                                 xScale={{ type: 'point' }}
                                 yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: false, reverse: false }}
                                 // yFormat=" >-.2f"
@@ -1538,7 +1538,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                                         },
                                     },
                                 }}
-                                  margin={{ top: 30, right: 30, bottom: 30, left: 30 }}
+                                         margin={{ top: 30, right: 45, bottom: 30, left: 45 }}
                                   xScale={{ type: 'point' }}
                                   yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
                                   // yFormat=" >-.2f"
@@ -1577,7 +1577,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                                 data ={[{id: "value", color: "hsl(64, 70%, 50%)", data: data}]}
                                 //  indexBy="vendor"
                                   curve='linear'
-                                  margin={{ top: 30, right: 30, bottom: 30, left: 30 }}
+                                         margin={{ top: 30, right: 45, bottom: 30, left: 45 }}
                                   xScale={{ type: 'point' }}
                                   yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
                                   // yFormat=" >-.2f"
@@ -1634,7 +1634,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                                           },
                                       },
                                   }}
-                                    margin={{ top: 30, right: 30, bottom: 30, left: 30 }}
+                                           margin={{ top: 30, right: 45, bottom: 30, left: 45 }}
                                     xScale={{ type: 'point' }}
                                     yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
                                     // yFormat=" >-.2f"
@@ -1682,7 +1682,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                                             },
                                         },
                                     }}
-                                      margin={{ top: 30, right: 30, bottom: 30, left: 30 }}
+                                             margin={{ top: 30, right: 45, bottom: 30, left: 45 }}
                                       xScale={{ type: 'point' }}
                                       yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
                                       yFormat=" >-.2f"
