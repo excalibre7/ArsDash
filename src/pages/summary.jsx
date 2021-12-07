@@ -127,7 +127,20 @@ const [ topCards, setTopCards ] = useState({
 		[]
 	)
 
-  console.log("loading is!!!!!!!!!!!!!!!!!", loading)
+  useEffect(() => {
+    setTimeout(() => {
+      switch(age)
+      {
+        case "": setAge("Ok"); break;
+        case "Ok":  setAge("Alter"); break;
+        case "Alter" : setAge("Rejected"); break;
+        case "Rejected": setAge("All"); break;
+        case "All": setAge("DHU"); break;
+        case "DHU": setAge(""); break;
+      }
+    }, 5000);
+  }, [age])
+
   useEffect(() =>{
     let temp = []
     if(msg.vendorLineGraph && msg.vendorLineGraph.length != 0)

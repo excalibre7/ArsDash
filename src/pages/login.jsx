@@ -13,6 +13,7 @@ import logoBk from "../img/logo.png";
 import io from "socket.io-client";
 import { Redirect} from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
+import Loader from "react-loader-spinner";
 
 const ApiUrl = "https://qualitylite.bluekaktus.com";
 const useStyles = makeStyles((theme) => ({
@@ -67,7 +68,7 @@ export default function Login(props) {
       } 
       else if(props.data.loginState === -2)
       return (
-        <CircularProgress color="inherit" />
+        <Loader type="ThreeDots" color="white" style={{position: 'absolute', right : "50%"}} height={80} width={80}/>
       )
       else
     return (
