@@ -125,6 +125,18 @@ const [ topCards, setTopCards ] = useState({
         temp.vendorGraphData.dhu.sort((a,b) => a["DHU"] - b["DHU"]).reverse();
         setMsg(temp);
       })
+      socketRef.current.on("filterObjects", ( msg ) => {
+        // console.log("message summary!!",msg);
+        console.log("filter list is!!!!!!!!!!!!!!!!", msg)
+        let temp = msg;
+        // console.log("data is", data.result);
+        for(let i = 0; i< temp.length; i++)
+        {
+          temp[i].cat = temp[i].filterID;
+          temp[i].key = temp[i].filterValue;
+        }
+        setFgCodeList(temp);
+      });
       socketRef.current.on("connect", () => {
         // console.log("socket id summary!!!!!",socketRef.current.id); 
       });
@@ -191,30 +203,30 @@ const [ topCards, setTopCards ] = useState({
     }
   },[nextTableDetails.nextTable]);
 
-  useEffect(() =>{
-    fetch(` https://zedqwsapi.bluekaktus.com/filters/getFiltersList`, {
-      method: "POST",
-      body: JSON.stringify({
-        "userID": 0,
-        "companyID": 0
-    })
-    })
-      .then((response) => response.json())
-      .then((data) => {
-    //         {
-    //   cat: 'Group 1',
-    //   key: 'Option 1'
-    // },
-        let temp = data.result;
-        // console.log("data is", data.result);
-        for(let i = 0; i< temp.length; i++)
-        {
-          temp[i].cat = temp[i].filterCode;
-          temp[i].key = temp[i].filterCode === "BRAND" ? "Brand Name: " + temp[i].filterDetails.BRAND_NAME :"Order No.: " + temp[i].filterDetails.ORDER_NO + "Style No.: " + temp[i].filterDetails.STYLE_NO
-        }
-        setFgCodeList(temp);
-      });
-  }, [])
+  // useEffect(() =>{
+  //   fetch(` https://zedqwsapi.bluekaktus.com/filters/getFiltersList`, {
+  //     method: "POST",
+  //     body: JSON.stringify({
+  //       "userID": 0,
+  //       "companyID": 0
+  //   })
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //   //         {
+  //   //   cat: 'Group 1',
+  //   //   key: 'Option 1'
+  //   // },
+  //       let temp = data.result;
+  //       // console.log("data is", data.result);
+  //       for(let i = 0; i< temp.length; i++)
+  //       {
+  //         temp[i].cat = temp[i].filterCode;
+  //         temp[i].key = temp[i].filterCode === "BRAND" ? "Brand Name: " + temp[i].filterDetails.BRAND_NAME :"Order No.: " + temp[i].filterDetails.ORDER_NO + "Style No.: " + temp[i].filterDetails.STYLE_NO
+  //       }
+  //       setFgCodeList(temp);
+  //     });
+  // }, [])
 
   const sequenceChange = () =>{
     let key = "", message = JSON.parse(JSON.stringify(msg));
@@ -269,9 +281,9 @@ const handleFgCodeChange = (event) => {
   setSelectedFgCode(event);
   console.log("event!!!!!!!!!!!!1", event);
   if(event.length > 0)
-  props.data.socketRef.current.emit("setFgCodesFilter", [event[0]]);
+  props.data.socketRef.current.emit("setFilters", [event[0]]);
   else
-  props.data.socketRef.current.emit("setFgCodesFilter", []);
+  props.data.socketRef.current.emit("setFilters", []);
 }
 
 if (props.data.loginState !== 1) {
@@ -407,6 +419,7 @@ if (props.data.loginState !== 1) {
       // onSearch={(e) => console.log ("searched", e)}
       onSelect={(e) => handleFgCodeChange(e)}
       options={fgCodeList}
+      singleSelect={true}
       placeholder={searchWidthPh.ph}
       style={{
         chips: {

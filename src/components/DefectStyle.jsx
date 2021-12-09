@@ -34,8 +34,8 @@ const FrontDefects = () => {
 		return (
 
 				// <CloseIcon style={{ color: '#e94560', fontSize: {size} }} />
-				<CloseIcon style={{position: "absolute",color: '#e94560', fontSize: size, left:  data.X * (window.innerWidth * (0.15 / 3)) - 0.02 * window.innerHeight + "px",
-				top: data.Y * (window.innerWidth * (0.6 / 12)) - 0.02 * window.innerHeight + "px" }} />
+				<CloseIcon style={{position: "absolute",color: '#e94560', fontSize: size, left:  data.X * (window.innerWidth * (0.15 / 3)) *1.8 - 0.02 * window.innerHeight + "px",
+				top: data.Y * (window.innerWidth * (0.6 / 12)) * 1.8 - 0.02 * window.innerHeight + "px" }} />
 		);
 	});
 };
@@ -44,8 +44,8 @@ const BackDefects = () => {
     var size = 0.03 * window.innerHeight;
 	return props.data.BackDefects.map((data) => {
 		return (
-<CloseIcon style={{position: "absolute",color: '#e94560', fontSize: size, left:  data.X * (window.innerWidth * (0.15 / 3)) - 0.02 * window.innerHeight + "px",
-				top: data.Y * (window.innerWidth * (0.6 / 12)) - 0.02 * window.innerHeight + "px" }} />
+<CloseIcon style={{position: "absolute",color: '#e94560', fontSize: size, left:  data.X * (window.innerWidth * (0.15 / 3)) *1.8 - 0.02 * window.innerHeight + "px",
+				top: data.Y * (window.innerWidth * (0.6 / 12)) * 1.8 - 0.02 * window.innerHeight + "px" }} />
 		);
 	});
 };
@@ -53,11 +53,12 @@ var frontUrl=props.frontUrl
 
 	return (
 		<>
-			<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+			<div style={{ display: 'flex',justifyContent: 'center'}}>
+				{ props.frontUrl &&
 				<div
 					style={{
-						width: winWidth * 0.15,
-						height: winWidth * (0.6 / 3),
+						width: winWidth * 0.15 *1.8,
+						height: winWidth * (0.6 / 3) * 1.8,
 						marginHorizontal: winWidth * 0.02,
 						backgroundImage: 'url(' + frontUrl + ')',
 						backgroundRepeat: 'no-repeat',
@@ -79,10 +80,12 @@ var frontUrl=props.frontUrl
 					{/* <CloseIcon style={{ color: '#e94560', fontSize: '{0.04 * window.innerHeight}' }} /> */}
 					{FrontDefects()}
 				</div>
+				}
+				{props.backUrl &&
 				<div
 					style={{
-						width: winWidth * 0.15,
-						height: winWidth * (0.6 / 3),
+						width: winWidth * 0.15 *1.8,
+						height: winWidth * (0.6 / 3) *1.8,
 						marginHorizontal: winWidth * 0.02,
 						backgroundImage: 'url(' + props.backUrl + ')',
 						backgroundRepeat: 'no-repeat',
@@ -95,6 +98,7 @@ var frontUrl=props.frontUrl
 				{BackDefects()}
 
 				</div>
+                }
 			</div>
 		</>
 	);

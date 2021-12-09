@@ -10,16 +10,16 @@ import DefectStyle from "./DefectStyle";
 
 const useStyles = makeStyles((theme) => ({
 	fgCard2:{
-		marginTop: 80,
+		marginTop: 70,
 		height: "85vh" ,
-		width: "60%",
+	//	width: "60%",
 		alignContent:'center',
-		display: "flex",
 		justifyContent: "center",
 		borderRadius:10,
 		marginLeft:25,
 		fontWeight: "bold",
 		backgroundColor: '#ffffffcc',
+    paddingTop: "4vh",
 		// transition: "all .5s ease-in-out",
 		// "&:hover": {
 		//   fontWeight: "bold",
@@ -30,12 +30,12 @@ const useStyles = makeStyles((theme) => ({
 		boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
 	  },
 	  fgCard1: {
-		marginTop: 80,
 		backgroundColor: '#ffffffcc',
 		alignContent: 'center',
 		borderRadius: 10,
 		padding: 10,
-		justifyContent: 'center'
+		justifyContent: 'center',
+    marginBottom : 10
 	  }
 }));
 
@@ -44,7 +44,7 @@ function FgCards(props) {
 
 	return (
 		<Grid style={{display: 'flex'}}>
-        {/* <Icon path={mdiChevronRight}
+        <Icon path={mdiChevronRight}
                         title="Sync"
                         size={1.5}
                         horizontal
@@ -52,8 +52,9 @@ function FgCards(props) {
                         style={{alignSelf: 'center', marginRight: 20}}
                       //  onClick={() =>{}}
                         color="white"
-                    /> */}
-        <Grid item xs={3} className={classes.fgCard1}>
+                    />
+        <Grid item xs={4} style={{marginTop: 70}} >
+        <Grid className={classes.fgCard1}>
           <div >
             <Grid container style={{ flexDirection: "row"}}>
               <Grid style={{justifyContent : 'center'}}>
@@ -71,14 +72,14 @@ function FgCards(props) {
         <div >
         <Grid container style={{ flexDirection: "row"}}>
               <Grid>
-                <h2 >
-                {"Company Name:"}
-                </h2>
+                <h3 >
+                {"Vendor:"}
+                </h3>
               </Grid>
                <Grid>
-                <h2>
+                <h3>
                 {"  CRI INDUS"}
-                </h2>
+                </h3>
                </Grid>
             </Grid>
             </div>
@@ -86,12 +87,12 @@ function FgCards(props) {
         <Grid container style={{ flexDirection: "row"}}>
               <Grid>
                 <h4>
-                {"Start Date"}
+                {"Order Qty"}
                 </h4>
               </Grid>
                <Grid>
                 <h4>
-                {"02/12/2021"}
+                {"xyz"}
                 </h4>
                </Grid>
             </Grid>
@@ -100,109 +101,148 @@ function FgCards(props) {
         <Grid container style={{ flexDirection: "row"}}>
               <Grid>
                 <h4 >
+                {"Complexity"}
+                </h4>
+              </Grid>
+                <Grid>
+                <h4>
+                {"xyz"}
+                </h4>
+               </Grid>
+            </Grid>
+            </div>
+            <div >
+        <Grid container style={{ flexDirection: "row"}}>
+              <Grid>
+                <h4 >
+                {"Start Date"}
+                </h4>
+              </Grid>
+                <Grid>
+                <h4>
+                {"xyz"}
+                </h4>
+               </Grid>
+            </Grid>
+            </div>
+            <div >
+        <Grid container style={{ flexDirection: "row"}}>
+              <Grid>
+                <h4 >
                 {"End Date"}
                 </h4>
               </Grid>
-               <Grid>
+                <Grid>
                 <h4>
-                {"02/12/2021"}
+                {"xyz"}
                 </h4>
                </Grid>
             </Grid>
             </div>
-            <div >
+        </Grid>
+        <Grid className={classes.fgCard1}>
+           <div>
         <Grid container style={{ flexDirection: "row"}}>
               <Grid>
-                <Typography >
-                {"Pcs Produced:"}
-                </Typography>
+                <h4 >
+                {"Pcs/Hour"}
+                </h4>
               </Grid>
-               <Grid>
-                <Typography>
+                <Grid>
+                <h4>
                 {"xyz"}
-                </Typography>
+                </h4>
                </Grid>
             </Grid>
             </div>
-            <div >
+        </Grid>
+        <Grid className={classes.fgCard1}>
+           <div>
         <Grid container style={{ flexDirection: "row"}}>
               <Grid>
-                <Typography >
-                {"Ok Pcs:"}
-                </Typography>
+                <h4 >
+                {"Top 5 defects"}
+                </h4>
               </Grid>
-               <Grid>
-                <Typography>
+            </Grid>
+            </div>
+            <div>
+        <Grid container style={{ flexDirection: "row"}}>
+              <Grid>
+                <h4 >
+                {"1"}
+                </h4>
+              </Grid>
+                <Grid>
+                <h4>
                 {"xyz"}
-                </Typography>
+                </h4>
                </Grid>
             </Grid>
             </div>
-            <div >
+            <div>
         <Grid container style={{ flexDirection: "row"}}>
               <Grid>
-                <Typography >
-                {"Rectified Pcs:"}
-                </Typography>
+                <h4 >
+                {"2"}
+                </h4>
               </Grid>
-               <Grid>
-                <Typography>
+                <Grid>
+                <h4>
                 {"xyz"}
-                </Typography>
+                </h4>
                </Grid>
             </Grid>
             </div>
-            <div >
+            <div>
         <Grid container style={{ flexDirection: "row"}}>
               <Grid>
-                <Typography >
-                {"Rejected Pcs: "}
-                </Typography>
+                <h4 >
+                {"3"}
+                </h4>
               </Grid>
-               <Grid>
-                <Typography>
+                <Grid>
+                <h4>
                 {"xyz"}
-                </Typography>
+                </h4>
                </Grid>
             </Grid>
             </div>
-            <div >
+            <div>
         <Grid container style={{ flexDirection: "row"}}>
               <Grid>
-                <Typography >
-                {"Rejected %"}
-                </Typography>
+                <h4 >
+                {"4"}
+                </h4>
               </Grid>
-               <Grid>
-                <Typography>
+                <Grid>
+                <h4>
                 {"xyz"}
-                </Typography>
+                </h4>
                </Grid>
             </Grid>
             </div>
-            <div >
+            <div>
         <Grid container style={{ flexDirection: "row"}}>
               <Grid>
-                <Typography >
-                {"DHU %"}
-                </Typography>
+                <h4 >
+                {"5"}
+                </h4>
               </Grid>
-               <Grid>
-                <Typography>
-                {"02/12/2021"}
-                </Typography>
+                <Grid>
+                <h4>
+                {"xyz"}
+                </h4>
                </Grid>
             </Grid>
             </div>
+        </Grid>
         </Grid>
         <Grid item xs={8}>
         <div className={classes.fgCard2}>
                         <DefectStyle
                             data={{
-                              BackDefects: [
-                              {X: '2.80887318', Y: '1.96479666'},
-                              {X: '0.253577858', Y: '2.09484267'}
-                              ],
+                              BackDefects: [],
                               Defect: "All Defects",
                               FrontDefects:[
                               {X: '2.67720532', Y: '1.23814964'},
@@ -213,10 +253,27 @@ function FgCards(props) {
                               frequency: "6",
                               }}
                             frontUrl={"https://qualitylite.bluekaktus.com/Sketches/202/1d657adc-14a3-4776-949a-675763534e35.jpg"}
+                          //  backUrl={"https://qualitylite.bluekaktus.com/Sketches/202/9b913962-2c7f-436e-9117-edeff1043d4e.jpg"}
+                        />
+        </div>
+        </Grid>
+        <Grid item xs={8}>
+        <div className={classes.fgCard2}>
+                        <DefectStyle
+                            data={{
+                              BackDefects: [
+                                {X: '2.80887318', Y: '1.96479666'},
+                                {X: '0.253577858', Y: '2.09484267'}
+                                ],
+                              Defect: "All Defects",
+                              FrontDefects:[],
+                              frequency: "6",
+                              }}
                             backUrl={"https://qualitylite.bluekaktus.com/Sketches/202/9b913962-2c7f-436e-9117-edeff1043d4e.jpg"}
                         />
         </div>
-        {/* <Icon path={mdiChevronLeft}
+        </Grid>
+        <Icon path={mdiChevronLeft}
                         title="Sync"
                         size={1.5}
                         horizontal
@@ -224,8 +281,7 @@ function FgCards(props) {
                         style={{alignSelf: 'center', marginLeft: 20}}
                       //  onClick={() =>{}}
                         color="white"
-                    /> */}
-        </Grid>
+                    />
         </Grid>
 	);
 }
