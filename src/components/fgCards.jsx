@@ -226,6 +226,7 @@ function FgCards(props) {
                         color="white"
                     /> */}
         </Grid>
+        </Grid>
 	);
 }
 

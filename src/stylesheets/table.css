@@ -1,0 +1,69 @@
+.valuesBlue {
+  background-size: 500% 500%;
+  animation-name: tableBlue;
+  animation-duration: 4s;
+  background-color: "transparent";
+  border-radius: 20;
+  border-width: 1;
+}
+.valuesGreen {
+  background-size: 500% 500%;
+  animation-name: tableGreen;
+  animation-duration: 4s;
+  background-color: "transparent";
+  border-radius: 20;
+  border-width: 1;
+}
+.valuesYellow {
+  background-size: 500% 500%;
+  animation-name: tableYellow;
+  animation-duration: 4s;
+  background-color: "transparent";
+  border-radius: 20;
+  border-width: 1;
+}
+.valuesRed {
+  background-size: 500% 500%;
+  animation-name: tableRed;
+  animation-duration: 4s;
+  background-color: "transparent";
+  border-radius: 20;
+  border-width: 1;
+}
+.valuesOrange {
+  background-size: 500% 500%;
+  animation-name: tableOrange;
+  animation-duration: 4s;
+  background-color: "transparent";
+  border-radius: 20;
+  border-width: 1;
+}
+.simple {
+  background: "transparent";
+}
+@keyframes tableBlue {
+  0% {
+    background-color: #0a6affcc;
+  }
+}
+@keyframes tableGreen {
+  0% {
+    background-color: #49b667cc;
+  }
+}
+
+@keyframes tableYellow {
+  0% {
+    background-color: #ebc033cc;
+  }
+}
+@keyframes tableRed {
+  0% {
+    background-color: #ff0025cc;
+  }
+}
+@keyframes tableOrange {
+  0% {
+    background-color: #ff9800cc;
+  }
+}
