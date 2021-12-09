@@ -1714,6 +1714,16 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                                       useMesh={false}
                                       animate={true}
                                       borderColor="#ffffffff"
+                                      markers={[
+                                        {
+                                            axis:              'y',
+                                            position:          'right',
+                                            value:             1, // set value accroding to need
+                                            lineStyle:         {stroke: '#ff000088', strokeWidth: 2, strokeDasharray: 4},
+                                            legendOrientation: 'horizontal',
+                                            textStyle:         {fill: 'orange', fontWeight: 'bold'}
+                                        },
+                                    ]}
                                   />:null}
                             {/* {lineGraph.producedPieces && age === "All" ?
                         <ResponsiveLine
