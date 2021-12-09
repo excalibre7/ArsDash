@@ -11,8 +11,8 @@ import DefectStyle from "./DefectStyle";
 const useStyles = makeStyles((theme) => ({
 	fgCard2:{
 		marginTop: 80,
-		height: 365 ,
-		 width: "55%",
+		height: "85vh" ,
+		width: "60%",
 		alignContent:'center',
 		display: "flex",
 		justifyContent: "center",
@@ -44,7 +44,7 @@ function FgCards(props) {
 
 	return (
 		<Grid style={{display: 'flex'}}>
-        <Icon path={mdiChevronRight}
+        {/* <Icon path={mdiChevronRight}
                         title="Sync"
                         size={1.5}
                         horizontal
@@ -52,8 +52,8 @@ function FgCards(props) {
                         style={{alignSelf: 'center', marginRight: 20}}
                       //  onClick={() =>{}}
                         color="white"
-                    />
-        <Grid item xs={6} className={classes.fgCard1}>
+                    /> */}
+        <Grid item xs={3} className={classes.fgCard1}>
           <div >
             <Grid container style={{ flexDirection: "row"}}>
               <Grid style={{justifyContent : 'center'}}>
@@ -195,6 +195,7 @@ function FgCards(props) {
             </Grid>
             </div>
         </Grid>
+        <Grid item xs={8}>
         <div className={classes.fgCard2}>
                         <DefectStyle
                             data={{
@@ -215,7 +216,7 @@ function FgCards(props) {
                             backUrl={"https://qualitylite.bluekaktus.com/Sketches/202/9b913962-2c7f-436e-9117-edeff1043d4e.jpg"}
                         />
         </div>
-        <Icon path={mdiChevronLeft}
+        {/* <Icon path={mdiChevronLeft}
                         title="Sync"
                         size={1.5}
                         horizontal
@@ -223,7 +224,8 @@ function FgCards(props) {
                         style={{alignSelf: 'center', marginLeft: 20}}
                       //  onClick={() =>{}}
                         color="white"
-                    />
+                    /> */}
+        </Grid>
         </Grid>
 	);
 }

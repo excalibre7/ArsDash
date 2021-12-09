@@ -69,6 +69,7 @@ const [ topCards, setTopCards ] = useState({
   const [age, setAge] = React.useState('');
   const handleChange = (event) => {
     setAge(event.target.value);
+    setEnableAnimation(false)
   };
   const [startDate, setStartDate] = useState(Moment(new Date()).format('DD-MMM-yyyy'));
   const [endDate, setEndDate] = useState(Moment(new Date()).format('DD-MMM-yyyy'));
@@ -77,6 +78,7 @@ const [ topCards, setTopCards ] = useState({
   const [fgCodeList, setFgCodeList] = useState([]);
   const [selectedFgCode, setSelectedFgCode] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [enableAnimation, setEnableAnimation] = useState(true);
   const [msg, setMsg] = useState({});
   const [vendorTableDetails, setVendorTableDetails] = useState(
     {visible: true, 
@@ -103,6 +105,7 @@ const [ topCards, setTopCards ] = useState({
   const [nextTableDetails, setNextTableDetails] = useState({currentTable : "", nextTable: "", details: {}}); 
   const [currentTable, setCurrentTable] = useState("vendor");
   const [ searchWidthPh, setSearchWidthPh] = useState({width: "0px", ph: ""});
+  var timer;
   const [sequenceType, setSequenceType] = useState({recent: "", orderQty: -1, pending: -1, pcsProduced: -1, okPcs: -1, rectifiedPcs: -1, pcsInAlter: -1, rejectedPcs: -1, rejectPer: -1, dhuPer: -1});
   const [updateCell, setUpdateCell] = useState(2);
   const [updateHistory, setUpdateHistory] = useState(1);
@@ -112,7 +115,7 @@ const [ topCards, setTopCards ] = useState({
     if(props.data.loginState === 1)
     {
       socketRef.current.on("fromServer", ( msg ) => {
-        console.log("message summary!!",msg);
+        // console.log("message summary!!",msg);
         let temp = msg;
         temp.vendorGraphData.producedPieces.sort((a,b) => a["Produced Pieces"] - b["Produced Pieces"]).reverse();
         temp.vendorGraphData.okPieces.sort((a,b) => a["Ok Pieces"] - b["Ok Pieces"]).reverse();
@@ -123,7 +126,7 @@ const [ topCards, setTopCards ] = useState({
         setMsg(temp);
       })
       socketRef.current.on("connect", () => {
-        console.log("socket id summary!!!!!",socketRef.current.id); 
+        // console.log("socket id summary!!!!!",socketRef.current.id); 
       });
 		}}
   ,
@@ -131,18 +134,25 @@ const [ topCards, setTopCards ] = useState({
 	)
 
   useEffect(() => {
-    // setTimeout(() => {
-    //   switch(age)
-    //   {
-    //     case "": setAge("Ok"); break;
-    //     case "Ok":  setAge("Alter"); break;
-    //     case "Alter" : setAge("Rejected"); break;
-    //     case "Rejected": setAge("All"); break;
-    //     case "All": setAge("DHU"); break;
-    //     case "DHU": setAge(""); break;
-    //   }
-    // }, 5000);
-  }, [age])
+
+    if(enableAnimation){
+      console.log("enableAnimation")
+    timer = setTimeout(() => {
+      switch(age)
+      {
+        case "": setAge("Ok"); break;
+        case "Ok":  setAge("Alter"); break;
+        case "Alter" : setAge("Rejected"); break;
+        case "Rejected": setAge("All"); break;
+        case "All": setAge("DHU"); break;
+        case "DHU": setAge(""); break;
+      }
+    }, 15000);
+  }else{
+    console.log("DisableAnimation")
+    clearTimeout(timer);
+  }
+  },[age])
 
   useEffect (() =>{
     console.log("called!!!!!!!!")
@@ -196,7 +206,7 @@ const [ topCards, setTopCards ] = useState({
     //   key: 'Option 1'
     // },
         let temp = data.result;
-        console.log("data is", data.result);
+        // console.log("data is", data.result);
         for(let i = 0; i< temp.length; i++)
         {
           temp[i].cat = temp[i].filterCode;
@@ -268,12 +278,7 @@ if (props.data.loginState !== 1) {
   return <Redirect to="/" />;
 }
 
-if(loading)
-return(
 
-<Loader type="ThreeDots" color="white" style={{position: 'absolute', right : "50%"}} height={80} width={80}/>
-  
-)
   return (
     <MuiThemeProvider theme={THEME}>
     <div className="sc5">
@@ -349,8 +354,8 @@ return(
             />
     </MuiPickersUtilsProvider>
 }
-{/* <div>
-<Multiselect
+<div>
+{/* <Multiselect
   displayValue="key"
   id="css_custom"
   //onKeyPressFn={function noRefCheck(){}}
@@ -377,8 +382,8 @@ return(
       width: searchWidthPh.width,
     }
   }}
-/>
-</div> */}
+/> */}
+</div>
     {/* <input placeholder="Search..." style={{    border: "0px solid #00000044",
     borderRadius: "3px",
     padding:"8px 10px",
@@ -395,47 +400,48 @@ return(
                         color="blue"
                     />
     <Multiselect
-  displayValue="key"
-  id="css_custom"
-  //onKeyPressFn={function noRefCheck(){}}
-  onRemove={(e) => handleFgCodeChange(e)}
-  onSearch={(e) => console.log ("searched", e)}
-  onSelect={(e) => handleFgCodeChange(e)}
-  options={fgCodeList}
-  placeholder={searchWidthPh.ph}
-  style={{
-    chips: {
-      background: 'blue'
-    },
-    multiselectContainer: {
-      color: 'blue',
-    },
-    searchBox: 
-    {
-      border:"none",
-      'border-bottom': '1px solid blue',
-      'border-radius': '0px',
-    //  float:"left", // this gives error
-      transition: "0.4s",
-      width: searchWidthPh.width,
-  }
-  }}
+      displayValue="key"
+      id="css_custom"
+      //onKeyPressFn={function noRefCheck(){}}
+      onRemove={(e) => handleFgCodeChange(e)}
+      // onSearch={(e) => console.log ("searched", e)}
+      onSelect={(e) => handleFgCodeChange(e)}
+      options={fgCodeList}
+      placeholder={searchWidthPh.ph}
+      style={{
+        chips: {
+          background: 'blue'
+        },
+        multiselectContainer: {
+          color: 'blue',
+        },
+        searchBox: 
+        {
+          border:"none",
+          'border-bottom': '1px solid blue',
+          'border-radius': '0px',
+        //  float:"left", // this gives error
+          transition: "0.4s",
+          minWidth:200,
+          width: searchWidthPh.width,
+      }
+      }}
 />
 </div>
     <div><Button   onClick={() => {
-      console.log("socket.current", socketRef.current);
+      // console.log("socket.current", socketRef.current);
     //  socketRef.current.disconnect();
       props.data.setLoginState(-1);
     //  props.data.setSocketID("");
   }}>SignOut</Button>
   </div>
         </Grid>
-        {vendorTableDetails.visible ? <VendorGraph age={age} handleChange={handleChange} topCardsH={vendorTableDetails.topCardsH} topCards={vendorTableDetails.topCards} graphData={vendorTableDetails.graphData} lineGraph={vendorTableDetails.lineGraph}/>:null}
+        {vendorTableDetails.visible ? <VendorGraph age={age} handleChange={handleChange} topCardsH={vendorTableDetails.topCardsH} topCards={vendorTableDetails.topCards} graphData={vendorTableDetails.graphData} lineGraph={vendorTableDetails.lineGraph} />:null}
         {factoryTableDetails.visible ? <VendorGraph age={age} handleChange={handleChange} topCardsH={factoryTableDetails.topCardsH} topCards={factoryTableDetails.topCards} graphData={factoryTableDetails.graphData} lineGraph={factoryTableDetails.lineGraph}/>:null}
       </section>
-      {/* <section className="two">
+      <section className="two">
         <FgCards />
-      </section> */}
+      </section>
       <section className="three">
       <div className="wrapper">
 
