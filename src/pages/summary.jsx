@@ -457,9 +457,9 @@ if (props.data.loginState !== 1) {
         {vendorTableDetails.visible ? <VendorGraph age={age} handleChange={handleChange} topCardsH={vendorTableDetails.topCardsH} topCards={vendorTableDetails.topCards} graphData={vendorTableDetails.graphData} lineGraph={vendorTableDetails.lineGraph} />:null}
         {factoryTableDetails.visible ? <VendorGraph age={age} handleChange={handleChange} topCardsH={factoryTableDetails.topCardsH} topCards={factoryTableDetails.topCards} graphData={factoryTableDetails.graphData} lineGraph={factoryTableDetails.lineGraph}/>:null}
       </section>
-      <section className="two">
+      {/* <section className="two">
         <FgCards />
-      </section>
+      </section> */}
       <section className="three">
       <div className="wrapper">
 
