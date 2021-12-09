@@ -1462,6 +1462,16 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
         motionConfig="wobbly"
         ariaLabel="Nivo bar chart demo"
         barAriaLabel={function(e){return e.id+": "+e.formattedValue+" in country: "+e.indexValue}}
+        markers={[
+          {
+              axis:              'y',
+              position:          'right',
+              value:             5, // set value accroding to need
+              lineStyle:         {stroke: '#ff000088', strokeWidth: 2, strokeDasharray: 4},
+              legendOrientation: 'horizontal',
+              textStyle:         {fill: 'orange', fontWeight: 'bold'}
+          },
+      ]}
         />:null
         }
         </div>
@@ -1718,7 +1728,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                                         {
                                             axis:              'y',
                                             position:          'right',
-                                            value:             1, // set value accroding to need
+                                            value:             5, // set value accroding to need
                                             lineStyle:         {stroke: '#ff000088', strokeWidth: 2, strokeDasharray: 4},
                                             legendOrientation: 'horizontal',
                                             textStyle:         {fill: 'orange', fontWeight: 'bold'}
