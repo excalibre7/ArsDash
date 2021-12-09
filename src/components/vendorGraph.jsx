@@ -514,7 +514,7 @@ export default function VendorGraph(props) {
       end = temp.length;
        for(let i = 0; i < lineGraph.dhu.length; i++)
        {
-         temp[i].y = parseFloat(temp[i].y)  * 100;
+         temp[i].y = parseFloat(temp[i].y);
        }
      }
       if(temp)
