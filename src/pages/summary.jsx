@@ -104,13 +104,14 @@ const [ topCards, setTopCards ] = useState({
   const [factoryTableDetails, setFactoryTableDetails] = useState({visible: false, topCards: {}, topCardsH:{}, graphData: {}, lineGraph: [], tableData: [], tableDataH: [], input: {}});
   const [nextTableDetails, setNextTableDetails] = useState({currentTable : "", nextTable: "", details: {}}); 
   const [currentTable, setCurrentTable] = useState("vendor");
-  const [ searchWidthPh, setSearchWidthPh] = useState({width: "0px", ph: ""});
+  const [ searchWidthPh, setSearchWidthPh] = useState({width: "0px", ph: "Search brand or fgCode"});
   var timer;
   const [sequenceType, setSequenceType] = useState({recent: "", orderQty: -1, pending: -1, pcsProduced: -1, okPcs: -1, rectifiedPcs: -1, pcsInAlter: -1, rejectedPcs: -1, rejectPer: -1, dhuPer: -1});
   const [updateCell, setUpdateCell] = useState(2);
   const [updateHistory, setUpdateHistory] = useState(1);
  
   const socketRef = props.data.socketRef;
+  const multiselectRef = React.useRef();
   useEffect(() => {
     if(props.data.loginState === 1)
     {
@@ -167,7 +168,6 @@ const [ topCards, setTopCards ] = useState({
   },[age])
 
   useEffect (() =>{
-    console.log("called!!!!!!!!")
     if(sequenceType.recent !== "")
     sequenceChange();
   }, [sequenceType])
@@ -244,7 +244,6 @@ const [ topCards, setTopCards ] = useState({
     }
     if(key !== "")
     {
-      console.log("here!!!!!!!!")
       if(sequenceType[sequenceType.recent] === 1)
       {
         
@@ -278,12 +277,15 @@ const handleTimeChange = (event) => {
 };
 
 const handleFgCodeChange = (event) => {
-  setSelectedFgCode(event);
+  let temp = event[0];
+  setSelectedFgCode(temp); // // remove when want multi
+  setSearchWidthPh({...searchWidthPh, ph: event[0].filterType + ": "+ event[0].filterValue})
   console.log("event!!!!!!!!!!!!1", event);
-  if(event.length > 0)
-  props.data.socketRef.current.emit("setFilters", [event[0]]);
-  else
-  props.data.socketRef.current.emit("setFilters", []);
+  multiselectRef.current.resetSelectedValues(event);
+  // if(event.length > 0)
+  // props.data.socketRef.current.emit("setFilters", [event[0]]);
+  // else
+  // props.data.socketRef.current.emit("setFilters", []);
 }
 
 if (props.data.loginState !== 1) {
@@ -402,9 +404,9 @@ if (props.data.loginState !== 1) {
     verticalAlign: "middle",
     outline: "none",}}onChange={event => setSearchText(event.target.value)} /> */}
     <div style ={{display: 'flex', maxWidth: "600px", marginLeft: 20, marginRight: 20 }}                         
-    onMouseEnter={() => setSearchWidthPh({width: "550px", ph: "Search Brand or FgCode"})}
+    onMouseEnter={() => setSearchWidthPh({ ... searchWidthPh, width: "550px"})}
     onMouseLeave={() => {if(selectedFgCode.length === 0)
-                          setSearchWidthPh({width: "0px", ph: ""})
+                          setSearchWidthPh({...searchWidthPh, width: "0px"})
                         }}>
     <Icon path={mdiMagnify}
                         size={2}
@@ -419,8 +421,11 @@ if (props.data.loginState !== 1) {
       // onSearch={(e) => console.log ("searched", e)}
       onSelect={(e) => handleFgCodeChange(e)}
       options={fgCodeList}
-      singleSelect={true}
-      placeholder={searchWidthPh.ph}
+    //  singleSelect={true}
+    //selectionLimit={1}
+    selectedValues={selectedFgCode} // remove when want multi
+      placeholder={ searchWidthPh.width === "0px" ? "" : searchWidthPh.ph} 
+      ref={multiselectRef}
       style={{
         chips: {
           background: 'blue'
