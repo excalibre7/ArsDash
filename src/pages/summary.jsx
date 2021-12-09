@@ -282,10 +282,10 @@ const handleFgCodeChange = (event) => {
   setSearchWidthPh({...searchWidthPh, ph: event[0].filterType + ": "+ event[0].filterValue})
   console.log("event!!!!!!!!!!!!1", event);
   multiselectRef.current.resetSelectedValues(event);
-  // if(event.length > 0)
-  // props.data.socketRef.current.emit("setFilters", [event[0]]);
-  // else
-  // props.data.socketRef.current.emit("setFilters", []);
+  if(event.length > 0)
+  props.data.socketRef.current.emit("setFilters", [event[0]]);
+  else
+  props.data.socketRef.current.emit("setFilters", []);
 }
 
 if (props.data.loginState !== 1) {
