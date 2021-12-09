@@ -19,7 +19,7 @@ import {
 } from "@material-ui/core";
 import io from "socket.io-client";
 import { withStyles } from "@material-ui/styles";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import TopBar from "../components/topbar";
 import "../stylesheets/App.css";
 // import "../stylesheets/activeOrders.css";
@@ -29,7 +29,7 @@ import Icon from '@mdi/react';
 import { ResponsiveBar } from '@nivo/bar';
 import "../stylesheets/progressBar.css";
 import CountUp from "react-countup";
-import { borderRadius, fontWeight, margin } from "@mui/system";
+import { borderColor, borderRadius, fontWeight, margin } from "@mui/system";
 import DateFnsUtils from '@date-io/date-fns';
 import { DatePicker,KeyboardDatePicker, MuiPickersUtilsProvider  } from "@material-ui/pickers";
 import Moment from 'moment';
@@ -98,12 +98,15 @@ const [ topCards, setTopCards ] = useState({
     "INACTIVE_LINES":0,
     "ACTIVE_VENDORS":0,
     
-  }, topCardsH:{}, graphData: {}, lineGraph:[], tableData: [], inupt: {}}); // input will take the data for next screen API
-  const [factoryTableDetails, setFactoryTableDetails] = useState({visible: false, topCards: {}, topCardsH:{}, graphData: {}, lineGraph: [], tableData: [], input: {}});
+  }, topCardsH:{}, graphData: {}, lineGraph:[], tableData: [], tableDataH: [], inupt: {}}); // input will take the data for next screen API
+  const [factoryTableDetails, setFactoryTableDetails] = useState({visible: false, topCards: {}, topCardsH:{}, graphData: {}, lineGraph: [], tableData: [], tableDataH: [], input: {}});
   const [nextTableDetails, setNextTableDetails] = useState({currentTable : "", nextTable: "", details: {}}); 
   const [currentTable, setCurrentTable] = useState("vendor");
   const [ searchWidthPh, setSearchWidthPh] = useState({width: "0px", ph: ""});
-
+  const [sequenceType, setSequenceType] = useState({recent: "", orderQty: -1, pending: -1, pcsProduced: -1, okPcs: -1, rectifiedPcs: -1, pcsInAlter: -1, rejectedPcs: -1, rejectPer: -1, dhuPer: -1});
+  const [updateCell, setUpdateCell] = useState(2);
+  const [updateHistory, setUpdateHistory] = useState(1);
+ 
   const socketRef = props.data.socketRef;
   useEffect(() => {
     if(props.data.loginState === 1)
@@ -128,18 +131,24 @@ const [ topCards, setTopCards ] = useState({
 	)
 
   useEffect(() => {
-    setTimeout(() => {
-      switch(age)
-      {
-        case "": setAge("Ok"); break;
-        case "Ok":  setAge("Alter"); break;
-        case "Alter" : setAge("Rejected"); break;
-        case "Rejected": setAge("All"); break;
-        case "All": setAge("DHU"); break;
-        case "DHU": setAge(""); break;
-      }
-    }, 5000);
+    // setTimeout(() => {
+    //   switch(age)
+    //   {
+    //     case "": setAge("Ok"); break;
+    //     case "Ok":  setAge("Alter"); break;
+    //     case "Alter" : setAge("Rejected"); break;
+    //     case "Rejected": setAge("All"); break;
+    //     case "All": setAge("DHU"); break;
+    //     case "DHU": setAge(""); break;
+    //   }
+    // }, 5000);
   }, [age])
+
+  useEffect (() =>{
+    console.log("called!!!!!!!!")
+    if(sequenceType.recent !== "")
+    sequenceChange();
+  }, [sequenceType])
 
   useEffect(() =>{
     let temp = []
@@ -149,10 +158,12 @@ const [ topCards, setTopCards ] = useState({
     }
     switch(currentTable)
     {
-      case "vendor": setVendorTableDetails({...vendorTableDetails, topCardsH: vendorTableDetails.topCards,  topCards: msg.topCards, graphData: msg.vendorGraphData, lineGraph: temp, tableData: msg.vendorTableData}); break;
-      case "factory": setFactoryTableDetails({...factoryTableDetails,  topCardsH: factoryTableDetails.topCards, topCards: msg.topCards, graphData: msg.vendorGraphData, lineGraph: temp, tableData: msg.vendorTableData}); break;
-      default: setVendorTableDetails({...vendorTableDetails, topCardsH: vendorTableDetails.topCards, topCards: msg.topCards, graphData: msg.vendorGraphData, lineGraph: temp, tableData: msg.vendorTableData}); break;
+      case "vendor": setVendorTableDetails({...vendorTableDetails, topCardsH: vendorTableDetails.topCards,  topCards: msg.topCards, graphData: msg.vendorGraphData, lineGraph: temp, tableDataH: vendorTableDetails.tableData, tableData: msg.vendorTableData}); break;
+      case "factory": setFactoryTableDetails({...factoryTableDetails,  topCardsH: factoryTableDetails.topCards, topCards: msg.topCards, graphData: msg.vendorGraphData, lineGraph: temp, tableDataH: factoryTableDetails.tableData, tableData: msg.vendorTableData}); break;
+      default: setVendorTableDetails({...vendorTableDetails, topCardsH: vendorTableDetails.topCards, topCards: msg.topCards, graphData: msg.vendorGraphData, lineGraph: temp, tableDataH: vendorTableDetails.tableData, tableData: msg.vendorTableData}); break;
     }
+  // setUpdateCell(2);
+    sequenceChange();
     setLoading(false);
   },[msg])
 
@@ -195,6 +206,47 @@ const [ topCards, setTopCards ] = useState({
       });
   }, [])
 
+  const sequenceChange = () =>{
+    let key = "", message = JSON.parse(JSON.stringify(msg));
+
+    switch(sequenceType.recent){
+      case "orderQty": key = "orderQty"; break;
+      case "pending": key = "pendingPieces"; break;
+      case "pcsProduced": key = "producedPieces"; break;
+      case "okPcs": key = "okPieces"; break;
+      case "rectifiedPcs": key = "alteredPieces"; break;
+      case "pcsInAlter": key = "pcsInAlteration"; break;
+      case "rejectedPcs": key = "rejectedPieces"; break;
+      case "rejectPer": key = "rejPerc"; break;
+      case "dhuPer": key = "dhu"; break;
+    }
+    if(key !== "")
+    {
+      console.log("here!!!!!!!!")
+      if(sequenceType[sequenceType.recent] === 1)
+      {
+        
+        if(key !== "rejPerc" && key !== "dhu")    
+        message.vendorTableData.sort((a,b) => {if(a["locationName"] !== "Total") {return a[key] - b[key]} else{return -10000}}).reverse(); // last value should not be less than -10000 or else total will be above it
+        else
+        message.vendorTableData.sort((a,b) => {if(a["locationName"] !== "Total") {return parseFloat(a[key].slice(0, a[key].length - 1)) - parseFloat(b[key].slice(0, b[key].length - 1))} else{return -10000}}).reverse(); // last value should not be less than -10000 or else total will be above it
+      }
+      switch(currentTable)
+    {
+      case "vendor": setVendorTableDetails({...vendorTableDetails, tableData: message.vendorTableData}); break;
+      case "factory": setFactoryTableDetails({...factoryTableDetails, tableData: message.vendorTableData}); break;
+      default: setVendorTableDetails({...vendorTableDetails, tableData: message.vendorTableData}); break;
+    }
+    }
+    if(sequenceType[sequenceType.recent] === 1)
+    {
+      setUpdateHistory(0);
+    }
+    else
+    {
+      setUpdateHistory(1);
+    }
+  }
 
 const handleTimeChange = (event) => {
   setSelectedDate(event.target.value);
@@ -386,9 +438,10 @@ return(
       </section> */}
       <section className="three">
       <div className="wrapper">
+
               <div className={classes.tableO}>
-              {vendorTableDetails.visible ? <VendorTable data={vendorTableDetails.tableData} nextTableFunc={setNextTableDetails} /> : null}
-              {factoryTableDetails.visible ? <FactoryTable data={factoryTableDetails.tableData} nextTableFunc={setNextTableDetails} /> : null}
+              {vendorTableDetails.visible ? <VendorTable data={vendorTableDetails.tableData} nextTableFunc={setNextTableDetails} tableDataH={vendorTableDetails.tableDataH} setSequenceType={setSequenceType} sequenceType={sequenceType} setUpdateCell={setUpdateCell} updateCell={updateCell} setUpdateHistory={setUpdateHistory} updateHistory={updateHistory}/> : null}
+              {factoryTableDetails.visible ? <FactoryTable data={factoryTableDetails.tableData} nextTableFunc={setNextTableDetails}  tableDataH={factoryTableDetails.tableDataH} setSequenceType={setSequenceType} sequenceType={sequenceType} setUpdateCell={setUpdateCell} updateCell={updateCell} setUpdateHistory={setUpdateHistory} updateHistory={updateHistory}/> : null}
               </div>
             </div>
       </section>
