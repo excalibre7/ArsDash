@@ -234,7 +234,7 @@ export default function VendorTable(props) {
                   </TableHead>
                   
                   {data
-                    .map((row, index) => (
+                    .map((row, index) => ( row.orderQty !== 0 &&
                       <StyledTableRow 
                       // onClick={() =>{
                       //   nextTableFunc({currentTable : "vendor", nextTable: "factory", details: {item: row}})
