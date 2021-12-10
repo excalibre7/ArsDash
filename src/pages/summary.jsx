@@ -24,7 +24,7 @@ import TopBar from "../components/topbar";
 import "../stylesheets/App.css";
 // import "../stylesheets/activeOrders.css";
 import { Redirect, Link } from "react-router-dom";
-import { mdiFormatLetterCase, mdiDotsVertical, mdiMagnify } from '@mdi/js';
+import { mdiFormatLetterCase, mdiDotsVertical, mdiMagnify, mdiCloseThick  } from '@mdi/js';
 import Icon from '@mdi/react';
 import { ResponsiveBar } from '@nivo/bar';
 import "../stylesheets/progressBar.css";
@@ -81,6 +81,7 @@ const [ topCards, setTopCards ] = useState({
   const [loading, setLoading] = useState(true);
   const [enableAnimation, setEnableAnimation] = useState(true);
   const [msg, setMsg] = useState({});
+  const [msgH, setMsgH] = useState({});
   const [vendorTableDetails, setVendorTableDetails] = useState(
     {visible: true, 
       topCards: {
@@ -117,16 +118,19 @@ const [ topCards, setTopCards ] = useState({
   useEffect(() => {
     if(props.data.loginState === 1)
     {
-      socketRef.current.on("fromServer", ( msg ) => {
-        console.log("message summary!!",msg);
-        let temp = msg;
+      socketRef.current.on("fromServer", ( msg1 ) => {
+        console.log("message summary!!",msg1);
+        
+        let temp = msg1;
         temp.vendorGraphData.producedPieces.sort((a,b) => a["Produced Pieces"] - b["Produced Pieces"]).reverse();
         temp.vendorGraphData.okPieces.sort((a,b) => a["Ok Pieces"] - b["Ok Pieces"]).reverse();
         temp.vendorGraphData.alteredPieces.sort((a,b) => a["Altered Pieces"] - b["Altered Pieces"]).reverse();
         temp.vendorGraphData.rejectedPieces.sort((a,b) => a["Rejected Pieces"] - b["Rejected Pieces"]).reverse();
         temp.vendorGraphData.allPieces.sort((a,b) => a["All Pieces"] - b["All Pieces"]).reverse();
         temp.vendorGraphData.dhu.sort((a,b) => a["DHU"] - b["DHU"]).reverse();
-        setMsg(temp);
+        setMsg((arg)=>{
+          setMsgH(JSON.parse(JSON.stringify({...arg})))
+          return(temp)})
       })
       socketRef.current.on("filterObjects", ( msg ) => {
         // console.log("message summary!!",msg);
@@ -180,11 +184,12 @@ const [ topCards, setTopCards ] = useState({
     {
       temp = msg.vendorLineGraph[0].locationDetails;
     }
+    if(msgH.vendorTableData) console.log("msgH and msg!!!!!", msgH.vendorTableData, msg.vendorTableData);
     switch(currentTable)
     {
-      case "vendor": setVendorTableDetails({...vendorTableDetails, topCardsH: vendorTableDetails.topCards,  topCards: msg.topCards, graphData: msg.vendorGraphData, lineGraph: temp, tableDataH: vendorTableDetails.tableData, tableData: msg.vendorTableData}); break;
-      case "factory": setFactoryTableDetails({...factoryTableDetails,  topCardsH: factoryTableDetails.topCards, topCards: msg.topCards, graphData: msg.vendorGraphData, lineGraph: temp, tableDataH: factoryTableDetails.tableData, tableData: msg.vendorTableData}); break;
-      default: setVendorTableDetails({...vendorTableDetails, topCardsH: vendorTableDetails.topCards, topCards: msg.topCards, graphData: msg.vendorGraphData, lineGraph: temp, tableDataH: vendorTableDetails.tableData, tableData: msg.vendorTableData}); break;
+      case "vendor": setVendorTableDetails({...vendorTableDetails, topCardsH: vendorTableDetails.topCards,  topCards: msg.topCards, graphData: msg.vendorGraphData, lineGraph: temp, tableDataH: msgH.vendorTableData ? msgH.vendorTableData : vendorTableDetails.tableData, tableData: msg.vendorTableData}); break;
+      case "factory": setFactoryTableDetails({...factoryTableDetails,  topCardsH: factoryTableDetails.topCards, topCards: msg.topCards, graphData: msg.vendorGraphData, lineGraph: temp, tableDataH: msgH.vendorTableData ? msgH.vendorTableData : vendorTableDetails.tableData, tableData: msg.vendorTableData}); break;
+      default: setVendorTableDetails({...vendorTableDetails, topCardsH: vendorTableDetails.topCards, topCards: msg.topCards, graphData: msg.vendorGraphData, lineGraph: temp, tableDataH: msgH.vendorTableData ? msgH.vendorTableData : vendorTableDetails.tableData, tableData: msg.vendorTableData}); break;
     }
     setDefectsHeatMap(msg.defectsHeatMap);
     setFgCodeKPIdata(msg.fgCodeKPIdata);
@@ -280,15 +285,23 @@ const handleTimeChange = (event) => {
 };
 
 const handleFgCodeChange = (event) => {
-  let temp = event[0];
-  setSelectedFgCode(temp); // // remove when want multi
+  let temp = event[0]; // Ideally temp should be an array and this line should throw error but code works fine with this and if temp is converted to and array, it gives error.
+  setSelectedFgCode(temp); //  remove when want multi
+  if(event[0].filterType === "")
+  {
+  setSearchWidthPh({width: "0px", ph: "Search brand or fgCode"})
+
+  }
+  else
+  {
   setSearchWidthPh({...searchWidthPh, ph: event[0].filterType + ": "+ event[0].filterValue})
+  }
   console.log("event!!!!!!!!!!!!1", event);
   multiselectRef.current.resetSelectedValues(event);
-  if(event.length > 0)
+//  if(event.length > 0)
   props.data.socketRef.current.emit("setFilters", [event[0]]);
-  else
-  props.data.socketRef.current.emit("setFilters", []);
+// else
+ // props.data.socketRef.current.emit("setFilters", []);
 }
 
 if (props.data.loginState !== 1) {
@@ -420,9 +433,9 @@ if (props.data.loginState !== 1) {
       displayValue="key"
       id="css_custom"
       //onKeyPressFn={function noRefCheck(){}}
-      onRemove={(e) => handleFgCodeChange(e)}
+    //  onRemove={(e) => handleFgCodeChange(e)}
       // onSearch={(e) => console.log ("searched", e)}
-      onSelect={(e) => handleFgCodeChange(e)}
+      onSelect={(e) => setTimeout(() => handleFgCodeChange(e), 300)} // state take a little time to update event hence added some delay
       options={fgCodeList}
     //  singleSelect={true}
     //selectionLimit={1}
@@ -447,14 +460,16 @@ if (props.data.loginState !== 1) {
           width: searchWidthPh.width,
       }
       }}
-/>
+      />
+      {searchWidthPh.width !== "0px" ? 
+        <Icon path={mdiCloseThick} size={2} color="blue" onClick={() =>{handleFgCodeChange([{ filterID: 0, filterType: "", filterValue: ""}])}}  /> : null }
 </div>
     <div><Button   onClick={() => {
       // console.log("socket.current", socketRef.current);
     //  socketRef.current.disconnect();
       props.data.setLoginState(-1);
     //  props.data.setSocketID("");
-  }}>SignOut</Button>
+  }}>SignOut</Button> 
   </div>
         </Grid>
         {vendorTableDetails.visible ? <VendorGraph age={age} handleChange={handleChange} topCardsH={vendorTableDetails.topCardsH} topCards={vendorTableDetails.topCards} graphData={vendorTableDetails.graphData} lineGraph={vendorTableDetails.lineGraph} />:null}
