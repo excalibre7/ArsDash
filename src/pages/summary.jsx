@@ -107,8 +107,9 @@ const [ topCards, setTopCards ] = useState({
   const [ searchWidthPh, setSearchWidthPh] = useState({width: "0px", ph: "Search brand or fgCode"});
   var timer;
   const [sequenceType, setSequenceType] = useState({recent: "", orderQty: -1, pending: -1, pcsProduced: -1, okPcs: -1, rectifiedPcs: -1, pcsInAlter: -1, rejectedPcs: -1, rejectPer: -1, dhuPer: -1});
-  const [updateCell, setUpdateCell] = useState(2);
   const [updateHistory, setUpdateHistory] = useState(1);
+  const [defectsHeatMap, setDefectsHeatMap] = useState([]);
+  const [fgCodeKPIdata, setFgCodeKPIdata] = useState([]);
  
   const socketRef = props.data.socketRef;
   const multiselectRef = React.useRef();
@@ -116,7 +117,7 @@ const [ topCards, setTopCards ] = useState({
     if(props.data.loginState === 1)
     {
       socketRef.current.on("fromServer", ( msg ) => {
-        // console.log("message summary!!",msg);
+         console.log("message summary!!",msg);
         let temp = msg;
         temp.vendorGraphData.producedPieces.sort((a,b) => a["Produced Pieces"] - b["Produced Pieces"]).reverse();
         temp.vendorGraphData.okPieces.sort((a,b) => a["Ok Pieces"] - b["Ok Pieces"]).reverse();
@@ -184,7 +185,8 @@ const [ topCards, setTopCards ] = useState({
       case "factory": setFactoryTableDetails({...factoryTableDetails,  topCardsH: factoryTableDetails.topCards, topCards: msg.topCards, graphData: msg.vendorGraphData, lineGraph: temp, tableDataH: factoryTableDetails.tableData, tableData: msg.vendorTableData}); break;
       default: setVendorTableDetails({...vendorTableDetails, topCardsH: vendorTableDetails.topCards, topCards: msg.topCards, graphData: msg.vendorGraphData, lineGraph: temp, tableDataH: vendorTableDetails.tableData, tableData: msg.vendorTableData}); break;
     }
-  // setUpdateCell(2);
+    setDefectsHeatMap(msg.defectsHeatMap);
+    setFgCodeKPIdata(msg.fgCodeKPIdata);
     sequenceChange();
     setLoading(false);
   },[msg])
@@ -457,15 +459,17 @@ if (props.data.loginState !== 1) {
         {vendorTableDetails.visible ? <VendorGraph age={age} handleChange={handleChange} topCardsH={vendorTableDetails.topCardsH} topCards={vendorTableDetails.topCards} graphData={vendorTableDetails.graphData} lineGraph={vendorTableDetails.lineGraph} />:null}
         {factoryTableDetails.visible ? <VendorGraph age={age} handleChange={handleChange} topCardsH={factoryTableDetails.topCardsH} topCards={factoryTableDetails.topCards} graphData={factoryTableDetails.graphData} lineGraph={factoryTableDetails.lineGraph}/>:null}
       </section>
-      {/* <section className="two">
-        <FgCards />
-      </section> */}
+      {fgCodeKPIdata && fgCodeKPIdata.length >0 ?
+      <section className="two">
+        <FgCards fgCodeKPIdata={fgCodeKPIdata} defectsHeatMap={defectsHeatMap}/>
+      </section>
+      : null}
       <section className="three">
       <div className="wrapper">
 
               <div className={classes.tableO}>
-              {vendorTableDetails.visible ? <VendorTable data={vendorTableDetails.tableData} nextTableFunc={setNextTableDetails} tableDataH={vendorTableDetails.tableDataH} setSequenceType={setSequenceType} sequenceType={sequenceType} setUpdateCell={setUpdateCell} updateCell={updateCell} setUpdateHistory={setUpdateHistory} updateHistory={updateHistory}/> : null}
-              {factoryTableDetails.visible ? <FactoryTable data={factoryTableDetails.tableData} nextTableFunc={setNextTableDetails}  tableDataH={factoryTableDetails.tableDataH} setSequenceType={setSequenceType} sequenceType={sequenceType} setUpdateCell={setUpdateCell} updateCell={updateCell} setUpdateHistory={setUpdateHistory} updateHistory={updateHistory}/> : null}
+              {vendorTableDetails.visible ? <VendorTable data={vendorTableDetails.tableData} nextTableFunc={setNextTableDetails} tableDataH={vendorTableDetails.tableDataH} setSequenceType={setSequenceType} sequenceType={sequenceType} setUpdateHistory={setUpdateHistory} updateHistory={updateHistory}/> : null}
+              {factoryTableDetails.visible ? <FactoryTable data={factoryTableDetails.tableData} nextTableFunc={setNextTableDetails}  tableDataH={factoryTableDetails.tableDataH} setSequenceType={setSequenceType} sequenceType={sequenceType} setUpdateHistory={setUpdateHistory} updateHistory={updateHistory}/> : null}
               </div>
             </div>
       </section>

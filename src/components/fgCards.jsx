@@ -40,32 +40,79 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function FgCards(props) {
-	let classes = useStyles();
+  const {fgCodeKPIdata, defectsHeatMap} = props;
+  const classes = useStyles();
+   const [index, setIndex] = useState(0);
+   const [frontDefects, setFrontDefects] = useState([]);
+   const [backDefects, setBackDefects] = useState([]);
+   const [images, setImages] = useState({front: "", back: ""});
+
+
+   useEffect(() =>{
+     let front =[], back =[], frontImg = "", backImg = "";
+     for( let i = 0; i < defectsHeatMap[index].defectDetails.length; i++)
+     {
+      if(defectsHeatMap[index].defectDetails[i].coordType === "B"){
+      //  back.push(defectsHeatMap[index].defectDetails[i])
+        back.push({X: defectsHeatMap[index].defectDetails[i].xCoord, Y: defectsHeatMap[index].defectDetails[i].yCoord})
+      }
+      else if (defectsHeatMap[index].defectDetails[i].coordType === "F"){
+        //front.push(defectsHeatMap[index].defectDetails[i])
+        front.push({X: defectsHeatMap[index].defectDetails[i].xCoord, Y: defectsHeatMap[index].defectDetails[i].yCoord})
+      }
+     }
+
+     setFrontDefects(front);
+     setBackDefects(back);
+     for(let i = 0; i < defectsHeatMap[index].imageDetails.length; i++)
+     {
+       if(defectsHeatMap[index].imageDetails[i].imageType === "FC"){
+         frontImg = defectsHeatMap[index].imageDetails[i].imageUrl;
+       }
+       if(defectsHeatMap[index].imageDetails[i].imageType === "BC"){
+        backImg = defectsHeatMap[index].imageDetails[i].imageUrl;
+      }
+     }
+
+     setImages({front: frontImg, back: backImg});
+   },[index, fgCodeKPIdata])
 
 	return (
 		<Grid style={{display: 'flex'}}>
+      {fgCodeKPIdata.length >1 &&
         <Icon path={mdiChevronRight}
                         title="Sync"
                         size={1.5}
                         horizontal
                         vertical
                         style={{alignSelf: 'center', marginRight: 20}}
-                      //  onClick={() =>{}}
+                        onClick={() =>{
+
+                          if(index === 0)
+                          {
+                            setIndex(fgCodeKPIdata.length - 1);
+                          }
+                          else
+                          {
+                            setIndex(index - 1);
+                          }
+                        }}
                         color="white"
                     />
+      }
         <Grid item xs={4} style={{marginTop: 70}} >
         <Grid className={classes.fgCard1}>
           <div >
             <Grid container style={{ flexDirection: "row"}}>
               <Grid style={{justifyContent : 'center'}}>
-                <h1 >
-                {"fgCode:"}
-                </h1>
+                <h5 >
+                {"fgCode: "}
+                </h5>
               </Grid>
                <Grid>
-                <h1>
-                {"  xyz"}
-                </h1>
+                <h5>
+                {fgCodeKPIdata[index].fgCode}
+                </h5>
                </Grid>
             </Grid>
             </div>
@@ -78,7 +125,7 @@ function FgCards(props) {
               </Grid>
                <Grid>
                 <h3>
-                {"  CRI INDUS"}
+                {fgCodeKPIdata[index].companyName}
                 </h3>
                </Grid>
             </Grid>
@@ -120,7 +167,7 @@ function FgCards(props) {
               </Grid>
                 <Grid>
                 <h4>
-                {"xyz"}
+                {fgCodeKPIdata[index].startDate}
                 </h4>
                </Grid>
             </Grid>
@@ -134,7 +181,7 @@ function FgCards(props) {
               </Grid>
                 <Grid>
                 <h4>
-                {"xyz"}
+                {fgCodeKPIdata[index].endDate}
                 </h4>
                </Grid>
             </Grid>
@@ -145,12 +192,12 @@ function FgCards(props) {
         <Grid container style={{ flexDirection: "row"}}>
               <Grid>
                 <h4 >
-                {"Pcs/Hour"}
+                {fgCodeKPIdata[index].pcsChecked/fgCodeKPIdata[index].workHours}
                 </h4>
               </Grid>
                 <Grid>
                 <h4>
-                {"xyz"}
+                {"Pcs/Hour"}
                 </h4>
                </Grid>
             </Grid>
@@ -166,76 +213,22 @@ function FgCards(props) {
               </Grid>
             </Grid>
             </div>
-            <div>
-        <Grid container style={{ flexDirection: "row"}}>
+            {fgCodeKPIdata[index].topDefects.map((item, index) =>
+            (
+        <Grid container style={{ flexDirection: "row", justifyContent: 'space-between'}}>
               <Grid>
-                <h4 >
-                {"1"}
-                </h4>
+                <h5 >
+                {index + " " + item.defectName}
+                </h5>
               </Grid>
                 <Grid>
-                <h4>
-                {"xyz"}
-                </h4>
+                <h5>
+                {item.frequency}
+                </h5>
                </Grid>
             </Grid>
-            </div>
-            <div>
-        <Grid container style={{ flexDirection: "row"}}>
-              <Grid>
-                <h4 >
-                {"2"}
-                </h4>
-              </Grid>
-                <Grid>
-                <h4>
-                {"xyz"}
-                </h4>
-               </Grid>
-            </Grid>
-            </div>
-            <div>
-        <Grid container style={{ flexDirection: "row"}}>
-              <Grid>
-                <h4 >
-                {"3"}
-                </h4>
-              </Grid>
-                <Grid>
-                <h4>
-                {"xyz"}
-                </h4>
-               </Grid>
-            </Grid>
-            </div>
-            <div>
-        <Grid container style={{ flexDirection: "row"}}>
-              <Grid>
-                <h4 >
-                {"4"}
-                </h4>
-              </Grid>
-                <Grid>
-                <h4>
-                {"xyz"}
-                </h4>
-               </Grid>
-            </Grid>
-            </div>
-            <div>
-        <Grid container style={{ flexDirection: "row"}}>
-              <Grid>
-                <h4 >
-                {"5"}
-                </h4>
-              </Grid>
-                <Grid>
-                <h4>
-                {"xyz"}
-                </h4>
-               </Grid>
-            </Grid>
-            </div>
+            )
+            )}
         </Grid>
         </Grid>
         <Grid item xs={8}>
@@ -244,15 +237,10 @@ function FgCards(props) {
                             data={{
                               BackDefects: [],
                               Defect: "All Defects",
-                              FrontDefects:[
-                              {X: '2.67720532', Y: '1.23814964'},
-                              {X: '0.6491022', Y: '0.4926785'},
-                              {X: '0.586651', Y: '0.955641448'},
-                              {X: '1.19034612', Y: '2.33932853'}
-                              ],
+                              FrontDefects: frontDefects,
                               frequency: "6",
                               }}
-                            frontUrl={"https://qualitylite.bluekaktus.com/Sketches/202/1d657adc-14a3-4776-949a-675763534e35.jpg"}
+                            frontUrl={images.front}
                           //  backUrl={"https://qualitylite.bluekaktus.com/Sketches/202/9b913962-2c7f-436e-9117-edeff1043d4e.jpg"}
                         />
         </div>
@@ -261,27 +249,35 @@ function FgCards(props) {
         <div className={classes.fgCard2}>
                         <DefectStyle
                             data={{
-                              BackDefects: [
-                                {X: '2.80887318', Y: '1.96479666'},
-                                {X: '0.253577858', Y: '2.09484267'}
-                                ],
+                              BackDefects: backDefects,
                               Defect: "All Defects",
                               FrontDefects:[],
                               frequency: "6",
                               }}
-                            backUrl={"https://qualitylite.bluekaktus.com/Sketches/202/9b913962-2c7f-436e-9117-edeff1043d4e.jpg"}
+                            backUrl={images.back}
                         />
         </div>
         </Grid>
+      {fgCodeKPIdata.length >1 &&
         <Icon path={mdiChevronLeft}
                         title="Sync"
                         size={1.5}
                         horizontal
                         vertical
                         style={{alignSelf: 'center', marginLeft: 20}}
-                      //  onClick={() =>{}}
+                        onClick={() =>{
+                          if(index === (fgCodeKPIdata - 1))
+                          {
+                            setIndex(0);
+                          }
+                          else
+                          {
+                            setIndex(index + 1);
+                          }
+                        }}
                         color="white"
                     />
+      }
         </Grid>
 	);
 }

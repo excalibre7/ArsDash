@@ -49,17 +49,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function VendorTable(props) {
-  const { data, nextTableFunc, tableDataH, setSequenceType, sequenceType, setUpdateCell, updateCell, setUpdateHistory, updateHistory} = props;
+  const { data, nextTableFunc, tableDataH, setSequenceType, sequenceType, setUpdateHistory, updateHistory} = props;
   const classes = useStyles();
 
-  useEffect(() =>{
-    console.log("here!!!!!!!!!!!!!!!!!!");
-    // if(updateHistory === 0)
-    // {
-    //   //setUpdateHistory(1);
-    //   setUpdateCell(updateCell - 1);
-    // }
-  },[])
   const StyledTableRow = withStyles((theme) => ({
     root: {
       "&:nth-of-type(odd)": {
