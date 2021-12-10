@@ -31,7 +31,14 @@ const useStyles = makeStyles((theme) => ({
   superheaderTxt: {
     color: "#000000AA",
     fontFamily:"Work",
-    fontWeight:"800"
+    fontWeight:"800",
+    transition: "all .2s ease-in-out",
+    "&:hover":{
+       fontWeight: "bold",
+       cursor: "pointer",
+       textDecoration: "none",
+       color: "#00aeffAA",
+     }
   },
   values: {
     fontSize: 16
@@ -42,8 +49,13 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#fff",
     textAlign:"right",
     zIndex: 1000,
+    transition: "all .2s ease-in-out",
    "&:hover":{
-      borderRadius: 20,
+      borderRadius: 5,
+      fontWeight: "bold",
+      cursor: "pointer",
+      textDecoration: "none",
+      transform: "scale(1.1)"
     }
   }
 }));

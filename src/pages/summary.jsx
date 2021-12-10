@@ -70,6 +70,7 @@ const [ topCards, setTopCards ] = useState({
   const handleChange = (event) => {
     setAge(event.target.value);
     setEnableAnimation(false)
+    clearTimeout(timer);
   };
   const [startDate, setStartDate] = useState(Moment(new Date()).format('DD-MMM-yyyy'));
   const [endDate, setEndDate] = useState(Moment(new Date()).format('DD-MMM-yyyy'));
@@ -117,7 +118,7 @@ const [ topCards, setTopCards ] = useState({
     if(props.data.loginState === 1)
     {
       socketRef.current.on("fromServer", ( msg ) => {
-         console.log("message summary!!",msg);
+        console.log("message summary!!",msg);
         let temp = msg;
         temp.vendorGraphData.producedPieces.sort((a,b) => a["Produced Pieces"] - b["Produced Pieces"]).reverse();
         temp.vendorGraphData.okPieces.sort((a,b) => a["Ok Pieces"] - b["Ok Pieces"]).reverse();
