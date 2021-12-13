@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Typography,
     makeStyles,
@@ -61,16 +61,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function VendorTable(props) {
-  const { data, nextTableFunc, tableDataH, setSequenceType, sequenceType, setUpdateHistory, updateHistory, searchWidthPh} = props;
+  const { data, nextTableFunc, tableDataH, setSequenceType, sequenceType, setUpdateHistory, updateHistory1, searchWidthPh} = props;
   const classes = useStyles();
 
-  useEffect(() =>{
-    console.log("here!!!!!!!!!!!!!!!!!!");
-    // if(updateHistory === 0)
-    // {
-    //   //setUpdateHistory(1);
-    //   setUpdateCell(updateCell - 1);
-    // }
+  const updateHistory = updateHistory1.data;
+
+  useEffect(()=>{
+    setUpdateHistory({...updateHistory1, newMsg: 0});
   },[])
   
   const StyledTableRow = withStyles((theme) => ({
@@ -299,7 +296,8 @@ export default function VendorTable(props) {
                             style={{
                             textAlign:"right",
                           }}>
-                            {row.producedPieces}
+                            {tableDataH[index] ?
+                            row.producedPieces + "/" + tableDataH[index].producedPieces : row.producedPieces}
                           </Typography>
                         </StyledTableCell>
                         <StyledTableCell className={tableDataH[index] && row.okPieces !== tableDataH[index].okPieces  && updateHistory === 1  ? "valuesGreen" : "simple"}>
@@ -319,7 +317,8 @@ export default function VendorTable(props) {
                             style={{
                             textAlign:"right",
                           }}>
-                            {row.okPieces}
+                            {tableDataH[index] ?
+                            row.okPieces + "/" + tableDataH[index].okPieces : row.okPieces}
                             {/* {row.okPieces} */}
                           </Typography>
                         </StyledTableCell>
@@ -424,7 +423,8 @@ export default function VendorTable(props) {
                             style={{
                             textAlign:"right",
                           }}>
-                            {row.dhu}
+                            {tableDataH[index] ?
+                            row.dhu + "/" + tableDataH[index].dhu : row.dhu}
                           </Typography>
                         </StyledTableCell>
                       </StyledTableRow>

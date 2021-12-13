@@ -109,7 +109,7 @@ const [ topCards, setTopCards ] = useState({
   const [ searchWidthPh, setSearchWidthPh] = useState({width: "0px", ph: "Search brand or fgCode"});
   var timer;
   const [sequenceType, setSequenceType] = useState({recent: "", orderQty: -1, pending: -1, pcsProduced: -1, okPcs: -1, rectifiedPcs: -1, pcsInAlter: -1, rejectedPcs: -1, rejectPer: -1, dhuPer: -1});
-  const [updateHistory, setUpdateHistory] = useState(1);
+  const [updateHistory, setUpdateHistory] = useState({newMsg : 0, data : 1});
   const [defectsHeatMap, setDefectsHeatMap] = useState([]);
   const [fgCodeKPIdata, setFgCodeKPIdata] = useState([]);
  
@@ -128,9 +128,7 @@ const [ topCards, setTopCards ] = useState({
         temp.vendorGraphData.rejectedPieces.sort((a,b) => a["Rejected Pieces"] - b["Rejected Pieces"]).reverse();
         temp.vendorGraphData.allPieces.sort((a,b) => a["All Pieces"] - b["All Pieces"]).reverse();
         temp.vendorGraphData.dhu.sort((a,b) => a["DHU"] - b["DHU"]).reverse();
-        setMsg((arg)=>{
-          setMsgH(JSON.parse(JSON.stringify({...arg})))
-          return(temp)})
+        setMsg(temp);
       })
       socketRef.current.on("filterObjects", ( msg ) => {
         // console.log("message summary!!",msg);
@@ -157,6 +155,10 @@ const [ topCards, setTopCards ] = useState({
     if(enableAnimation){
       console.log("enableAnimation")
     timer = setTimeout(() => {
+      if(updateHistory.newMsg === 0)
+      {
+        setUpdateHistory({...updateHistory, data: 0});
+      }
       switch(age)
       {
         case "": setAge("Ok"); break;
@@ -192,6 +194,7 @@ const [ topCards, setTopCards ] = useState({
     }
     setDefectsHeatMap(msg.defectsHeatMap);
     setFgCodeKPIdata(msg.fgCodeKPIData);
+    setUpdateHistory({...updateHistory, newMsg : 1});
     sequenceChange();
     setLoading(false);
   },[msg])
@@ -237,7 +240,7 @@ const [ topCards, setTopCards ] = useState({
 
   const sequenceChange = () =>{
     let key = "", message = JSON.parse(JSON.stringify(msg));
-
+    setMsgH({...message});
     switch(sequenceType.recent){
       case "orderQty": key = "orderQty"; break;
       case "pending": key = "pendingPieces"; break;
@@ -268,11 +271,11 @@ const [ topCards, setTopCards ] = useState({
     }
     if(sequenceType[sequenceType.recent] === 1)
     {
-      setUpdateHistory(0);
+      setUpdateHistory({...updateHistory, data: 0});
     }
     else
     {
-      setUpdateHistory(1);
+      setUpdateHistory({...updateHistory, data: 1});
     }
   }
 
@@ -484,8 +487,8 @@ if (props.data.loginState !== 1) {
       <div className="wrapper">
 
               <div className={classes.tableO}>
-              {vendorTableDetails.visible ? <VendorTable data={vendorTableDetails.tableData} nextTableFunc={setNextTableDetails} tableDataH={vendorTableDetails.tableDataH} setSequenceType={setSequenceType} sequenceType={sequenceType} setUpdateHistory={setUpdateHistory} updateHistory={updateHistory} searchWidthPh={searchWidthPh}/> : null}
-              {factoryTableDetails.visible ? <FactoryTable data={factoryTableDetails.tableData} nextTableFunc={setNextTableDetails}  tableDataH={factoryTableDetails.tableDataH} setSequenceType={setSequenceType} sequenceType={sequenceType} setUpdateHistory={setUpdateHistory} updateHistory={updateHistory} searchWidthPh={searchWidthPh}/> : null}
+              {vendorTableDetails.visible ? <VendorTable data={vendorTableDetails.tableData} nextTableFunc={setNextTableDetails} tableDataH={vendorTableDetails.tableDataH} setSequenceType={setSequenceType} sequenceType={sequenceType} setUpdateHistory={setUpdateHistory} updateHistory1={updateHistory} searchWidthPh={searchWidthPh}/> : null}
+              {factoryTableDetails.visible ? <FactoryTable data={factoryTableDetails.tableData} nextTableFunc={setNextTableDetails}  tableDataH={factoryTableDetails.tableDataH} setSequenceType={setSequenceType} sequenceType={sequenceType} setUpdateHistory={setUpdateHistory} updateHistory1={updateHistory} searchWidthPh={searchWidthPh}/> : null}
               </div>
             </div>
       </section>
