@@ -1,4 +1,4 @@
-.valuesBlue {
+.valuesBlue1 {
   background-size: 500% 500%;
   animation-name: tableBlue;
   animation-duration: 4s;
@@ -6,7 +6,7 @@
   border-radius: 20;
   border-width: 1;
 }
-.valuesGreen {
+.valuesGreen1 {
   background-size: 500% 500%;
   animation-name: tableGreen;
   animation-duration: 4s;
@@ -14,7 +14,7 @@
   border-radius: 20;
   border-width: 1;
 }
-.valuesYellow {
+.valuesYellow1 {
   background-size: 500% 500%;
   animation-name: tableYellow;
   animation-duration: 4s;
@@ -22,7 +22,7 @@
   border-radius: 20;
   border-width: 1;
 }
-.valuesRed {
+.valuesRed1 {
   background-size: 500% 500%;
   animation-name: tableRed;
   animation-duration: 4s;
@@ -30,7 +30,7 @@
   border-radius: 20;
   border-width: 1;
 }
-.valuesOrange {
+.valuesOrange1 {
   background-size: 500% 500%;
   animation-name: tableOrange;
   animation-duration: 4s;
@@ -39,6 +39,21 @@
   border-width: 1;
 }
 .simple {
+  background: "transparent";
+}
+.valuesOrange {
+  background: "transparent";
+}
+.valuesRed {
+  background: "transparent";
+}
+.valuesYellow {
+  background: "transparent";
+}
+.valuesGreen {
+  background: "transparent";
+}
+.valuesBlue {
   background: "transparent";
 }
 @keyframes tableBlue {
