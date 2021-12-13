@@ -342,7 +342,7 @@ if (props.data.loginState !== 1) {
                       label="Start Date"
                       format="dd-MMM-yyyy"
                       value={startDate}
-                      onChange={date => setStartDate(Moment(date).format('DD-MMM-yyyy'))}
+                      onChange={date => {console.log("date is !!!!!!!!!!!!", Moment(date).format('DD-MMM-yyyy hh:mm:ss'));setStartDate(Moment(date).format('DD-MMM-yyyy'))}}
                       InputAdornmentProps={{ position: "start" }}
                       maxDate={endDate}
                     />
@@ -378,7 +378,7 @@ if (props.data.loginState !== 1) {
               label="End Date"
               format="dd-MMM-yyyy"
               value={endDate}
-              onChange={date => setEndDate(Moment(date).format('DD-MMM-yyyy'))}
+              onChange={date => { console.log("date is !!!!!!!!!!!!", Moment(date).format('DD-MMM-yyyy'));setEndDate(Moment(date).format('DD-MMM-yyyy'));}}
               InputAdornmentProps={{ position: "start" }}
               minDate={startDate}
             />
@@ -484,8 +484,8 @@ if (props.data.loginState !== 1) {
       <div className="wrapper">
 
               <div className={classes.tableO}>
-              {vendorTableDetails.visible ? <VendorTable data={vendorTableDetails.tableData} nextTableFunc={setNextTableDetails} tableDataH={vendorTableDetails.tableDataH} setSequenceType={setSequenceType} sequenceType={sequenceType} setUpdateHistory={setUpdateHistory} updateHistory={updateHistory}/> : null}
-              {factoryTableDetails.visible ? <FactoryTable data={factoryTableDetails.tableData} nextTableFunc={setNextTableDetails}  tableDataH={factoryTableDetails.tableDataH} setSequenceType={setSequenceType} sequenceType={sequenceType} setUpdateHistory={setUpdateHistory} updateHistory={updateHistory}/> : null}
+              {vendorTableDetails.visible ? <VendorTable data={vendorTableDetails.tableData} nextTableFunc={setNextTableDetails} tableDataH={vendorTableDetails.tableDataH} setSequenceType={setSequenceType} sequenceType={sequenceType} setUpdateHistory={setUpdateHistory} updateHistory={updateHistory} selectedFgCode={selectedFgCode}/> : null}
+              {factoryTableDetails.visible ? <FactoryTable data={factoryTableDetails.tableData} nextTableFunc={setNextTableDetails}  tableDataH={factoryTableDetails.tableDataH} setSequenceType={setSequenceType} sequenceType={sequenceType} setUpdateHistory={setUpdateHistory} updateHistory={updateHistory} selectedFgCode={selectedFgCode}/> : null}/> : null}
               </div>
             </div>
       </section>
