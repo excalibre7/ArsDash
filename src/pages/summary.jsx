@@ -192,7 +192,7 @@ const [ topCards, setTopCards ] = useState({
       default: setVendorTableDetails({...vendorTableDetails, topCardsH: vendorTableDetails.topCards, topCards: msg.topCards, graphData: msg.vendorGraphData, lineGraph: temp, tableDataH: msgH.vendorTableData ? msgH.vendorTableData : vendorTableDetails.tableData, tableData: msg.vendorTableData}); break;
     }
     setDefectsHeatMap(msg.defectsHeatMap);
-    setFgCodeKPIdata(msg.fgCodeKPIdata);
+    setFgCodeKPIdata(msg.fgCodeKPIData);
     sequenceChange();
     setLoading(false);
   },[msg])
@@ -285,6 +285,7 @@ const handleTimeChange = (event) => {
 };
 
 const handleFgCodeChange = (event) => {
+  setLoading(true);
   let temp = event[0]; // Ideally temp should be an array and this line should throw error but code works fine with this and if temp is converted to and array, it gives error.
   setSelectedFgCode(temp); //  remove when want multi
   if(event[0].filterType === "")
@@ -440,7 +441,7 @@ if (props.data.loginState !== 1) {
     //  singleSelect={true}
     //selectionLimit={1}
     selectedValues={selectedFgCode} // remove when want multi
-      placeholder={ searchWidthPh.width === "0px" ? "" : searchWidthPh.ph} 
+      placeholder={searchWidthPh.ph} 
       ref={multiselectRef}
       style={{
         chips: {
@@ -484,8 +485,8 @@ if (props.data.loginState !== 1) {
       <div className="wrapper">
 
               <div className={classes.tableO}>
-              {vendorTableDetails.visible ? <VendorTable data={vendorTableDetails.tableData} nextTableFunc={setNextTableDetails} tableDataH={vendorTableDetails.tableDataH} setSequenceType={setSequenceType} sequenceType={sequenceType} setUpdateHistory={setUpdateHistory} updateHistory={updateHistory} selectedFgCode={selectedFgCode}/> : null}
-              {factoryTableDetails.visible ? <FactoryTable data={factoryTableDetails.tableData} nextTableFunc={setNextTableDetails}  tableDataH={factoryTableDetails.tableDataH} setSequenceType={setSequenceType} sequenceType={sequenceType} setUpdateHistory={setUpdateHistory} updateHistory={updateHistory} selectedFgCode={selectedFgCode}/> : null}/> : null}
+              {vendorTableDetails.visible ? <VendorTable data={vendorTableDetails.tableData} nextTableFunc={setNextTableDetails} tableDataH={vendorTableDetails.tableDataH} setSequenceType={setSequenceType} sequenceType={sequenceType} setUpdateHistory={setUpdateHistory} updateHistory={updateHistory} searchWidthPh={searchWidthPh}/> : null}
+              {factoryTableDetails.visible ? <FactoryTable data={factoryTableDetails.tableData} nextTableFunc={setNextTableDetails}  tableDataH={factoryTableDetails.tableDataH} setSequenceType={setSequenceType} sequenceType={sequenceType} setUpdateHistory={setUpdateHistory} updateHistory={updateHistory} searchWidthPh={searchWidthPh}/> : null}
               </div>
             </div>
       </section>

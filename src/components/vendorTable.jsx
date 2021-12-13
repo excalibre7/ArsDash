@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function VendorTable(props) {
-  const { data, nextTableFunc, tableDataH, setSequenceType, sequenceType, setUpdateHistory, updateHistory} = props;
+  const { data, nextTableFunc, tableDataH, setSequenceType, sequenceType, setUpdateHistory, updateHistory, searchWidthPh} = props;
   const classes = useStyles();
 
   useEffect(() =>{
@@ -232,9 +232,9 @@ export default function VendorTable(props) {
                       </StyledTableCell>
                     </StyledTableRow>
                   </TableHead>
-                  
                   {data
-                    .map((row, index) => ( row.orderQty !== 0 &&
+                    .map((row, index) => ( 
+                      searchWidthPh.ph !== "Search brand or fgCode" && (row.orderQty === 0 || row.locationName === "Total") ? null :
                       <StyledTableRow 
                       // onClick={() =>{
                       //   nextTableFunc({currentTable : "vendor", nextTable: "factory", details: {item: row}})
@@ -299,7 +299,8 @@ export default function VendorTable(props) {
                             style={{
                             textAlign:"right",
                           }}>
-                            {row.producedPieces}
+                            {tableDataH[index] ?
+                            row.producedPieces + "/" + tableDataH[index].producedPieces : row.producedPieces}
                           </Typography>
                         </StyledTableCell>
                         <StyledTableCell className={tableDataH[index] && row.okPieces !== tableDataH[index].okPieces  && updateHistory === 1  ? "valuesGreen" : "simple"}>
@@ -319,7 +320,9 @@ export default function VendorTable(props) {
                             style={{
                             textAlign:"right",
                           }}>
-                            {row.okPieces}
+                            {tableDataH[index] ?
+                            row.okPieces + "/" + tableDataH[index].okPieces : row.okPieces}
+                            {/* {row.okPieces} */}
                           </Typography>
                         </StyledTableCell>
                         <StyledTableCell className={tableDataH[index] && row.alteredPieces !== tableDataH[index].alteredPieces  && updateHistory === 1 ? "valuesYellow" : "simple"}>
@@ -423,7 +426,8 @@ export default function VendorTable(props) {
                             style={{
                             textAlign:"right",
                           }}>
-                            {row.dhu}
+                            {tableDataH[index] ?
+                            row.dhu + "/" + tableDataH[index].dhu : row.dhu}
                           </Typography>
                         </StyledTableCell>
                       </StyledTableRow>
