@@ -522,7 +522,7 @@ export default function VendorGraph(props) {
         end = temp.length;
       for(let i = 0; i < temp.length; i++)
       {
-        if(parseInt(temp[i].y) !== 0 )
+        if(temp[i].y !== 0 )
         {
           start = i;
           break;
@@ -530,7 +530,7 @@ export default function VendorGraph(props) {
       }
       for(let i = temp.length - 1; i >= 0; i--)
       {
-        if(parseInt(temp[i].y) !== 0 )
+        if(temp[i].y !== 0 )
         {
           end = i + 1;
           break;

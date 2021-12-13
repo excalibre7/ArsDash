@@ -184,7 +184,6 @@ const [ topCards, setTopCards ] = useState({
     {
       temp = msg.vendorLineGraph[0].locationDetails;
     }
-    if(msgH.vendorTableData) console.log("msgH and msg!!!!!", msgH.vendorTableData, msg.vendorTableData);
     switch(currentTable)
     {
       case "vendor": setVendorTableDetails({...vendorTableDetails, topCardsH: vendorTableDetails.topCards,  topCards: msg.topCards, graphData: msg.vendorGraphData, lineGraph: temp, tableDataH: msgH.vendorTableData ? msgH.vendorTableData : vendorTableDetails.tableData, tableData: msg.vendorTableData}); break;
