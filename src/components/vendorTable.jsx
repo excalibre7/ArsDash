@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Typography,
     makeStyles,
@@ -61,16 +61,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function VendorTable(props) {
-  const { data, nextTableFunc, tableDataH, setSequenceType, sequenceType, setUpdateHistory, updateHistory, searchWidthPh} = props;
+  const { data, nextTableFunc, tableDataH, setSequenceType, sequenceType, setUpdateHistory, updateHistory1, searchWidthPh} = props;
   const classes = useStyles();
 
-  useEffect(() =>{
-    console.log("here!!!!!!!!!!!!!!!!!!");
-    // if(updateHistory === 0)
-    // {
-    //   //setUpdateHistory(1);
-    //   setUpdateCell(updateCell - 1);
-    // }
+  const updateHistory = updateHistory1.data;
+
+  useEffect(()=>{
+    setUpdateHistory({...updateHistory1, newMsg: 0});
   },[])
   
   const StyledTableRow = withStyles((theme) => ({

@@ -36,7 +36,35 @@ const useStyles = makeStyles((theme) => ({
 		padding: 10,
 		justifyContent: 'center',
     marginBottom : 10
-	  }
+	  },
+    topLabel: {
+      fontSize: "3.1vh",
+      fontFamily: "Work",
+      marginHorizontal: 2,
+      color: "#0a6aff",
+      fontWeight:800,
+      textAlign:"left",
+      letterSpacing:"-1px"
+    },
+    topLabelG: {
+      fontSize: "3.1vh",
+      fontFamily: "Work",
+      marginHorizontal: 2,
+      color: "#49b667",
+      fontWeight:800,
+      textAlign:"left",
+      letterSpacing:"-1px"
+    },
+    topLabelR: {
+      fontSize: "3.1vh",
+      fontFamily: "Work",
+      marginHorizontal: 2,
+      color: "#ff0025",
+      fontWeight:800,
+      textAlign:"left",
+      maxWidth:"15vw",
+      letterSpacing:"-1px"
+    },
 }));
 
 function FgCards(props) {
@@ -104,85 +132,55 @@ function FgCards(props) {
         <Grid className={classes.fgCard1}>
           <div >
             <Grid container style={{ flexDirection: "row"}}>
-              <Grid style={{justifyContent : 'center'}}>
-                <h5 >
-                {"fgCode: "}
-                </h5>
-              </Grid>
-               <Grid>
-                <h5>
+            <Grid>
+                <Typography className={classes.topLabel}>
                 {fgCodeKPIdata[index].fgCode}
-                </h5>
+                </Typography>
                </Grid>
             </Grid>
             </div>
         <div >
         <Grid container style={{ flexDirection: "row"}}>
-              <Grid>
-                <h3 >
-                {"Vendor:"}
-                </h3>
-              </Grid>
                <Grid>
-                <h3>
+                <Typography className={classes.topLabel}>
                 {fgCodeKPIdata[index].companyName}
-                </h3>
+                </Typography>
                </Grid>
             </Grid>
             </div>
         <div >
         <Grid container style={{ flexDirection: "row"}}>
-              <Grid>
-                <h4>
-                {"Order Qty"}
-                </h4>
-              </Grid>
-               <Grid>
-                <h4>
-                {"xyz"}
-                </h4>
+        <Grid>
+                <Typography className={classes.topLabel}>
+                {"Order Qty: "+ fgCodeKPIdata[index].orderQty}
+                </Typography>
                </Grid>
             </Grid>
             </div>
         <div >
         <Grid container style={{ flexDirection: "row"}}>
-              <Grid>
-                <h4 >
-                {"Complexity"}
-                </h4>
-              </Grid>
-                <Grid>
-                <h4>
-                {"xyz"}
-                </h4>
+        <Grid>
+                <Typography className={classes.topLabel}>
+                {"Pcs Produced: "+ fgCodeKPIdata[index].prodPcs}
+                </Typography>
                </Grid>
             </Grid>
             </div>
-            <div >
+        <div >
         <Grid container style={{ flexDirection: "row"}}>
-              <Grid>
-                <h4 >
-                {"Start Date"}
-                </h4>
-              </Grid>
-                <Grid>
-                <h4>
-                {fgCodeKPIdata[index].startDate}
-                </h4>
+        <Grid>
+                <Typography className={classes.topLabel}>
+                {"Start : "+ fgCodeKPIdata[index].startDate}
+                </Typography>
                </Grid>
             </Grid>
             </div>
-            <div >
+        <div >
         <Grid container style={{ flexDirection: "row"}}>
-              <Grid>
-                <h4 >
-                {"End Date"}
-                </h4>
-              </Grid>
-                <Grid>
-                <h4>
-                {fgCodeKPIdata[index].endDate}
-                </h4>
+        <Grid>
+                <Typography className={classes.topLabel}>
+                {"End : "+ fgCodeKPIdata[index].endDate}
+                </Typography>
                </Grid>
             </Grid>
             </div>
@@ -191,14 +189,14 @@ function FgCards(props) {
            <div>
         <Grid container style={{ flexDirection: "row"}}>
               <Grid>
-                <h4 >
+              <Typography className={classes.topLabelG}>
                 {fgCodeKPIdata[index].pcsChecked/fgCodeKPIdata[index].workHours}
-                </h4>
+                </Typography>
               </Grid>
                 <Grid>
-                <h4>
-                {"Pcs/Hour"}
-                </h4>
+                <Typography className={classes.topLabelG}>
+                {"  Pcs/Hour"}
+               </Typography>
                </Grid>
             </Grid>
             </div>
@@ -207,9 +205,9 @@ function FgCards(props) {
            <div>
         <Grid container style={{ flexDirection: "row"}}>
               <Grid>
-                <h4 >
-                {"Top 5 defects"}
-                </h4>
+              <Typography className={classes.topLabelR}>
+                {"Top Defects"}
+                </Typography>
               </Grid>
             </Grid>
             </div>
@@ -217,14 +215,14 @@ function FgCards(props) {
             (
         <Grid container style={{ flexDirection: "row", justifyContent: 'space-between'}}>
               <Grid>
-                <h5 >
-                {index + " " + item.defectName}
-                </h5>
+              <Typography className={classes.topLabelR}>
+                {item.defectName}
+               </Typography>
               </Grid>
                 <Grid>
-                <h5>
+                <Typography className={classes.topLabelR}>
                 {item.frequency}
-                </h5>
+               </Typography>
                </Grid>
             </Grid>
             )
