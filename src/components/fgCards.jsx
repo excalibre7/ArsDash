@@ -194,7 +194,7 @@ function FgCards(props) {
         <Grid container style={{ flexDirection: "row"}}>
               <Grid>
               <Typography className={classes.topLabelG}>
-                {fgCodeKPIdata[index].pcsChecked/fgCodeKPIdata[index].workHours+"  "}
+                {(fgCodeKPIdata[index].pcsChecked/fgCodeKPIdata[index].workHours).toFixed(2)}
                 </Typography>
               </Grid>
                 <Grid>
