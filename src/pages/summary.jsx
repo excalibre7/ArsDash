@@ -128,7 +128,9 @@ const [ topCards, setTopCards ] = useState({
         temp.vendorGraphData.rejectedPieces.sort((a,b) => a["Rejected Pieces"] - b["Rejected Pieces"]).reverse();
         temp.vendorGraphData.allPieces.sort((a,b) => a["All Pieces"] - b["All Pieces"]).reverse();
         temp.vendorGraphData.dhu.sort((a,b) => a["DHU"] - b["DHU"]).reverse();
-        setMsg(temp);
+        setMsg((arg)=>{
+          setMsgH(JSON.parse(JSON.stringify({...arg})))
+          return(temp)})
       })
       socketRef.current.on("filterObjects", ( msg ) => {
         // console.log("message summary!!",msg);
@@ -240,7 +242,6 @@ const [ topCards, setTopCards ] = useState({
 
   const sequenceChange = () =>{
     let key = "", message = JSON.parse(JSON.stringify(msg));
-    setMsgH({...message});
     switch(sequenceType.recent){
       case "orderQty": key = "orderQty"; break;
       case "pending": key = "pendingPieces"; break;
@@ -264,9 +265,9 @@ const [ topCards, setTopCards ] = useState({
       }
       switch(currentTable)
     {
-      case "vendor": setVendorTableDetails({...vendorTableDetails, tableData: message.vendorTableData}); break;
-      case "factory": setFactoryTableDetails({...factoryTableDetails, tableData: message.vendorTableData}); break;
-      default: setVendorTableDetails({...vendorTableDetails, tableData: message.vendorTableData}); break;
+      case "vendor": setVendorTableDetails({...vendorTableDetails, tableDataH: msgH.vendorTableData, tableData: message.vendorTableData}); break;
+      case "factory": setFactoryTableDetails({...factoryTableDetails, tableDataH: msgH.vendorTableData, tableData: message.vendorTableData}); break;
+      default: setVendorTableDetails({...vendorTableDetails, tableDataH: msgH.vendorTableData, tableData: message.vendorTableData}); break;
     }
     }
     if(sequenceType[sequenceType.recent] === 1)
