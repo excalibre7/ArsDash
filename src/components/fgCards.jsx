@@ -78,8 +78,10 @@ function FgCards(props) {
 
    useEffect(() =>{
      let front =[], back =[], frontImg = "", backImg = "";
+     if(defectsHeatMap.length>0){
      for( let i = 0; i < defectsHeatMap[index].defectDetails.length; i++)
      {
+
       if(defectsHeatMap[index].defectDetails[i].coordType === "B"){
       //  back.push(defectsHeatMap[index].defectDetails[i])
         back.push({X: defectsHeatMap[index].defectDetails[i].xCoord, Y: defectsHeatMap[index].defectDetails[i].yCoord})
@@ -89,9 +91,10 @@ function FgCards(props) {
         front.push({X: defectsHeatMap[index].defectDetails[i].xCoord, Y: defectsHeatMap[index].defectDetails[i].yCoord})
       }
      }
-
+    }
      setFrontDefects(front);
      setBackDefects(back);
+     if(defectsHeatMap.length>0){
      for(let i = 0; i < defectsHeatMap[index].imageDetails.length; i++)
      {
        if(defectsHeatMap[index].imageDetails[i].imageType === "FC"){
@@ -101,8 +104,9 @@ function FgCards(props) {
         backImg = defectsHeatMap[index].imageDetails[i].imageUrl;
       }
      }
-
+    }
      setImages({front: frontImg, back: backImg});
+    
    },[index, fgCodeKPIdata])
 
 	return (
@@ -190,7 +194,7 @@ function FgCards(props) {
         <Grid container style={{ flexDirection: "row"}}>
               <Grid>
               <Typography className={classes.topLabelG}>
-                {fgCodeKPIdata[index].pcsChecked/fgCodeKPIdata[index].workHours}
+                {fgCodeKPIdata[index].pcsChecked/fgCodeKPIdata[index].workHours+"  "}
                 </Typography>
               </Grid>
                 <Grid>
