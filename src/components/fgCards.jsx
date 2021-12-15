@@ -103,11 +103,11 @@ function FgCards(props) {
 
       if(defectsHeatMap[index].defectDetails[i].coordType === "B"){
       //  back.push(defectsHeatMap[index].defectDetails[i])
-        back.push({X: defectsHeatMap[index].defectDetails[i].xCoord, Y: defectsHeatMap[index].defectDetails[i].yCoord})
+        back.push({X: defectsHeatMap[index].defectDetails[i].xCoord, Y: defectsHeatMap[index].defectDetails[i].yCoord, defectName: defectsHeatMap[index].defectDetails[i].defectName})
       }
       else if (defectsHeatMap[index].defectDetails[i].coordType === "F"){
         //front.push(defectsHeatMap[index].defectDetails[i])
-        front.push({X: defectsHeatMap[index].defectDetails[i].xCoord, Y: defectsHeatMap[index].defectDetails[i].yCoord})
+        front.push({X: defectsHeatMap[index].defectDetails[i].xCoord, Y: defectsHeatMap[index].defectDetails[i].yCoord, defectName: defectsHeatMap[index].defectDetails[i].defectName})
       }
      }
     }
@@ -241,11 +241,11 @@ function FgCards(props) {
                       {
                        if(defectsHeatMap[index].defectDetails[i].coordType === "B"){
                        //  back.push(defectsHeatMap[index].defectDetails[i])
-                         back.push({X: defectsHeatMap[index].defectDetails[i].xCoord, Y: defectsHeatMap[index].defectDetails[i].yCoord})
+                         back.push({X: defectsHeatMap[index].defectDetails[i].xCoord, Y: defectsHeatMap[index].defectDetails[i].yCoord, defectName: defectsHeatMap[index].defectDetails[i].defectName})
                        }
                        else if (defectsHeatMap[index].defectDetails[i].coordType === "F"){
                          //front.push(defectsHeatMap[index].defectDetails[i])
-                         front.push({X: defectsHeatMap[index].defectDetails[i].xCoord, Y: defectsHeatMap[index].defectDetails[i].yCoord})
+                         front.push({X: defectsHeatMap[index].defectDetails[i].xCoord, Y: defectsHeatMap[index].defectDetails[i].yCoord, defectName: defectsHeatMap[index].defectDetails[i].defectName})
                        }
                       }
                      }
@@ -273,11 +273,11 @@ function FgCards(props) {
             {
              if(defectsHeatMap[index].defectDetails[i].coordType === "B" && defectsHeatMap[index].defectDetails[i].defectID === item.defectID){
              //  back.push(defectsHeatMap[index].defectDetails[i])
-               back.push({X: defectsHeatMap[index].defectDetails[i].xCoord, Y: defectsHeatMap[index].defectDetails[i].yCoord})
+               back.push({X: defectsHeatMap[index].defectDetails[i].xCoord, Y: defectsHeatMap[index].defectDetails[i].yCoord, defectName: defectsHeatMap[index].defectDetails[i].defectName})
              }
              else if (defectsHeatMap[index].defectDetails[i].coordType === "F" && defectsHeatMap[index].defectDetails[i].defectID === item.defectID){
                //front.push(defectsHeatMap[index].defectDetails[i])
-               front.push({X: defectsHeatMap[index].defectDetails[i].xCoord, Y: defectsHeatMap[index].defectDetails[i].yCoord})
+               front.push({X: defectsHeatMap[index].defectDetails[i].xCoord, Y: defectsHeatMap[index].defectDetails[i].yCoord, defectName: defectsHeatMap[index].defectDetails[i].defectName})
              }
             }
            }
