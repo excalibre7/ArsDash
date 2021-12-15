@@ -7,6 +7,12 @@ import {
   import Icon from '@mdi/react';
 import { mdiFormatLetterCase, mdiDotsVertical, mdiChevronLeft, mdiChevronRight } from '@mdi/js';
 import DefectStyle from "./DefectStyle";
+import {
+  ExcelExport,
+  ExcelExportColumn,
+  ExcelExportColumnGroup,
+} from "@progress/kendo-react-excel-export";
+import Moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
 	fgCard2:{
@@ -74,7 +80,19 @@ function FgCards(props) {
    const [frontDefects, setFrontDefects] = useState([]);
    const [backDefects, setBackDefects] = useState([]);
    const [images, setImages] = useState({front: "", back: ""});
+   const [dataExcel, setDataExcel] = useState([]);
+   const _exporter = React.createRef();
 
+   const excelExport = () => {
+     dataExcel.splice(0,dataExcel.length);
+     for(let i = 0; i < fgCodeKPIdata[index].topDefects.length; i++)
+     {
+       dataExcel.push({ DefectCount:fgCodeKPIdata[index].topDefects[i].frequency, DefectName: fgCodeKPIdata[index].topDefects[i].defectName});
+     }
+     if (_exporter.current) {
+       _exporter.current.save();
+     }
+   };
 
    useEffect(() =>{
      let front =[], back =[], frontImg = "", backImg = "";
@@ -194,7 +212,7 @@ function FgCards(props) {
         <Grid container style={{ flexDirection: "row"}}>
               <Grid>
               <Typography className={classes.topLabelG}>
-                {(fgCodeKPIdata[index].pcsChecked/fgCodeKPIdata[index].workHours).toFixed(2)}
+                {parseInt(fgCodeKPIdata[index].pcsChecked/fgCodeKPIdata[index].workHours)}
                 </Typography>
               </Grid>
                 <Grid>
@@ -207,17 +225,56 @@ function FgCards(props) {
         </Grid>
         <Grid className={classes.fgCard1}>
            <div>
-        <Grid container style={{ flexDirection: "row"}}>
+        <Grid container style={{ flexDirection: "row", justifyContent: 'space-between'}} onClick={() => {
+                    let back=[], front = [];
+                    if(defectsHeatMap.length>0){
+                      for( let i = 0; i < defectsHeatMap[index].defectDetails.length; i++)
+                      {
+                       if(defectsHeatMap[index].defectDetails[i].coordType === "B"){
+                       //  back.push(defectsHeatMap[index].defectDetails[i])
+                         back.push({X: defectsHeatMap[index].defectDetails[i].xCoord, Y: defectsHeatMap[index].defectDetails[i].yCoord})
+                       }
+                       else if (defectsHeatMap[index].defectDetails[i].coordType === "F"){
+                         //front.push(defectsHeatMap[index].defectDetails[i])
+                         front.push({X: defectsHeatMap[index].defectDetails[i].xCoord, Y: defectsHeatMap[index].defectDetails[i].yCoord})
+                       }
+                      }
+                     }
+                      setFrontDefects(front);
+                      setBackDefects(back);
+        }}>
               <Grid>
               <Typography className={classes.topLabelR}>
                 {"Top Defects"}
                 </Typography>
               </Grid>
+              <Grid>
+              <Typography className={classes.topLabelR}>
+                {"All"}
+                </Typography>
+              </Grid>
             </Grid>
             </div>
-            {fgCodeKPIdata[index].topDefects.map((item, index) =>
+            {fgCodeKPIdata[index].topDefects.map((item) =>
             (
-        <Grid container style={{ flexDirection: "row", justifyContent: 'space-between'}}>
+        <Grid container style={{ flexDirection: "row", justifyContent: 'space-between'}} onClick={() =>{
+          let back=[], front = [];
+          if(defectsHeatMap.length>0){
+            for( let i = 0; i < defectsHeatMap[index].defectDetails.length; i++)
+            {
+             if(defectsHeatMap[index].defectDetails[i].coordType === "B" && defectsHeatMap[index].defectDetails[i].defectID === item.defectID){
+             //  back.push(defectsHeatMap[index].defectDetails[i])
+               back.push({X: defectsHeatMap[index].defectDetails[i].xCoord, Y: defectsHeatMap[index].defectDetails[i].yCoord})
+             }
+             else if (defectsHeatMap[index].defectDetails[i].coordType === "F" && defectsHeatMap[index].defectDetails[i].defectID === item.defectID){
+               //front.push(defectsHeatMap[index].defectDetails[i])
+               front.push({X: defectsHeatMap[index].defectDetails[i].xCoord, Y: defectsHeatMap[index].defectDetails[i].yCoord})
+             }
+            }
+           }
+            setFrontDefects(front);
+            setBackDefects(back);
+        }}>
               <Grid>
               <Typography className={classes.topLabelR}>
                 {item.defectName}
@@ -232,6 +289,41 @@ function FgCards(props) {
             )
             )}
         </Grid>
+        <Grid className={classes.fgCard1}>
+           <div>
+        <Grid container style={{ flexDirection: "row"}} onClick={excelExport}>
+              <Grid>
+              <Typography className={classes.topLabelG}>
+                {"Export To Excel"}
+                </Typography>
+              </Grid>
+            </Grid>
+            </div>
+        </Grid>
+           <div>
+      <ExcelExport data={dataExcel} fileName={`Products${Moment(new Date()).format('DD-MMM-yyyy-hh:mm:ss')}.xlsx`} ref={_exporter}>
+      <ExcelExportColumnGroup
+          title="CompanyName: xyz"
+          headerCellOptions={{ background: '#ffffff', bold: true, color: "#000000", borderRight: {color: "#000000"},borderLeft: {color: "#000000"},borderTop: {color: "#000000"}, borderBottom: {color: "#000000"}}}
+        >
+                  <ExcelExportColumnGroup
+          title="VendorName: xyz"
+          headerCellOptions={{ background: '#ffffff', bold: true, color: "#000000", borderRight: {color: "#000000"},borderLeft: {color: "#000000"},borderTop: {color: "#000000"}, borderBottom: {color: "#000000"}}}
+        >
+                  <ExcelExportColumnGroup
+          title="Vendor ID: xyz"
+          headerCellOptions={{ background: '#ffffff', bold: true, color: "#000000", borderRight: {color: "#000000"},borderLeft: {color: "#000000"},borderTop: {color: "#000000"}, borderBottom: {color: "#000000"}}}
+        >
+        <ExcelExportColumn field="DefectCount" title="Defect Count" cellOptions={{ borderRight: {color: "#000000"},borderLeft: {color: "#000000"},borderTop: {color: "#000000"}, borderBottom: {color: "#000000"}}} headerCellOptions={{ background: '#ffffff', bold: true, color: "#000000", borderRight: {color: "#000000"},borderLeft: {color: "#000000"},borderTop: {color: "#000000"}, borderBottom: {color: "#000000"}}}/>
+        <ExcelExportColumn field="DefectName" title="Defect Name" cellOptions={{ borderRight: {color: "#000000"},borderLeft: {color: "#000000"},borderTop: {color: "#000000"}, borderBottom: {color: "#000000"}}} headerCellOptions={{ background: '#ffffff', bold: true, color: "#000000", borderRight: {color: "#000000"},borderLeft: {color: "#000000"},borderTop: {color: "#000000"}, borderBottom: {color: "#000000"}}}/>
+          {/* <ExcelExportColumn field="UnitPrice" title="Unit Price" headerCellOptions={{ background: '#ffffff', bold: true, color: "#000000", borderRight: {color: "#000000"},borderLeft: {color: "#000000"},borderTop: {color: "#000000"}, borderBottom: {color: "#000000"}}}/>
+          <ExcelExportColumn field="UnitsOnOrder" title="Units On Order" headerCellOptions={{ background: '#ffffff', bold: true, color: "#000000", borderRight: {color: "#000000"},borderLeft: {color: "#000000"},borderTop: {color: "#000000"}, borderBottom: {color: "#000000"}}}/>
+          <ExcelExportColumn field="UnitsInStock" title="Units In Stock" headerCellOptions={{ background: '#ffffff', bold: true, color: "#000000", borderRight: {color: "#000000"},borderLeft: {color: "#000000"},borderTop: {color: "#000000"}, borderBottom: {color: "#000000"}}}/> */}
+        </ExcelExportColumnGroup>
+        </ExcelExportColumnGroup>
+        </ExcelExportColumnGroup>
+      </ExcelExport>
+    </div>
         </Grid>
         <Grid item xs={8}>
         <div className={classes.fgCard2}>
