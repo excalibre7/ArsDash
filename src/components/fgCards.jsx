@@ -81,6 +81,7 @@ function FgCards(props) {
    const [backDefects, setBackDefects] = useState([]);
    const [images, setImages] = useState({front: "", back: ""});
    const [dataExcel, setDataExcel] = useState([]);
+   const [top5defects, setTop5Defects] = useState([]);
    const _exporter = React.createRef();
 
    const excelExport = () => {
@@ -125,6 +126,14 @@ function FgCards(props) {
     }
      setImages({front: frontImg, back: backImg});
     
+     let alldefects = fgCodeKPIdata[index].topDefects;
+    //let alldefects = [{defectID: 1950, defectName: 'Neck shape off1', frequency: 10},{defectID: 1950, defectName: 'Neck shape off2', frequency: 5},{defectID: 1950, defectName: 'Neck shape off3', frequency: 20},{defectID: 1950, defectName: 'Neck shape off4', frequency: 1},{defectID: 1950, defectName: 'Neck shape off5', frequency: 3},{defectID: 1950, defectName: 'Neck shape off6', frequency: 8},{defectID: 1950, defectName: 'Neck shape off7', frequency: 2},{defectID: 1950, defectName: 'Neck shape off8', frequency: 4}]
+     alldefects.sort((a,b) => a["frequency"] - b["frequency"]).reverse();
+     if(alldefects.length > 5)
+     {
+      alldefects.splice(5,(alldefects.length - 5))
+     }
+     setTop5Defects(alldefects);
    },[index, fgCodeKPIdata])
 
 	return (
@@ -255,7 +264,7 @@ function FgCards(props) {
               </Grid>
             </Grid>
             </div>
-            {fgCodeKPIdata[index].topDefects.map((item) =>
+            {top5defects.map((item) =>
             (
         <Grid container style={{ flexDirection: "row", justifyContent: 'space-between'}} onClick={() =>{
           let back=[], front = [];
