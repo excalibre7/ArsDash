@@ -878,8 +878,6 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
   </g>
 )
 
-
-
   return (
     <Grid>
             <Grid container style={{marginTop: "9vh"}}>
@@ -907,10 +905,10 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                           <Grid item xs={4}>
                             </Grid>
                             <Grid item xs={8}>
-                            {topCards.TOT_PCS != null ? (
+                            {topCards.TOT_PCS.value!= null ? (
                                 <CountUp
-                                  start={topCardsH.TOT_PCS}
-                                  end={topCards.TOT_PCS}
+                                  start={topCardsH.TOT_PCS.value}
+                                  end={topCards.TOT_PCS.value}
                                   duration={.6}
                                   separator={","}
                                   className={classes.topRightG}
@@ -926,11 +924,19 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                             </Grid>
                         </Grid>
                           </div>
-                          <ReactTooltip id={"Pcs-Produced"}>
-                            {[0,1,2,3].map((item) =>
-                              <p>You can put every thing here</p>
+                          {topCards.TOT_PCS.tooltip!=null?
+                          <ReactTooltip id={"Pcs-Produced"} effect={"solid"} place={"bottom"} delayShow={"350"} backgroundColor={"#eefef1"}>
+                            {topCards.TOT_PCS.tooltip.slice(0,10).map((item) =>
+                            <Grid container>
+                              <Grid item xs={10}>
+                                <Typography style={{color:"#000",textAlign:"left",width:"12vw"}}>{item.label}</Typography>    
+                              </Grid>
+                              <Grid item xs={2}>
+                                <Typography style={{color:"#000",textAlign:"right",fontWeight:"bold"}}>{item.frequency}</Typography>    
+                              </Grid>
+                              </Grid>
                             )}
-                            </ReactTooltip>
+                            </ReactTooltip>:null}
                     </Grid>
                     <Grid
                       item
@@ -950,10 +956,10 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                           <Grid item xs={4}>
                             </Grid>
                             <Grid item xs={8}>
-                            {topCards.OK_PIECES != null ? (
+                            {topCards.OK_PIECES.value != null ? (
                                 <CountUp
-                                  start={topCardsH.OK_PIECES}
-                                  end={topCards.OK_PIECES}
+                                  start={topCardsH.OK_PIECES.value}
+                                  end={topCards.OK_PIECES.value}
                                   duration={.6}
                                   separator={","}
                                   className={classes.topRightB}
@@ -969,11 +975,19 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                             </Grid>
                         </Grid>
                       </div>
-                      <ReactTooltip id={"OK-Pieces"}>
-                        {[0,1,2,3].map((item) =>
-                           <p>You can put every thing here</p>
-                        )}
-                      </ReactTooltip>
+                      {topCards.OK_PIECES.tooltip!=null?
+                          <ReactTooltip id={"OK-Pieces"} effect={"solid"} place={"bottom"} delayShow={"350"} backgroundColor={"#edf3ff"}>
+                            {topCards.OK_PIECES.tooltip.slice(0,10).map((item) =>
+                            <Grid container>
+                              <Grid item xs={10}>
+                                <Typography style={{color:"#000",textAlign:"left",width:"12vw"}}>{item.label}</Typography>    
+                              </Grid>
+                              <Grid item xs={2}>
+                                <Typography style={{color:"#000",textAlign:"right",fontWeight:"bold"}}>{item.frequency}</Typography>    
+                              </Grid>
+                              </Grid>
+                            )}
+                            </ReactTooltip>:null}
                     </Grid>
                     <Grid
                       item
@@ -993,10 +1007,10 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                           <Grid item xs={4}>
                             </Grid>
                             <Grid item xs={8}>
-                            {topCards.ALTERED_PIECES != null ? (
+                            {topCards.ALTERED_PIECES.value != null ? (
                                 <CountUp
-                                  start={topCardsH.ALTERED_PIECES}
-                                  end={topCards.ALTERED_PIECES}
+                                  start={topCardsH.ALTERED_PIECES.value}
+                                  end={topCards.ALTERED_PIECES.value}
                                   duration={.6}
                                   separator={","}
                                   className={classes.topRightY}
@@ -1012,11 +1026,19 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                             </Grid>
                         </Grid>
                       </div>
-                      <ReactTooltip id={"Rectified-Pcs"} >
-                        {[0,1,2,3].map((item) =>
-                           <p>You can put every thing here</p>
-                        )}
-                      </ReactTooltip>
+                            {topCards.ALTERED_PIECES.tooltip!=null?
+                          <ReactTooltip id={"Rectified-Pcs"} effect={"solid"} place={"bottom"} delayShow={"350"} backgroundColor={"#fffce6"}>
+                            {topCards.ALTERED_PIECES.tooltip.slice(0,10).map((item) =>
+                            <Grid container>
+                              <Grid item xs={10}>
+                                <Typography style={{color:"#000",textAlign:"left",width:"12vw"}}>{item.label}</Typography>    
+                              </Grid>
+                              <Grid item xs={2}>
+                                <Typography style={{color:"#000",textAlign:"right",fontWeight:"bold"}}>{item.frequency}</Typography>    
+                              </Grid>
+                              </Grid>
+                            )}
+                            </ReactTooltip>:null}
                     </Grid>
                     <Grid
                       item
@@ -1036,10 +1058,10 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                           <Grid item xs={4}>
                             </Grid>
                             <Grid item xs={8}>
-                            {topCards.REJECTED_PIECES != null ? (
+                            {topCards.REJECTED_PIECES.value != null ? (
                                 <CountUp
-                                  start={topCardsH.REJECTED_PIECES}
-                                  end={topCards.REJECTED_PIECES}
+                                  start={topCardsH.REJECTED_PIECES.value}
+                                  end={topCards.REJECTED_PIECES.value}
                                   duration={.6}
                                   separator={","}
                                   className={classes.topRightR}
@@ -1055,11 +1077,19 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                             </Grid>
                         </Grid>
                       </div>
-                      <ReactTooltip id={"Rejected-Pcs"} >
-                        {[0,1,2,3].map((item) =>
-                           <p>You can put every thing here</p>
-                        )}
-                      </ReactTooltip>
+                        {topCards.REJECTED_PIECES.tooltip!=null?
+                          <ReactTooltip id={"Rejected-Pcs"} effect={"solid"} place={"bottom"} delayShow={"350"} backgroundColor={"#fff0f5"}>
+                            {topCards.REJECTED_PIECES.tooltip.slice(0,10).map((item) =>
+                            <Grid container>
+                              <Grid item xs={10}>
+                                <Typography style={{color:"#000",textAlign:"left",width:"12vw"}}>{item.label}</Typography>    
+                              </Grid>
+                              <Grid item xs={2}>
+                                <Typography style={{color:"#000",textAlign:"right",fontWeight:"bold"}}>{item.frequency}</Typography>    
+                              </Grid>
+                              </Grid>
+                            )}
+                            </ReactTooltip>:null}
                     </Grid>
                     <Grid
                       item
@@ -1081,8 +1111,8 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                             <Grid item xs={8}>
                             {topCards.REJECTED_PIECES != null ? (
                                 <CountUp
-                                  start={topCardsH.REJECTED_PIECES*100/topCardsH.NO_OF_PCS}
-                                  end={topCards.REJECTED_PIECES*100/topCards.NO_OF_PCS}
+                                  start={topCardsH.REJECTED_PIECES.value*100/topCardsH.NO_OF_PCS}
+                                  end={topCards.REJECTED_PIECES.value*100/topCards.NO_OF_PCS}
                                   duration={.6}
                                   separator={","}
                                   decimals={2}
@@ -1101,11 +1131,19 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                             </Grid>
                         </Grid>
                       </div>
-                      <ReactTooltip id={"Rejected-%"}>
-                        {[0,1,2,3].map((item) =>
-                           <p>You can put every thing here</p>
-                        )}
-                      </ReactTooltip>
+                      {topCards.REJECTED_PIECES.defects!=null?
+                          <ReactTooltip id={"Rejected-%"} effect={"solid"} place={"bottom"} delayShow={"350"} backgroundColor={"#fff0f5"}>
+                            {topCards.REJECTED_PIECES.defects.slice(0,10).map((item) =>
+                            <Grid container>
+                              <Grid item xs={10}>
+                                <Typography style={{color:"#000",textAlign:"left",width:"12vw"}}>{item.label}</Typography>    
+                              </Grid>
+                              <Grid item xs={2}>
+                                <Typography style={{color:"#000",textAlign:"right",fontWeight:"bold"}}>{item.frequency}</Typography>    
+                              </Grid>
+                              </Grid>
+                            )}
+                            </ReactTooltip>:null}
                     </Grid>
                     <Grid
                       item
@@ -1125,10 +1163,10 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                           <Grid item xs={4}>
                             </Grid>
                             <Grid item xs={8}>
-                            {topCards.NO_OF_DEFECTS != null ? (
+                            {topCards.NO_OF_DEFECTS.value != null ? (
                                 <CountUp
-                                  start={topCardsH.NO_OF_DEFECTS*100/topCardsH.NO_OF_PCS}
-                                  end={topCards.NO_OF_DEFECTS*100/topCards.NO_OF_PCS}
+                                  start={topCardsH.NO_OF_DEFECTS.value*100/topCardsH.NO_OF_PCS}
+                                  end={topCards.NO_OF_DEFECTS.value*100/topCards.NO_OF_PCS}
                                   duration={.6}
                                   separator={","}
                                   decimals={2}
@@ -1147,11 +1185,19 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                             </Grid>
                         </Grid>
                       </div>
-                      <ReactTooltip id={"DHU-%"}>
-                        {[0,1,2,3].map((item) =>
-                           <p>You can put every thing here</p>
-                        )}
-                      </ReactTooltip>
+                      {topCards.NO_OF_DEFECTS.tooltip!=null?
+                          <ReactTooltip id={"DHU-%"} effect={"solid"} place={"bottom"} delayShow={"350"} backgroundColor={"#fffce6"}>
+                            {topCards.NO_OF_DEFECTS.tooltip.slice(0,10).map((item) =>
+                            <Grid container>
+                              <Grid item xs={10}>
+                                <Typography style={{color:"#000",textAlign:"left",width:"16vw"}}>{item.label}</Typography>    
+                              </Grid>
+                              <Grid item xs={2}>
+                                <Typography style={{color:"#000",textAlign:"right",fontWeight:"bold"}}>{item.frequency}</Typography>    
+                              </Grid>
+                              </Grid>
+                            )}
+                            </ReactTooltip>:null}
                     </Grid>
 
                   </Grid>

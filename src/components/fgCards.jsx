@@ -61,6 +61,19 @@ const useStyles = makeStyles((theme) => ({
       textAlign:"left",
       letterSpacing:"-1px"
     },
+    topLabelGX: {
+      fontSize: "3.1vh",
+      fontFamily: "Work",
+      marginHorizontal: 2,
+      color: "#49b667",
+      fontWeight:800,
+      textAlign:"left",
+      letterSpacing:"-1px",
+      "&:hover": {
+        fontWeight: "bold",
+        cursor: "pointer",
+      },
+    },
     topLabelR: {
       fontSize: "3.1vh",
       fontFamily: "Work",
@@ -70,6 +83,36 @@ const useStyles = makeStyles((theme) => ({
       textAlign:"left",
       maxWidth:"15vw",
       letterSpacing:"-1px"
+    },
+    topLabelRX: {
+      fontSize: "3.1vh",
+      fontFamily: "Work",
+      marginHorizontal: 2,
+      color: "#ff0025",
+      fontWeight:800,
+      textAlign:"left",
+      maxWidth:"15vw",
+      letterSpacing:"-1px",
+      "&:hover": {
+        fontWeight: "bold",
+        cursor: "pointer",
+        transform: "scale(1.05)"
+      },
+    },
+    defect: {
+      // height: "15vh",
+      width: "100%",
+      transition: "all .1s ease-in-out",
+      borderRadius: 8,
+      "&:hover": {
+        fontWeight: "bold",
+        cursor: "pointer",
+        textDecoration: "none",
+        padding:5,
+        backgroundColor: "#ffffff",
+        boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+        transform: "scale(1.1)"
+      },
     },
 }));
 
@@ -258,7 +301,7 @@ function FgCards(props) {
                 </Typography>
               </Grid>
               <Grid>
-              <Typography className={classes.topLabelR}>
+              <Typography className={classes.topLabelRX}>
                 {"All"}
                 </Typography>
               </Grid>
@@ -284,6 +327,8 @@ function FgCards(props) {
             setFrontDefects(front);
             setBackDefects(back);
         }}>
+          <div className={classes.defect}>
+          <Grid container style={{ flexDirection: "row", justifyContent: 'space-between'}}>
               <Grid>
               <Typography className={classes.topLabelR}>
                 {item.defectName}
@@ -294,6 +339,8 @@ function FgCards(props) {
                 {item.frequency}
                </Typography>
                </Grid>
+               </Grid>
+               </div>
             </Grid>
             )
             )}
@@ -302,7 +349,7 @@ function FgCards(props) {
            <div>
         <Grid container style={{ flexDirection: "row"}} onClick={excelExport}>
               <Grid>
-              <Typography className={classes.topLabelG}>
+              <Typography className={classes.topLabelGX}>
                 {"Export To Excel"}
                 </Typography>
               </Grid>

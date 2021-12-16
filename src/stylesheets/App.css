@@ -180,22 +180,5 @@ section {
   width: fit-content;
 }
 
-.containerx:hover .popup {
-  opacity: 1;
-  display: block;
-}
-.containerx {
-  position: relative;
-}
 
-.popup {
-  max-width: 100px;
-  background-color: rgba(180,180,200);
-  padding: 1px 20px;
-  position: absolute;
-  top: 20px;
-  transition: all 0.25s ease;
-  opacity: 0;
-  display: none;
-}
 

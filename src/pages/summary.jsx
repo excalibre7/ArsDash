@@ -88,13 +88,13 @@ const [ topCards, setTopCards ] = useState({
     "ORDER_QTY": 0,
     "PENDING_PIECES": 0,
     "STITCHED_PIECES": 0,
-    "PRODUCED_PIECES": 0,
-    "OK_PIECES": 0,
-    "TOT_PCS": 0,
-    "ALTERED_PIECES": 0,
+    "PRODUCED_PIECES":0,
+    "OK_PIECES": {value:0},
+    "TOT_PCS": {value:0},
+    "ALTERED_PIECES":{value:0},
     "PCS_IN_ALTERATION": 0,
-    "REJECTED_PIECES": 0,
-    "NO_OF_DEFECTS": 0,
+    "REJECTED_PIECES":{value:0},
+    "NO_OF_DEFECTS":{value:0},
     "AUDITS_FAILED":0,
     "AUDITS_PASSED":0,
     "AUDITS_DONE":0,
@@ -102,7 +102,24 @@ const [ topCards, setTopCards ] = useState({
     "INACTIVE_LINES":0,
     "ACTIVE_VENDORS":0,
     
-  }, topCardsH:{}, graphData: {}, lineGraph:[], tableData: [], tableDataH: [], inupt: {}}); // input will take the data for next screen API
+  }, topCardsH:{
+    "ORDER_QTY": 0,
+    "PENDING_PIECES": 0,
+    "STITCHED_PIECES": 0,
+    "PRODUCED_PIECES":0,
+    "OK_PIECES": {value:0},
+    "TOT_PCS": {value:0},
+    "ALTERED_PIECES":{value:0},
+    "PCS_IN_ALTERATION": 0,
+    "REJECTED_PIECES":{value:0},
+    "NO_OF_DEFECTS":{value:0},
+    "AUDITS_FAILED":0,
+    "AUDITS_PASSED":0,
+    "AUDITS_DONE":0,
+    "ACTIVE_LINES":0,  
+    "INACTIVE_LINES":0,
+    "ACTIVE_VENDORS":0,
+  }, graphData: {}, lineGraph:[], tableData: [], tableDataH: [], inupt: {}}); // input will take the data for next screen API
   const [factoryTableDetails, setFactoryTableDetails] = useState({visible: false, topCards: {}, topCardsH:{}, graphData: {}, lineGraph: [], tableData: [], tableDataH: [], input: {}});
   const [nextTableDetails, setNextTableDetails] = useState({currentTable : "", nextTable: "", details: {}}); 
   const [currentTable, setCurrentTable] = useState("vendor");
@@ -352,12 +369,6 @@ if (props.data.loginState !== 1) {
                     />
     </MuiPickersUtilsProvider>
 }
-<div class="containerx">
-  <p class="icon">HOVER ME</p>
-  <div class="popup">
-    <p>Popup which contains some crazy cool information!</p>
-  </div>
-</div>
 {loading?
   <div class="continuous-4"></div>:null}
 
