@@ -15,6 +15,7 @@ import {
   import CountUp from "react-countup";
   import { ResponsiveBar } from '@nivo/bar';
   import { ResponsiveLine } from '@nivo/line';
+  import ReactTooltip from "react-tooltip";
 
   const useStyles = makeStyles((theme) => ({
     paper: {
@@ -892,10 +893,9 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                     <Grid
                       item
                       xs={6}
-                      align="center"
-                      
+                      align="center"           
                     >
-                      <div className={classes.cardG}>
+                      <div className={classes.cardG} data-tip data-for={"Pcs-Produced"}>
                         <Grid container>
                           <Grid item xs={8}>
                             <Typography className={classes.labelHeaderG}>
@@ -926,6 +926,11 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                             </Grid>
                         </Grid>
                           </div>
+                          <ReactTooltip id={"Pcs-Produced"}>
+                            {[0,1,2,3].map((item) =>
+                              <p>You can put every thing here</p>
+                            )}
+                            </ReactTooltip>
                     </Grid>
                     <Grid
                       item
@@ -933,7 +938,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                       align="center"
                       
                     >
-                      <div className={classes.cardB}>
+                      <div className={classes.cardB} data-tip data-for={"OK-Pieces"}>
                       <Grid container>
                           <Grid item xs={8}>
                             <Typography className={classes.labelHeaderB}>
@@ -964,6 +969,11 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                             </Grid>
                         </Grid>
                       </div>
+                      <ReactTooltip id={"OK-Pieces"}>
+                        {[0,1,2,3].map((item) =>
+                           <p>You can put every thing here</p>
+                        )}
+                      </ReactTooltip>
                     </Grid>
                     <Grid
                       item
@@ -971,7 +981,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                       align="center"
                       
                     >
-                      <div className={classes.cardY}>
+                      <div className={classes.cardY} data-tip data-for={"Rectified-Pcs"}>
                       <Grid container>
                           <Grid item xs={8}>
                             <Typography className={classes.labelHeaderY}>
@@ -1002,6 +1012,11 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                             </Grid>
                         </Grid>
                       </div>
+                      <ReactTooltip id={"Rectified-Pcs"} >
+                        {[0,1,2,3].map((item) =>
+                           <p>You can put every thing here</p>
+                        )}
+                      </ReactTooltip>
                     </Grid>
                     <Grid
                       item
@@ -1009,7 +1024,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                       align="center"
                       
                     >
-                      <div className={classes.cardR}>
+                      <div className={classes.cardR} data-tip data-for={"Rejected-Pcs"}>
                       <Grid container>
                           <Grid item xs={8}>
                             <Typography className={classes.labelHeaderR}>
@@ -1040,6 +1055,11 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                             </Grid>
                         </Grid>
                       </div>
+                      <ReactTooltip id={"Rejected-Pcs"} >
+                        {[0,1,2,3].map((item) =>
+                           <p>You can put every thing here</p>
+                        )}
+                      </ReactTooltip>
                     </Grid>
                     <Grid
                       item
@@ -1047,7 +1067,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                       align="center"
                       
                     >
-                      <div className={classes.cardR}>
+                      <div className={classes.cardR} data-tip data-for={"Rejected-%"}>
                       <Grid container>
                           <Grid item xs={8}>
                             <Typography className={classes.labelHeaderR}>
@@ -1081,6 +1101,11 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                             </Grid>
                         </Grid>
                       </div>
+                      <ReactTooltip id={"Rejected-%"}>
+                        {[0,1,2,3].map((item) =>
+                           <p>You can put every thing here</p>
+                        )}
+                      </ReactTooltip>
                     </Grid>
                     <Grid
                       item
@@ -1088,7 +1113,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                       align="center"
                       
                     >
-                      <div className={classes.cardO}>
+                      <div className={classes.cardO}  data-tip data-for={"DHU-%"}>
                       <Grid container>
                           <Grid item xs={8}>
                             <Typography className={classes.labelHeaderO}>
@@ -1122,6 +1147,11 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                             </Grid>
                         </Grid>
                       </div>
+                      <ReactTooltip id={"DHU-%"}>
+                        {[0,1,2,3].map((item) =>
+                           <p>You can put every thing here</p>
+                        )}
+                      </ReactTooltip>
                     </Grid>
 
                   </Grid>
