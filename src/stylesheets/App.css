@@ -145,17 +145,57 @@ section {
 	-webkit-box-shadow: rgba(0,0,0,.12) 0 3px 13px 1px;
 }
 
-.continuous-2 {
+.continuous-4 {
   width: 120px;
-  height: 20px;
-  background: 
-    linear-gradient(90deg, #0000 ,orange) left -50px top 0/50px 20px no-repeat 
-    lightblue;
-  animation: ct2 1s infinite linear;
+  height: 22px;
+  border-radius: 40px;
+  color: #514b82;
+  border: 2px solid;
+  position: relative;
+  overflow: hidden;
 }
 
-@keyframes ct2 {
-  100% {background-position: right -50px top 0}
+.continuous-4::before {
+  content: "";
+  position: absolute;
+  margin: 2px;
+  width: 14px;
+  top: 0;
+  bottom: 0;
+  left: -20px;
+  border-radius: inherit;
+  background: currentColor;
+  box-shadow: -10px 0 12px 3px currentColor;
+  clip-path: polygon(0 5%, 100% 0,100% 100%,0 95%,-30px 50%);
+  animation: ct4 1s infinite linear;
 }
 
+@keyframes ct4 {
+  100% {left: calc(100% + 20px)}
+}
+
+.icon {
+  background-color: rgba(200,200,200);
+  padding: 2px 5px;
+  width: fit-content;
+}
+
+.containerx:hover .popup {
+  opacity: 1;
+  display: block;
+}
+.containerx {
+  position: relative;
+}
+
+.popup {
+  max-width: 100px;
+  background-color: rgba(180,180,200);
+  padding: 1px 20px;
+  position: absolute;
+  top: 20px;
+  transition: all 0.25s ease;
+  opacity: 0;
+  display: none;
+}
 
