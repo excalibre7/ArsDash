@@ -19,7 +19,7 @@ function App() {
     //earlier this io connection was created evertime valid Login was called, so once user emits login, then io connection id is changed, hence we receive no data on new connection id. this will prevent app from making new connection ids
     if(socketID === "")
     {
-    socketRef.current = io.connect("https://zedqwsapistg.bluekaktus.com", { transports: ['websocket'] })
+    socketRef.current = io.connect("https://zedqwsapi.bluekaktus.com/", { transports: ['websocket'] })
     socketRef.current.on("connect", () => {
       setSocketID(socketRef.current.id);
     });
