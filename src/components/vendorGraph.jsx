@@ -877,8 +877,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
       />
   </g>
 )
-
-  return (
+ return (
     <Grid>
             <Grid container style={{marginTop: "9vh"}}>
             <Grid item xs={4}>
@@ -1897,11 +1896,11 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                           <Grid item xs={3}>
                             </Grid>
                             <Grid item xs={3}>
-                            {topCards.AUDITS_DONE != null ? (
+                            {topCards.AUDITS_DONE.value != null ? (
                               <div style={{justifyContent:"space-between"}}>
                                  <CountUp
-                                  start={topCardsH.AUDITS_DONE}
-                                  end={topCards.AUDITS_DONE}
+                                  start={topCardsH.AUDITS_DONE.value}
+                                  end={topCards.AUDITS_DONE.value}
                                   duration={.6}
                                   separator={","}
                                   className={classes.topRightCB}

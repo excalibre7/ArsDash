@@ -97,7 +97,8 @@ const [ topCards, setTopCards ] = useState({
     "NO_OF_DEFECTS":{value:0},
     "AUDITS_FAILED":0,
     "AUDITS_PASSED":0,
-    "AUDITS_DONE":0,
+    "NO_OF_PCS":0,
+    "AUDITS_DONE":{value:0},
     "ACTIVE_LINES":0,  
     "INACTIVE_LINES":0,
     "ACTIVE_VENDORS":0,
@@ -115,7 +116,8 @@ const [ topCards, setTopCards ] = useState({
     "NO_OF_DEFECTS":{value:0},
     "AUDITS_FAILED":0,
     "AUDITS_PASSED":0,
-    "AUDITS_DONE":0,
+    "NO_OF_PCS":0,
+    "AUDITS_DONE":{value:0},
     "ACTIVE_LINES":0,  
     "INACTIVE_LINES":0,
     "ACTIVE_VENDORS":0,
@@ -123,7 +125,7 @@ const [ topCards, setTopCards ] = useState({
   const [factoryTableDetails, setFactoryTableDetails] = useState({visible: false, topCards: {}, topCardsH:{}, graphData: {}, lineGraph: [], tableData: [], tableDataH: [], input: {}});
   const [nextTableDetails, setNextTableDetails] = useState({currentTable : "", nextTable: "", details: {}}); 
   const [currentTable, setCurrentTable] = useState("vendor");
-  const [ searchWidthPh, setSearchWidthPh] = useState({width: "0px", ph: "Search brand or fgCode"});
+  const [ searchWidthPh, setSearchWidthPh] = useState({width: "0px", ph: "Search Brand or FG Code"});
   var timer;
   const [sequenceType, setSequenceType] = useState({recent: "", orderQty: -1, pending: -1, pcsProduced: -1, okPcs: -1, rectifiedPcs: -1, pcsInAlter: -1, rejectedPcs: -1, rejectPer: -1, dhuPer: -1});
   const [updateHistory, setUpdateHistory] = useState({newMsg : 0, data : 1});
@@ -145,6 +147,12 @@ const [ topCards, setTopCards ] = useState({
         temp.vendorGraphData.rejectedPieces.sort((a,b) => a["Rejected Pieces"] - b["Rejected Pieces"]).reverse();
         temp.vendorGraphData.allPieces.sort((a,b) => a["All Pieces"] - b["All Pieces"]).reverse();
         temp.vendorGraphData.dhu.sort((a,b) => a["DHU"] - b["DHU"]).reverse();
+        temp.topCards.TOT_PCS.tooltip.sort((a,b) => a["frequency"] - b["frequency"]).reverse();
+        temp.topCards.OK_PIECES.tooltip.sort((a,b) => a["frequency"] - b["frequency"]).reverse();
+        temp.topCards.ALTERED_PIECES.tooltip.sort((a,b) => a["frequency"] - b["frequency"]).reverse();
+        temp.topCards.REJECTED_PIECES.tooltip.sort((a,b) => a["frequency"] - b["frequency"]).reverse();
+        temp.topCards.NO_OF_DEFECTS.tooltip.sort((a,b) => a["frequency"] - b["frequency"]).reverse();
+        temp.topCards.REJECTED_PIECES.defects.sort((a,b) => a["frequency"] - b["frequency"]).reverse();
         setMsg((arg)=>{
           setMsgH(JSON.parse(JSON.stringify({...arg})))
           return(temp)})
@@ -310,7 +318,7 @@ const handleFgCodeChange = (event) => {
   setSelectedFgCode(temp); //  remove when want multi
   if(event[0].filterType === "")
   {
-  setSearchWidthPh({width: "0px", ph: "Search brand or fgCode"})
+  setSearchWidthPh({width: "0px", ph: "Search Brand or FG Code"})
 
   }
   else
