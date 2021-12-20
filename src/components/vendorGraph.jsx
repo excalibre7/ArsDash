@@ -1045,7 +1045,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                       align="center"
                       
                     >
-                      <div className={classes.cardR} data-tip data-for={"Rejected-Pcs"}>
+                      <div className={classes.cardR}>
                       <Grid container>
                           <Grid item xs={8}>
                             <Typography className={classes.labelHeaderR}>
@@ -1869,7 +1869,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                       align="center"
                       
                     >
-                      <div className={classes.cardCB}>
+                      <div className={classes.cardCB} >
                         <Grid container>
                           <Grid item xs={3}>
                             <Typography className={classes.labelHeaderCB}>
