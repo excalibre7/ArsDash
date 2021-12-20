@@ -484,7 +484,7 @@ import {
 
 export default function VendorGraph(props) {
   const [data,setData] = useState([]);
-  const { topCards, topCardsH, age, handleChange, graphData, lineGraph} = props;
+  const { topCards, topCardsH, age, handleChange, graphData, lineGraph, setAuditTable} = props;
   const classes = useStyles();
   const [width, setWidth]   = useState(window.innerWidth);
   const [height, setHeight] = useState(window.innerHeight);
@@ -1867,7 +1867,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                       item
                       xs={12}
                       align="center"
-                      
+                      onClick={()=>{setAuditTable(true)}}
                     >
                       <div className={classes.cardCB} >
                         <Grid container>

@@ -39,6 +39,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import VendorGraph from "../components/vendorGraph";
 import Button from "@mui/material/Button";
 import FgCards from "../components/fgCards";
+import AuditTable from "../components/auditTable";
 import Multiselect from 'multiselect-react-dropdown';
 import Loader from "react-loader-spinner";
 
@@ -131,7 +132,8 @@ const [ topCards, setTopCards ] = useState({
   const [updateHistory, setUpdateHistory] = useState({newMsg : 0, data : 1});
   const [defectsHeatMap, setDefectsHeatMap] = useState([]);
   const [fgCodeKPIdata, setFgCodeKPIdata] = useState([]);
- 
+  const [auditTable, setAuditTable] = useState(false);
+  const [auditTableData, setAuditTableData] = useState([]);
   const socketRef = props.data.socketRef;
   const multiselectRef = React.useRef();
   useEffect(() => {
@@ -221,6 +223,8 @@ const [ topCards, setTopCards ] = useState({
     }
     setDefectsHeatMap(msg.defectsHeatMap);
     setFgCodeKPIdata(msg.fgCodeKPIData);
+    if(msg.topCards)
+    {setAuditTableData(msg.topCards.AUDITS_DONE.tooltip);}
     setUpdateHistory({...updateHistory, newMsg : 1});
     sequenceChange();
     setLoading(false);
@@ -483,9 +487,15 @@ if (props.data.loginState !== 1) {
   }}>SignOut</Button> 
   </div>
         </Grid>
-        {vendorTableDetails.visible ? <VendorGraph age={age} handleChange={handleChange} topCardsH={vendorTableDetails.topCardsH} topCards={vendorTableDetails.topCards} graphData={vendorTableDetails.graphData} lineGraph={vendorTableDetails.lineGraph} />:null}
-        {factoryTableDetails.visible ? <VendorGraph age={age} handleChange={handleChange} topCardsH={factoryTableDetails.topCardsH} topCards={factoryTableDetails.topCards} graphData={factoryTableDetails.graphData} lineGraph={factoryTableDetails.lineGraph}/>:null}
+        {vendorTableDetails.visible ? <VendorGraph age={age} handleChange={handleChange} topCardsH={vendorTableDetails.topCardsH} topCards={vendorTableDetails.topCards} graphData={vendorTableDetails.graphData} lineGraph={vendorTableDetails.lineGraph} setAuditTable={setAuditTable}/>:null}
+        {factoryTableDetails.visible ? <VendorGraph age={age} handleChange={handleChange} topCardsH={factoryTableDetails.topCardsH} topCards={factoryTableDetails.topCards} graphData={factoryTableDetails.graphData} lineGraph={factoryTableDetails.lineGraph} setAuditTable={setAuditTable}/>:null}
       </section>
+      {console.log("audit table!!!!!!!!!!!!!!!!!!!!!!!!!1", auditTable)}
+      {auditTable ?
+      <section className="two">
+        <AuditTable setAuditTable={setAuditTable} auditTableData={auditTableData} />
+      </section>
+      : null}
       {fgCodeKPIdata && fgCodeKPIdata.length >0 ?
       <section className="two">
         <FgCards fgCodeKPIdata={fgCodeKPIdata} defectsHeatMap={defectsHeatMap}/>
