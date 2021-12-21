@@ -61,7 +61,7 @@ export default function AuditTable(props) {
       setSearchText("");
     } else {
       const newData = auditTableData.filter((item) => {
-        let itemString = item["vendorName"];
+        let itemString = item["vendorName"] + " " + item["orderNo"] + " " + item["fgCode"];
         return itemString.toLowerCase().includes(filter);
       });
       setData(newData);
