@@ -40,9 +40,25 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "rgba(255, 255, 255, 0.1)" }
       
   },
+  search:{
+    width: "20vw",
+    border: "2px solid #ffffff00",
+    borderRadius: "4px",
+    fontSize: "2vh",
+    backgroundColor: "#ffffffcc",
+    // backgroundImage: url('searchicon.png'),
+    // backgroundPosition: "10px 10px",
+    // backgroundRepeat: "no-repeat",
+    padding: "12px",
+    transition: "width 0.4s ease-in-out",
+    "&:focus": {
+      width: "60%",
+    },
+  },
   superheaderTxt: {
     color: "#000000AA",
     fontFamily:"Work",
+    border: "2px solid #ffffff00",
     fontWeight:"800"
   },
 }));
@@ -61,7 +77,7 @@ export default function AuditTable(props) {
       setSearchText("");
     } else {
       const newData = auditTableData.filter((item) => {
-        let itemString = item["vendorName"];
+        let itemString = item["vendorName"] + " " + item["orderNo"] + " " + item["fgCode"];
         return itemString.toLowerCase().includes(filter);
       });
       setData(newData);
@@ -125,13 +141,15 @@ export default function AuditTable(props) {
   return (
     <div className={classes.tableO}>
       <div style={{
-  display: "flex", backgroundColor: "transparent", justifyContent: "space-between"}}>
-                  <input
-            type="text"
-            value={searchText}
-            onChange={handleChange}
-         />
-         <Icon path={mdiCloseThick} size={2} color="blue" onClick={() =>{setAuditTable(false)}}/>
+              display: "flex", backgroundColor: "transparent", justifyContent: "space-between",marginBottom:10}}>
+                        <input
+                        placeholder="Search For FG Code or Order No"
+                        type="text"
+                        value={searchText}
+                        className={classes.search}
+                        onChange={handleChange}
+                    />
+         <Icon path={mdiCloseThick} size={2} color="#ffffff" onClick={() =>{setAuditTable(false)}}/>
                   </div>
                   <div className={classes.tableI}>
                 <Table stickyHeader={true} className="fixedtbl">
@@ -262,10 +280,17 @@ export default function AuditTable(props) {
                           </Typography>
                         </StyledTableCell>
                             
-                        <StyledTableCell style={{backgroundColor: row.auditStatus === "PASSED" ? "#49b66777" : "#ff002577"}}>
+                        <StyledTableCell>
                           <Typography  
                             style={{
                             textAlign:"right",
+                            color:"#FFFFFF",
+                            fontWeight:"bold",
+                            borderRadius:5,
+                            padding:3,
+                            justifyContent:"center",
+                            textalign:"center",
+                            backgroundColor: row.auditStatus === "PASSED" ? "#49b667DD" : "#ff0025DD"
                           }}>
                             {row.auditStatus}
                           </Typography>
@@ -276,9 +301,9 @@ export default function AuditTable(props) {
                             textAlign:"right",
                           }}>
                             {row.inspectionOn}   <Icon path={mdiFile}
-                        size={1.5}
-                        color="blue" onClick={() => {downloadFile(row)}}
-                    />
+                              size={1.5}
+                              color="#00aeff" onClick={() => {downloadFile(row)}}
+                          />
                           </Typography>
                         </StyledTableCell>
                       </StyledTableRow>
