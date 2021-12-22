@@ -231,7 +231,7 @@ export default function VendorTable(props) {
                   </TableHead>
                   {data
                     .map((row, index) => ( 
-                      searchWidthPh.ph !== "Search brand or fgCode" && (row.orderQty === 0 || row.locationName === "Total") ? null :
+                      searchWidthPh.ph !== "Search Brand or FG Code" && (row.orderQty === 0 || row.locationName === "Total") ? null :
                       <StyledTableRow 
                       // onClick={() =>{
                       //   nextTableFunc({currentTable : "vendor", nextTable: "factory", details: {item: row}})
