@@ -359,17 +359,21 @@ function FgCards(props) {
            <div>
       <ExcelExport data={dataExcel} fileName={`Products${Moment(new Date()).format('DD-MMM-yyyy-hh:mm:ss')}.xlsx`} ref={_exporter}>
       <ExcelExportColumnGroup
-          title="CompanyName: xyz"
+          title={fgCodeKPIdata[index].companyName}
+          headerCellOptions={{ background: '#ffffff', bold: true, color: "#000000", borderRight: {color: "#000000"},borderLeft: {color: "#000000"},borderTop: {color: "#000000"}, borderBottom: {color: "#000000"}}}
+        >
+        <ExcelExportColumnGroup
+          title={fgCodeKPIdata[index].fgCode}
           headerCellOptions={{ background: '#ffffff', bold: true, color: "#000000", borderRight: {color: "#000000"},borderLeft: {color: "#000000"},borderTop: {color: "#000000"}, borderBottom: {color: "#000000"}}}
         >
                   <ExcelExportColumnGroup
-          title="VendorName: xyz"
+          title={"Start : "+ fgCodeKPIdata[index].startDate + "   End : "+ fgCodeKPIdata[index].endDate}
           headerCellOptions={{ background: '#ffffff', bold: true, color: "#000000", borderRight: {color: "#000000"},borderLeft: {color: "#000000"},borderTop: {color: "#000000"}, borderBottom: {color: "#000000"}}}
         >
                   <ExcelExportColumnGroup
-          title="Vendor ID: xyz"
+          title={"Order Qty: "+ fgCodeKPIdata[index].orderQty}
           headerCellOptions={{ background: '#ffffff', bold: true, color: "#000000", borderRight: {color: "#000000"},borderLeft: {color: "#000000"},borderTop: {color: "#000000"}, borderBottom: {color: "#000000"}}}
-        >
+        ></ExcelExportColumnGroup>
         <ExcelExportColumn field="DefectCount" title="Defect Count" cellOptions={{ borderRight: {color: "#000000"},borderLeft: {color: "#000000"},borderTop: {color: "#000000"}, borderBottom: {color: "#000000"}}} headerCellOptions={{ background: '#ffffff', bold: true, color: "#000000", borderRight: {color: "#000000"},borderLeft: {color: "#000000"},borderTop: {color: "#000000"}, borderBottom: {color: "#000000"}}}/>
         <ExcelExportColumn field="DefectName" title="Defect Name" cellOptions={{ borderRight: {color: "#000000"},borderLeft: {color: "#000000"},borderTop: {color: "#000000"}, borderBottom: {color: "#000000"}}} headerCellOptions={{ background: '#ffffff', bold: true, color: "#000000", borderRight: {color: "#000000"},borderLeft: {color: "#000000"},borderTop: {color: "#000000"}, borderBottom: {color: "#000000"}}}/>
           {/* <ExcelExportColumn field="UnitPrice" title="Unit Price" headerCellOptions={{ background: '#ffffff', bold: true, color: "#000000", borderRight: {color: "#000000"},borderLeft: {color: "#000000"},borderTop: {color: "#000000"}, borderBottom: {color: "#000000"}}}/>

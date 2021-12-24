@@ -295,14 +295,16 @@ export default function AuditTable(props) {
                             {row.auditStatus}
                           </Typography>
                         </StyledTableCell>
-                        <StyledTableCell>
+                        <StyledTableCell style={{justifyContent:"space-between"}}>
                           <Typography  
                             style={{
-                            textAlign:"right",
+                            textAlign:"center",
+                            justifyContent:"space-between"
                           }}>
-                            {row.inspectionOn}   <Icon path={mdiFile}
+                            {row.inspectionOn}   
+                            <Icon path={mdiFile}
                               size={1.5}
-                              color="#00aeff" onClick={() => {downloadFile(row)}}
+                              color="#008eff" onClick={() => {downloadFile(row)}}
                           />
                           </Typography>
                         </StyledTableCell>
