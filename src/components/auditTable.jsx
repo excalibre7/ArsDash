@@ -6,16 +6,22 @@ import {
      TableHead,
      TableCell,
      TableRow,
+     Button
   } from "@material-ui/core";
   import { withStyles } from "@material-ui/styles";
   import { mdiTrayArrowDown ,mdiCloseThick,mdiFile } from '@mdi/js';
   import Icon from '@mdi/react';
   import { Link} from "react-router-dom";
+  import ReactExport from "react-export-excel";
+
+  const ExcelFile = ReactExport.ExcelFile;
+  const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+  const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 const useStyles = makeStyles((theme) => ({
   tableO:{
     alignContent:'center',
-    marginTop: 70,
+    marginTop: "8vh",
     height:"85vh",
     margin:15,
     overflow:"hidden",
@@ -44,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     width: "20vw",
     border: "2px solid #ffffff00",
     borderRadius: "4px",
-    fontSize: "2vh",
+    fontSize: "1rem",
     backgroundColor: "#ffffffcc",
     // backgroundImage: url('searchicon.png'),
     // backgroundPosition: "10px 10px",
@@ -61,10 +67,19 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid #ffffff00",
     fontWeight:"800"
   },
+  export:{
+    marginTop:8,
+    backgroundColor:"#49b675",
+    paddingLeft:15,
+    paddingRight:15,
+    color:"#FFFFFFAA",
+    fontWeight:"bold"
+  }
 }));
 
+
 export default function AuditTable(props) {
-  const { setAuditTable, auditTableData} = props;
+  const { setAuditTable, auditTableData,auditRawData} = props;
   const classes = useStyles();
   const [searchText, setSearchText] = React.useState("");
   const [data, setData] = React.useState(auditTableData);
@@ -137,7 +152,7 @@ export default function AuditTable(props) {
       })
       .catch((error) => console.log(error)); //to catch the errors if any
   };
-
+  console.log(auditRawData)
   return (
     <div className={classes.tableO}>
       <div style={{
@@ -149,6 +164,79 @@ export default function AuditTable(props) {
                         className={classes.search}
                         onChange={handleChange}
                     />
+                    <ExcelFile element={<Button className={classes.export}>Export Raw Data</Button>}>
+                      <ExcelSheet data={auditRawData} name="Raw Data">
+                          <ExcelColumn label="Inspection Date" value="INSPECTION_DATE" widthPx="100px"/>
+                          <ExcelColumn label="Email Id" value="LOGIN_ID"/>
+                          <ExcelColumn label="QA Name" value="USERNAME"/>
+                          <ExcelColumn label="Company Name" value="COMPANY_NAME"/>
+                          <ExcelColumn label="Brand Name" value="BRAND_NAME"/>
+                          <ExcelColumn label="Product Description" value="STYLE_DESC"/>
+                          <ExcelColumn label="Category" value="CATEGORY_NAME"/>
+                          <ExcelColumn label="FG Code" value="STYLE_NO"/>
+                          <ExcelColumn label="Order Qty" value="ORDER_QTY"/>
+                          <ExcelColumn label="Offered Qty" value="PACKED_QTY"/>
+                          <ExcelColumn label="AQL Level" value="AQL_LEVEL"/>
+                          <ExcelColumn label="Sample Size" value="SAMPLE_SIZE"/>
+                          <ExcelColumn label="Total Cartons" value="TOTAL_CARTONS"/>
+                          <ExcelColumn label="Carton Sample Size" value="CARTON_SAMPLE_SIZE"/>
+                          <ExcelColumn label="Max Major Acc" value="MAX_MAJOR_ACCEPTANCE"/>
+                          <ExcelColumn label="Max Minor Acc" value="MAX_MINOR_ACCEPTANCE"/>
+                          <ExcelColumn label="Defect 1" value="DEFECT1"/>
+                          <ExcelColumn label="Defect 1 Major Count" value="DEFECT1_MAJOR_COUNT"/>
+                          <ExcelColumn label="Defect 1 Minor Count" value="DEFECT1_MINOR_COUNT"/>
+                          <ExcelColumn label="Defect 2" value="DEFECT2"/>
+                          <ExcelColumn label="Defect 2 Major Count" value="DEFECT2_MAJOR_COUNT"/>
+                          <ExcelColumn label="Defect 2 Minor Count" value="DEFECT2_MINOR_COUNT"/>
+                          <ExcelColumn label="Defect 3" value="DEFECT3"/>
+                          <ExcelColumn label="Defect 3 Major Count" value="DEFECT3_MAJOR_COUNT"/>
+                          <ExcelColumn label="Defect 3 Minor Count" value="DEFECT3_MINOR_COUNT"/>
+                          <ExcelColumn label="Defect 4" value="DEFECT4"/>
+                          <ExcelColumn label="Defect 4 Major Count" value="DEFECT4_MAJOR_COUNT"/>
+                          <ExcelColumn label="Defect 4 Minor Count" value="DEFECT4_MINOR_COUNT"/>
+                          <ExcelColumn label="Defect 5" value="DEFECT5"/>
+                          <ExcelColumn label="Defect 5 Major Count" value="DEFECT5_MAJOR_COUNT"/>
+                          <ExcelColumn label="Defect 5 Minor Count" value="DEFECT5_MINOR_COUNT"/>
+                          <ExcelColumn label="Defect 6" value="DEFECT6"/>
+                          <ExcelColumn label="Defect 6 Major Count" value="DEFECT6_MAJOR_COUNT"/>
+                          <ExcelColumn label="Defect 6 Minor Count" value="DEFECT6_MINOR_COUNT"/>
+                          <ExcelColumn label="Defect 7" value="DEFECT7"/>
+                          <ExcelColumn label="Defect 7 Major Count" value="DEFECT7_MAJOR_COUNT"/>
+                          <ExcelColumn label="Defect 7 Minor Count" value="DEFECT7_MINOR_COUNT"/>
+                          <ExcelColumn label="Defect 8" value="DEFECT8"/>
+                          <ExcelColumn label="Defect 8 Major Count" value="DEFECT8_MAJOR_COUNT"/>
+                          <ExcelColumn label="Defect 8 Minor Count" value="DEFECT8_MINOR_COUNT"/>
+                          <ExcelColumn label="Defect 9" value="DEFECT9"/>
+                          <ExcelColumn label="Defect 9 Major Count" value="DEFECT8_MAJOR_COUNT"/>
+                          <ExcelColumn label="Defect 9 Minor Count" value="DEFECT8_MINOR_COUNT"/>
+                          <ExcelColumn label="Misc Defect 1" value="MISC_DEFECT1"/>
+                          <ExcelColumn label="Misc Defect 1 Minor Count" value="MISC_DEFECT1_MAJOR_COUNT"/>
+                          <ExcelColumn label="Misc Defect 1 Major Count" value="MISC_DEFECT1_MINOR_COUNT"/>
+                          <ExcelColumn label="Misc Defect 2" value="MISC_DEFECT2"/>
+                          <ExcelColumn label="Misc Defect 2 Minor Count" value="MISC_DEFECT2_MAJOR_COUNT"/>
+                          <ExcelColumn label="Misc Defect 2 Major Count" value="MISC_DEFECT2_MINOR_COUNT"/>
+                          <ExcelColumn label="Misc Defect 3" value="MISC_DEFECT3"/>
+                          <ExcelColumn label="Misc Defect 3 Minor Count" value="MISC_DEFECT3_MAJOR_COUNT"/>
+                          <ExcelColumn label="Misc Defect 3 Major Count" value="MISC_DEFECT3_MINOR_COUNT"/>
+                          <ExcelColumn label="Meas. Defect 1" value="MEASUREMENT_DEFECT1"/>
+                          <ExcelColumn label="Meas. Defect 1 Minor Count" value="MEASUREMENT_DEFECT1_MAJOR_COUNT"/>
+                          <ExcelColumn label="Meas. Defect 1 Major Count" value="MEASUREMENT_DEFECT1_MINOR_COUNT"/>
+                          <ExcelColumn label="Meas. Defect 2" value="MEASUREMENT_DEFECT2"/>
+                          <ExcelColumn label="Meas. Defect 2 Minor Count" value="MEASUREMENT_DEFECT2_MAJOR_COUNT"/>
+                          <ExcelColumn label="Meas. Defect 2 Major Count" value="MEASUREMENT_DEFECT2_MINOR_COUNT"/>
+                          <ExcelColumn label="Meas. Defect 3" value="MEASUREMENT_DEFECT3"/>
+                          <ExcelColumn label="Meas. Defect 3 Minor Count" value="MEASUREMENT_DEFECT3_MAJOR_COUNT"/>
+                          <ExcelColumn label="Meas. Defect 3 Major Count" value="MEASUREMENT_DEFECT3_MINOR_COUNT"/>
+                          <ExcelColumn label="Crit Defect" value="CRITICAL_DEFECTS"/>
+                          <ExcelColumn label="Crit Count " value="CRITICAL_COUNT"/>
+                          <ExcelColumn label="Tot Maj" value="TOTAL_MAJAOR_COUNT"/>
+                          <ExcelColumn label="Tot Min" value="TOTAL_MINOR_COUNT"/>
+                          <ExcelColumn label="Tot Defects" value="TOTAL_DEFECTS"/>
+                          {/* <ExcelColumn label="Defect Rate" value="CRITICAL_COUNT"/> */}
+                          <ExcelColumn label="Audit Status" value="RESULT"/>
+                          <ExcelColumn label="Remarks" value="REMARKS"/>
+                      </ExcelSheet>
+                     </ExcelFile>
          <Icon path={mdiCloseThick} size={2} color="#ffffff" onClick={() =>{setAuditTable(false)}}/>
                   </div>
                   <div className={classes.tableI}>
@@ -224,7 +312,7 @@ export default function AuditTable(props) {
                           zIndex: 1000,
                         }}
                       >
-                        <Typography className={classes.superheaderTxt}>
+                        <Typography className={classes.superheaderTxt} style={{textAlign:"center"}}>
                           Audit Status
                         </Typography>
                       </StyledTableCell>
@@ -283,11 +371,13 @@ export default function AuditTable(props) {
                         <StyledTableCell>
                           <Typography  
                             style={{
-                            textAlign:"right",
+                            textAlign:"center",
                             color:"#FFFFFF",
                             fontWeight:"bold",
                             borderRadius:5,
                             padding:3,
+                            marginRight:10,
+                            marginLeft:10,
                             justifyContent:"center",
                             textalign:"center",
                             backgroundColor: row.auditStatus === "PASSED" ? "#49b667DD" : "#ff0025DD"

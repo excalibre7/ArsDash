@@ -83,6 +83,7 @@ const [ topCards, setTopCards ] = useState({
   const [enableAnimation, setEnableAnimation] = useState(true);
   const [msg, setMsg] = useState({});
   const [msgH, setMsgH] = useState({});
+  const [auditRawData, setAuditRawData] = useState({});
   const [vendorTableDetails, setVendorTableDetails] = useState(
     {visible: true, 
       topCards: {
@@ -136,6 +137,7 @@ const [ topCards, setTopCards ] = useState({
   const [auditTableData, setAuditTableData] = useState([]);
   const socketRef = props.data.socketRef;
   const multiselectRef = React.useRef();
+
   useEffect(() => {
     if(props.data.loginState === 1)
     {
@@ -174,6 +176,11 @@ const [ topCards, setTopCards ] = useState({
       socketRef.current.on("connect", () => {
         // console.log("socket id summary!!!!!",socketRef.current.id); 
       });
+
+      socketRef.current.on("rawData", (msg3) => {
+        setAuditRawData(msg3)
+      });
+      props.data.socketRef.current.emit("getRawExportData");
 		}}
   ,
 		[]
@@ -244,30 +251,6 @@ const [ topCards, setTopCards ] = useState({
     }
   },[nextTableDetails.nextTable]);
 
-  // useEffect(() =>{
-  //   fetch(` https://zedqwsapi.bluekaktus.com/filters/getFiltersList`, {
-  //     method: "POST",
-  //     body: JSON.stringify({
-  //       "userID": 0,
-  //       "companyID": 0
-  //   })
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //   //         {
-  //   //   cat: 'Group 1',
-  //   //   key: 'Option 1'
-  //   // },
-  //       let temp = data.result;
-  //       // console.log("data is", data.result);
-  //       for(let i = 0; i< temp.length; i++)
-  //       {
-  //         temp[i].cat = temp[i].filterCode;
-  //         temp[i].key = temp[i].filterCode === "BRAND" ? "Brand Name: " + temp[i].filterDetails.BRAND_NAME :"Order No.: " + temp[i].filterDetails.ORDER_NO + "Style No.: " + temp[i].filterDetails.STYLE_NO
-  //       }
-  //       setFgCodeList(temp);
-  //     });
-  // }, [])
 
   const sequenceChange = () =>{
     let key = "", message = JSON.parse(JSON.stringify(msg));
@@ -314,6 +297,7 @@ const handleTimeChange = (event) => {
   props.data.socketRef.current.emit("setDateRangeFilter", event.target.value);
   console.log("date range changed", event.target.value);
   setLoading(true);
+  props.data.socketRef.current.emit("getRawExportData");
 };
 
 const handleFgCodeChange = (event) => {
@@ -333,6 +317,7 @@ const handleFgCodeChange = (event) => {
   multiselectRef.current.resetSelectedValues(event);
 //  if(event.length > 0)
   props.data.socketRef.current.emit("setFilters", [event[0]]);
+  props.data.socketRef.current.emit("getRawExportData");
 // else
  // props.data.socketRef.current.emit("setFilters", []);
 }
@@ -437,7 +422,7 @@ if (props.data.loginState !== 1) {
     <div style ={{display: 'flex', maxWidth: "600px", marginLeft: 20, marginRight: 20 }}                         
     onMouseEnter={() => setSearchWidthPh({ ... searchWidthPh, width: "550px"})}
     onMouseLeave={() => {if(selectedFgCode.length === 0)
-                          setSearchWidthPh({...searchWidthPh, width: "0px"})
+                          setSearchWidthPh({...searchWidthPh, width: "50px"})
                         }}>
     <Icon path={mdiMagnify}
                         size={2}
@@ -479,7 +464,8 @@ if (props.data.loginState !== 1) {
       {searchWidthPh.width !== "0px" ? 
         <Icon path={mdiCloseThick} size={2} color="blue" onClick={() =>{handleFgCodeChange([{ filterID: 0, filterType: "", filterValue: ""}])}}  /> : null }
 </div>
-    <div><Button   onClick={() => {
+    <div>
+      <Button   onClick={() => {
       // console.log("socket.current", socketRef.current);
     //  socketRef.current.disconnect();
       props.data.setLoginState(-1);
@@ -492,7 +478,7 @@ if (props.data.loginState !== 1) {
       </section>
       {auditTable ?
       <section className="two">
-        <AuditTable setAuditTable={setAuditTable} auditTableData={auditTableData} />
+        <AuditTable setAuditTable={setAuditTable} auditTableData={auditTableData} auditRawData={auditRawData}/>
       </section>
       : null}
       {fgCodeKPIdata && fgCodeKPIdata.length >0 ?
@@ -727,7 +713,7 @@ tableI:{
       border: "none",
     },
     header: {
-      height:"8vh",
+      height:"4.5rem",
       width:"98%", 
       position: 'fixed ',
       top: 10, left: 10,right:10,
