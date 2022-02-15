@@ -150,6 +150,7 @@ const [ topCards, setTopCards ] = useState({
         temp.vendorGraphData.alteredPieces.sort((a,b) => a["Altered Pieces"] - b["Altered Pieces"]).reverse();
         temp.vendorGraphData.rejectedPieces.sort((a,b) => a["Rejected Pieces"] - b["Rejected Pieces"]).reverse();
         temp.vendorGraphData.allPieces.sort((a,b) => a["All Pieces"] - b["All Pieces"]).reverse();
+        temp.vendorGraphData.dhu.pop(0)
         temp.vendorGraphData.dhu.sort((a,b) => a["DHU"] - b["DHU"]).reverse();
         temp.topCards.TOT_PCS.tooltip.sort((a,b) => a["frequency"] - b["frequency"]).reverse();
         temp.topCards.OK_PIECES.tooltip.sort((a,b) => a["frequency"] - b["frequency"]).reverse();
