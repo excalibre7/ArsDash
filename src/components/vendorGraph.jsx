@@ -49,7 +49,7 @@ import {
     },
   },
   labelHeaderG: {
-    fontSize: "2.8vh",
+    fontSize: "1.5rem",
     fontFamily: "Work",
     margin: 2,
     marginLeft:10,
@@ -60,7 +60,7 @@ import {
     letterSpacing:"-1px"
   },
   labelHeaderGX: {
-    fontSize: "2.5vh",
+    fontSize: "2vh",
     fontFamily: "Work",
     margin: 2,
     padding: 2,
@@ -170,7 +170,7 @@ import {
     },
   },
   labelHeaderB: {
-    fontSize: "3.1vh",
+    fontSize: "1.5rem",
     fontFamily: "Work",
     margin: 2,
     marginLeft:10,
@@ -206,6 +206,17 @@ import {
     textAlign:"left",
     letterSpacing:"-1px"
   },
+  labelHeaderYX: {
+    fontSize: "3.1vh",
+    fontFamily: "Work",
+    margin: 2,
+    marginLeft:10,
+    padding: 2,
+    color: "#ebc033",
+    fontWeight:800,
+    textAlign:"left",
+    letterSpacing:"-1px"
+  },
   cardR: {
     height: "15vh",
     width: "100%",
@@ -223,6 +234,17 @@ import {
   },
   labelHeaderR: {
     fontSize: "2.8vh",
+    fontFamily: "Work",
+    margin: 2,
+    marginLeft:10,
+    padding: 2,
+    color: "#ff0025",
+    fontWeight:800,
+    textAlign:"left",
+    letterSpacing:"-1px"
+  },
+  labelHeaderRA: {
+    fontSize: "1.4rem",
     fontFamily: "Work",
     margin: 2,
     marginLeft:10,
@@ -326,13 +348,14 @@ import {
       
   },
   topRightG: {
-    fontSize: "2.8vw",
+    fontSize: "2.5rem",
     fontWeight: "bold",
     justifyContent:"flex-end",
     textAlign: "right",
     alignSelf: "flex-end",
     fontFamily: "Work",
     margin:5,
+    marginTop:"2rem",
     color: "#49b667",
     fontWeight:800,
     textAlign:"right",
@@ -378,7 +401,7 @@ import {
     letterSpacing:"-1px"
   },
   topRightB: {
-    fontSize: "2.8vw",
+    fontSize: "2.5rem",
     fontWeight: "bold",
     justifyContent:"flex-end",
     textAlign: "right",
@@ -403,8 +426,34 @@ import {
     textAlign:"right",
     letterSpacing:"-1px"
   },
+  topRightYX: {
+    fontSize: "2.7rem",
+    fontWeight: "bold",
+    justifyContent:"flex-end",
+    textAlign: "right",
+    alignSelf: "flex-end",
+    fontFamily: "Work",
+    margin:5,
+    color: "#ebc033",
+    fontWeight:800,
+    textAlign:"right",
+    letterSpacing:"-1px"
+  },
   topRightR: {
     fontSize: "3vw",
+    fontWeight: "bold",
+    justifyContent:"flex-end",
+    textAlign: "right",
+    alignSelf: "flex-end",
+    fontFamily: "Work",
+    margin:5,
+    color: "#ff0025",
+    fontWeight:800,
+    textAlign:"right",
+    letterSpacing:"-1px"
+  },
+  topRightRA: {
+    fontSize: "2.7rem",
     fontWeight: "bold",
     justifyContent:"flex-end",
     textAlign: "right",
@@ -430,7 +479,7 @@ import {
     letterSpacing:"-1px"
   },
   topRightO: {
-    fontSize: "3vw",
+    fontSize: "2.7rem",
     fontWeight: "bold",
     justifyContent:"flex-end",
     textAlign: "right",
@@ -894,13 +943,13 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                     >
                       <div className={classes.cardG} data-tip data-for={"Pcs-Produced"}>
                         <Grid container>
-                          <Grid item xs={8}>
+                          <Grid item xs={10}>
                             <Typography className={classes.labelHeaderG}>
                               {"Pcs Produced"}
                             </Typography>
                           </Grid>
                         </Grid>
-                        <Grid container>
+                        <Grid container style={{marginTop:"2rem"}}>
                           <Grid item xs={4}>
                             </Grid>
                             <Grid item xs={8}>
@@ -945,13 +994,13 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                     >
                       <div className={classes.cardB} data-tip data-for={"OK-Pieces"}>
                       <Grid container>
-                          <Grid item xs={8}>
+                          <Grid item xs={10}>
                             <Typography className={classes.labelHeaderB}>
                               {"OK Pieces"}
                             </Typography>
                           </Grid>
                         </Grid>
-                        <Grid container>
+                        <Grid container style={{marginTop:"2rem"}}>
                           <Grid item xs={4}>
                             </Grid>
                             <Grid item xs={8}>
@@ -1092,31 +1141,31 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                     </Grid>
                     <Grid
                       item
-                      xs={6}
+                      xs={4}
                       align="center"
                       
                     >
-                      <div className={classes.cardR} data-tip data-for={"Rejected-%"}>
+                      <div className={classes.cardY} data-tip data-for={"null"}>
                       <Grid container>
-                          <Grid item xs={8}>
-                            <Typography className={classes.labelHeaderR}>
-                              {"Rejected %"}
+                          <Grid item xs={11}>
+                            <Typography className={classes.labelHeaderYX}>
+                              {"Rework %"}
                             </Typography>
                           </Grid>
                         </Grid>
-                        <Grid container>
-                          <Grid item xs={4}>
+                        <Grid container style={{marginTop:20}}>
+                          <Grid item xs={2}>
                             </Grid>
-                            <Grid item xs={8}>
-                            {topCards.REJECTED_PIECES != null ? (
+                            <Grid item xs={10}>
+                            {topCards.NO_OF_DEFECTS.value != null ? (
                                 <CountUp
-                                  start={topCardsH.REJECTED_PIECES.value*100/topCardsH.NO_OF_PCS}
-                                  end={topCards.REJECTED_PIECES.value*100/topCards.NO_OF_PCS}
+                                  start={(topCardsH.PCS_IN_ALTERATION+topCardsH.ALTERED_PIECES.value)*100/topCardsH.TOT_PCS.value}
+                                  end={(topCards.PCS_IN_ALTERATION+topCards.ALTERED_PIECES.value)*100/topCards.TOT_PCS.value}
                                   duration={.6}
                                   separator={","}
                                   decimals={2}
                                   suffix={"%"}
-                                  className={classes.topRightR}
+                                  className={classes.topRightYX}
                                 />
                               ) :    
                               <CountUp
@@ -1146,7 +1195,7 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                     </Grid>
                     <Grid
                       item
-                      xs={6}
+                      xs={4}
                       align="center"
                       
                     >
@@ -1158,10 +1207,10 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                             </Typography>
                           </Grid>
                         </Grid>
-                        <Grid container>
-                          <Grid item xs={4}>
+                        <Grid container style={{marginTop:20}}>
+                          <Grid item xs={2}>
                             </Grid>
-                            <Grid item xs={8}>
+                            <Grid item xs={10}>
                             {topCards.NO_OF_DEFECTS.value != null ? (
                                 <CountUp
                                   start={topCardsH.NO_OF_DEFECTS.value*100/topCardsH.NO_OF_PCS}
@@ -1198,7 +1247,60 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
                             )}
                             </ReactTooltip>:null}
                     </Grid>
-
+                    <Grid
+                      item
+                      xs={4}
+                      align="center"
+                      
+                    >
+                      <div className={classes.cardR} data-tip data-for={"Rejected-%"}>
+                      <Grid container>
+                          <Grid item xs={11}>
+                            <Typography className={classes.labelHeaderR}>
+                              {"Rejected %"}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                        <Grid container style={{marginTop:20}}>
+                          <Grid item xs={2}>
+                            </Grid>
+                            <Grid item xs={10}>
+                            {topCards.REJECTED_PIECES != null ? (
+                                <CountUp
+                                  start={topCardsH.REJECTED_PIECES.value*100/topCardsH.NO_OF_PCS}
+                                  end={topCards.REJECTED_PIECES.value*100/topCards.NO_OF_PCS}
+                                  duration={.6}
+                                  separator={","}
+                                  decimals={2}
+                                  suffix={"%"}
+                                  className={classes.topRightRA}
+                                />
+                              ) :    
+                              <CountUp
+                              start={0}
+                              end={0}
+                              duration={.6}
+                              decimals={2}
+                              suffix={"%"}
+                              className={classes.topRightRA}
+                            />}
+                            </Grid>
+                        </Grid>
+                      </div>
+                      {topCards.REJECTED_PIECES.defects!=null?
+                          <ReactTooltip id={"Rejected-%"} effect={"solid"} place={"bottom"} delayShow={"350"} backgroundColor={"#fff0f5"}>
+                            {topCards.REJECTED_PIECES.defects.slice(0,10).map((item) =>
+                            <Grid container>
+                              <Grid item xs={10}>
+                                <Typography style={{color:"#000",textAlign:"left",width:"12vw"}}>{item.label}</Typography>    
+                              </Grid>
+                              <Grid item xs={2}>
+                                <Typography style={{color:"#000",textAlign:"right",fontWeight:"bold"}}>{item.frequency}</Typography>    
+                              </Grid>
+                              </Grid>
+                            )}
+                            </ReactTooltip>:null}
+                    </Grid>
                   </Grid>
                 </Grid>
         <div className={classes.graph}

@@ -8,6 +8,10 @@ import io from "socket.io-client";
 
 function App() {
 
+  if (typeof window !== 'undefined') {
+    window.React = React;
+}
+
   const socketRef = useRef();
   const [ chat, setChat ] = useState([]);
   const [username, setUsername] = useState("");
@@ -33,6 +37,10 @@ function App() {
       // })
       socketRef.current.on("connect", () => {
         console.log("socket id app!!!!!",socketRef.current.id); 
+      });
+      socketRef.current.on("disconnect", (msg) => {
+        console.log(msg)
+        console.log("I have been disconnected"); 
       });
       socketRef.current.on("validLogin", (msg) => {
         setLoginState(1);

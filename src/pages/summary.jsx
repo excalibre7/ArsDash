@@ -143,7 +143,8 @@ const [ topCards, setTopCards ] = useState({
     {
       socketRef.current.on("fromServer", ( msg1 ) => {
         console.log("message summary!!",msg1);
-        
+        var startTime = performance.now()
+
         let temp = msg1;
         temp.vendorGraphData.producedPieces.sort((a,b) => a["Produced Pieces"] - b["Produced Pieces"]).reverse();
         temp.vendorGraphData.okPieces.sort((a,b) => a["Ok Pieces"] - b["Ok Pieces"]).reverse();
@@ -158,15 +159,20 @@ const [ topCards, setTopCards ] = useState({
         temp.topCards.REJECTED_PIECES.tooltip.sort((a,b) => a["frequency"] - b["frequency"]).reverse();
         temp.topCards.NO_OF_DEFECTS.tooltip.sort((a,b) => a["frequency"] - b["frequency"]).reverse();
         temp.topCards.REJECTED_PIECES.defects.sort((a,b) => a["frequency"] - b["frequency"]).reverse();
+        var endTime = performance.now()
+
+        console.log(`check1 ${endTime - startTime} milliseconds`)
         setMsg((arg)=>{
           setMsgH(JSON.parse(JSON.stringify({...arg})))
           return(temp)})
+          var endTime2 = performance.now()
+          console.log(`checkw ${endTime2 - startTime} milliseconds`)
       })
       socketRef.current.on("filterObjects", ( msg ) => {
-        // console.log("message summary!!",msg);
-        console.log("filter list is!!!!!!!!!!!!!!!!", msg)
+        // //console.log("message summary!!",msg);
+        //console.log("filter list is!!!!!!!!!!!!!!!!", msg)
         let temp = msg;
-        // console.log("data is", data.result);
+        // //console.log("data is", data.result);
         for(let i = 0; i< temp.length; i++)
         {
           temp[i].cat = temp[i].filterID;
@@ -175,7 +181,7 @@ const [ topCards, setTopCards ] = useState({
         setFgCodeList(temp);
       });
       socketRef.current.on("connect", () => {
-        // console.log("socket id summary!!!!!",socketRef.current.id); 
+        // //console.log("socket id summary!!!!!",socketRef.current.id); 
       });
 
       socketRef.current.on("rawData", (msg3) => {
@@ -190,7 +196,7 @@ const [ topCards, setTopCards ] = useState({
   useEffect(() => {
 
     if(enableAnimation){
-      console.log("enableAnimation")
+      //console.log("enableAnimation")
     timer = setTimeout(() => {
       if(updateHistory.newMsg === 0)
       {
@@ -207,7 +213,7 @@ const [ topCards, setTopCards ] = useState({
       }
     }, 15000);
   }else{
-    console.log("DisableAnimation")
+    //console.log("DisableAnimation")
     clearTimeout(timer);
   }
   },[age])
@@ -293,10 +299,12 @@ const [ topCards, setTopCards ] = useState({
     }
   }
 
+  //console.log(socketRef)
+
 const handleTimeChange = (event) => {
   setSelectedDate(event.target.value);
   props.data.socketRef.current.emit("setDateRangeFilter", event.target.value);
-  console.log("date range changed", event.target.value);
+  // //console.log("date range changed", event.target.value);
   setLoading(true);
   props.data.socketRef.current.emit("getRawExportData");
 };
@@ -314,7 +322,7 @@ const handleFgCodeChange = (event) => {
   {
   setSearchWidthPh({...searchWidthPh, ph: event[0].filterType + ": "+ event[0].filterValue})
   }
-  console.log("event!!!!!!!!!!!!1", event);
+  //console.log("event!!!!!!!!!!!!1", event);
   multiselectRef.current.resetSelectedValues(event);
 //  if(event.length > 0)
   props.data.socketRef.current.emit("setFilters", [event[0]]);
@@ -391,7 +399,7 @@ if (props.data.loginState !== 1) {
   id="css_custom"
   //onKeyPressFn={function noRefCheck(){}}
   onRemove={(e) => handleFgCodeChange(e)}
-  onSearch={(e) => console.log ("searcheed", e)}
+  onSearch={(e) => //console.log ("searcheed", e)}
   onSelect={(e) => handleFgCodeChange(e)}
   options={fgCodeList}
   placeholder="Search Brand or FgCode"
@@ -435,7 +443,7 @@ if (props.data.loginState !== 1) {
       id="css_custom"
       //onKeyPressFn={function noRefCheck(){}}
     //  onRemove={(e) => handleFgCodeChange(e)}
-      // onSearch={(e) => console.log ("searched", e)}
+      // onSearch={(e) => //console.log ("searched", e)}
       onSelect={(e) => setTimeout(() => handleFgCodeChange(e), 300)} // state take a little time to update event hence added some delay
       options={fgCodeList}
     //  singleSelect={true}
@@ -467,7 +475,7 @@ if (props.data.loginState !== 1) {
 </div>
     <div>
       <Button   onClick={() => {
-      // console.log("socket.current", socketRef.current);
+      // //console.log("socket.current", socketRef.current);
     //  socketRef.current.disconnect();
       props.data.setLoginState(-1);
     //  props.data.setSocketID("");
