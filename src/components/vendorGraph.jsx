@@ -37,9 +37,11 @@ const useStyles = makeStyles((theme) => ({
         height: "15vh",
         width: "100%",
         display: "flex",
+        flex:1,
         paddingBottom: "1rem",
         flexDirection: "column",
         justifyContent: "space-between",
+        alignItems:"flex-start",
         backgroundColor: "#eefef1",
         boxShadow:
             "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
@@ -164,9 +166,12 @@ const useStyles = makeStyles((theme) => ({
     cardB: {
         height: "15vh",
         width: "100%",
+        display: "flex",
+        flex:1,
         paddingBottom: "1rem",
         flexDirection: "column",
         justifyContent: "space-between",
+        alignItems:"flex-start",
         backgroundColor: "#edf3ff",
         boxShadow:
             "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
@@ -194,9 +199,12 @@ const useStyles = makeStyles((theme) => ({
     cardY: {
         height: "15vh",
         width: "100%",
+        display: "flex",
+        flex:1,
         paddingBottom: "1rem",
         flexDirection: "column",
         justifyContent: "space-between",
+        alignItems:"flex-start",
         backgroundColor: "#fffce6",
         boxShadow:
             "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
@@ -235,6 +243,12 @@ const useStyles = makeStyles((theme) => ({
     cardR: {
         height: "15vh",
         width: "100%",
+        display: "flex",
+        flex:1,
+        paddingBottom: "1rem",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems:"flex-start",
         backgroundColor: "#fff0f5",
         boxShadow:
             "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
@@ -283,6 +297,12 @@ const useStyles = makeStyles((theme) => ({
     cardO: {
         height: "15vh",
         width: "100%",
+        display: "flex",
+        flex:1,
+        paddingBottom: "1rem",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems:"flex-start",
         backgroundColor: "#ffedd9",
         boxShadow:
             "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
@@ -1011,7 +1031,7 @@ export default function VendorGraph(props) {
                                         </Typography>
                                     </Grid>
                                 </Grid>
-                                <Grid container style={{ marginTop: "1rem" }}>
+                                <Grid container>
                                     <Grid item xs={4}></Grid>
                                     <Grid item xs={8}>
                                         {topCards.TOT_PCS.value != null ? (
@@ -1088,7 +1108,7 @@ export default function VendorGraph(props) {
                                         </Typography>
                                     </Grid>
                                 </Grid>
-                                <Grid container style={{ marginTop: "1rem" }}>
+                                <Grid container>
                                     <Grid item xs={4}></Grid>
                                     <Grid item xs={8}>
                                         {topCards.OK_PIECES.value != null ? (
@@ -1335,7 +1355,7 @@ export default function VendorGraph(props) {
                                         </Typography>
                                     </Grid>
                                 </Grid>
-                                <Grid container style={{ marginTop: 20 }}>
+                                <Grid container>
                                     <Grid item xs={2}></Grid>
                                     <Grid item xs={10}>
                                         {topCards.NO_OF_DEFECTS.value !=
@@ -1428,7 +1448,7 @@ export default function VendorGraph(props) {
                                         </Typography>
                                     </Grid>
                                 </Grid>
-                                <Grid container style={{ marginTop: 20 }}>
+                                <Grid container>
                                     <Grid item xs={2}></Grid>
                                     <Grid item xs={10}>
                                         {topCards.NO_OF_DEFECTS.value !=
@@ -1519,7 +1539,7 @@ export default function VendorGraph(props) {
                                         </Typography>
                                     </Grid>
                                 </Grid>
-                                <Grid container style={{ marginTop: 20 }}>
+                                <Grid container>
                                     <Grid item xs={2}></Grid>
                                     <Grid item xs={10}>
                                         {topCards.REJECTED_PIECES != null ? (
