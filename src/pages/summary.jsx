@@ -144,7 +144,11 @@ const [ topCards, setTopCards ] = useState({
       socketRef.current.on("fromServer", ( msg1 ) => {
         console.log("message summary!!",msg1);
         var startTime = performance.now()
-
+        const size = Buffer.byteLength(JSON.stringify(msg1))
+        
+        const kiloBytes = size / 1024;
+        const megaBytes = kiloBytes / 1024;
+        // console.log(size,kiloBytes,megaBytes)
         let temp = msg1;
         temp.vendorGraphData.producedPieces.sort((a,b) => a["Produced Pieces"] - b["Produced Pieces"]).reverse();
         temp.vendorGraphData.okPieces.sort((a,b) => a["Ok Pieces"] - b["Ok Pieces"]).reverse();
@@ -185,6 +189,7 @@ const [ topCards, setTopCards ] = useState({
       });
 
       socketRef.current.on("rawData", (msg3) => {
+        console.log(msg3)
         setAuditRawData(msg3)
       });
       props.data.socketRef.current.emit("getRawExportData");
@@ -335,6 +340,7 @@ if (props.data.loginState !== 1) {
   return <Redirect to="/" />;
 }
 
+console.log(vendorTableDetails)
 
   return (
     <MuiThemeProvider theme={THEME}>

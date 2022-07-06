@@ -84,6 +84,8 @@ export default function AuditTable(props) {
   const [searchText, setSearchText] = React.useState("");
   const [data, setData] = React.useState(auditTableData);
 
+  console.log(auditRawData)
+
   const filterDataList = (filter) => {
     filter = filter.toLowerCase();
 
@@ -152,7 +154,7 @@ export default function AuditTable(props) {
       })
       .catch((error) => console.log(error)); //to catch the errors if any
   };
-  console.log(auditRawData)
+
   return (
     <div className={classes.tableO}>
       <div style={{
@@ -170,6 +172,7 @@ export default function AuditTable(props) {
                           <ExcelColumn label="Email Id" value="LOGIN_ID"/>
                           <ExcelColumn label="QA Name" value="USERNAME"/>
                           <ExcelColumn label="Company Name" value="COMPANY_NAME"/>
+                          <ExcelColumn label="Factory" value="FACTORY_NAME"/>
                           <ExcelColumn label="Brand Name" value="BRAND_NAME"/>
                           <ExcelColumn label="Product Description" value="STYLE_DESC"/>
                           <ExcelColumn label="Category" value="CATEGORY_NAME"/>
@@ -232,6 +235,7 @@ export default function AuditTable(props) {
                           <ExcelColumn label="Tot Maj" value="TOTAL_MAJAOR_COUNT"/>
                           <ExcelColumn label="Tot Min" value="TOTAL_MINOR_COUNT"/>
                           <ExcelColumn label="Tot Defects" value="TOTAL_DEFECTS"/>
+                          <ExcelColumn label="DHU" value="DHU"/>
                           {/* <ExcelColumn label="Defect Rate" value="CRITICAL_COUNT"/> */}
                           <ExcelColumn label="Audit Status" value="RESULT"/>
                           <ExcelColumn label="Remarks" value="REMARKS"/>

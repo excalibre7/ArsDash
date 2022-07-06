@@ -2649,14 +2649,14 @@ export default function VendorGraph(props) {
                                         <Typography
                                             className={classes.labelHeaderCG}
                                         >
-                                            {"Active Vendors"}
+                                            {"Active Locations"}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={3}>
                                         <Typography
                                             className={classes.labelHeaderCG}
                                         >
-                                            {"Inactive Vendors"}
+                                            {"Inactive Locations"}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={3}>
@@ -2676,7 +2676,7 @@ export default function VendorGraph(props) {
                                 </Grid>
                                 <Grid container>
                                     <Grid item xs={3}>
-                                        {topCards.ACTIVE_VENDORS != null ? (
+                                        {topCards.ACTIVE_LOCATIONS != null ? (
                                             <div
                                                 style={{
                                                     justifyContent:
@@ -2685,10 +2685,10 @@ export default function VendorGraph(props) {
                                             >
                                                 <CountUp
                                                     start={
-                                                        topCardsH.ACTIVE_VENDORS
+                                                        topCardsH.ACTIVE_LOCATIONS
                                                     }
                                                     end={
-                                                        topCards.ACTIVE_VENDORS
+                                                        topCards.ACTIVE_LOCATIONS
                                                     }
                                                     duration={0.6}
                                                     separator={","}
@@ -2708,7 +2708,7 @@ export default function VendorGraph(props) {
                                         )}
                                     </Grid>
                                     <Grid item xs={3}>
-                                        {topCards.INACTIVE_VENDORS != null ? (
+                                        {topCards.INACTIVE_LOCATIONS != null ? (
                                             <div
                                                 style={{
                                                     justifyContent:
@@ -2717,10 +2717,10 @@ export default function VendorGraph(props) {
                                             >
                                                 <CountUp
                                                     start={
-                                                        topCardsH.INACTIVE_VENDORS
+                                                        topCardsH.INACTIVE_LOCATIONS
                                                     }
                                                     end={
-                                                        topCards.INACTIVE_VENDORS
+                                                        topCards.INACTIVE_LOCATIONS
                                                     }
                                                     duration={0.6}
                                                     separator={","}
