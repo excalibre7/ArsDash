@@ -103,7 +103,8 @@ const [ topCards, setTopCards ] = useState({
     "AUDITS_DONE":{value:0},
     "ACTIVE_LINES":0,  
     "INACTIVE_LINES":0,
-    "ACTIVE_VENDORS":0,
+    "ACTIVE_LOCATIONS":0,
+    "INACTIVE_LOCATIONS":0,
     
   }, topCardsH:{
     "ORDER_QTY": 0,
@@ -122,7 +123,8 @@ const [ topCards, setTopCards ] = useState({
     "AUDITS_DONE":{value:0},
     "ACTIVE_LINES":0,  
     "INACTIVE_LINES":0,
-    "ACTIVE_VENDORS":0,
+    "ACTIVE_LOCATIONS":0,
+    "INACTIVE_LOCATIONS":0,
   }, graphData: {}, lineGraph:[], tableData: [], tableDataH: [], inupt: {}}); // input will take the data for next screen API
   const [factoryTableDetails, setFactoryTableDetails] = useState({visible: false, topCards: {}, topCardsH:{}, graphData: {}, lineGraph: [], tableData: [], tableDataH: [], input: {}});
   const [nextTableDetails, setNextTableDetails] = useState({currentTable : "", nextTable: "", details: {}}); 
