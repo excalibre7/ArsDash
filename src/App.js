@@ -10,7 +10,6 @@ function App() {
     window.React = React;
 }
 
-  const socketRef = useRef();
   const [ chat, setChat ] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +19,7 @@ function App() {
   return (
     <React.Fragment>
       <Helmet>
-        <title>ZedQ Reports</title>
+        <title>Dash Board</title>
       </Helmet>
       <div></div>
       {/* <Route exact path="/">

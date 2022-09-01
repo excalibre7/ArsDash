@@ -10,6 +10,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { DatePicker,MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from '@date-io/date-fns';
 
 var w = window.innerWidth;
 var h = window.innerHeight;
@@ -92,7 +94,7 @@ headerData :{
     fontSize:"1.2rem",
     paddingRight:8,
     padding:3,
-    width:"5vw",
+    width:"7vw",
     textAlign:"right"
 },
 headerDataStock :{
@@ -107,7 +109,7 @@ data :{
     fontSize:"1.2rem",
     paddingRight:8,
     padding:3,
-    width:"5vw",
+    width:"7vw",
     textAlign:"center",
     textAlign:"right"
 },
@@ -147,6 +149,37 @@ formControl: {
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+
+  rowIcell : {
+    display:"flex",
+    flexDirection:"row",
+    marginLeft:10,
+    marginRight:10,
+    margin:5,
+    borderRadius:8,
+    justifyContent:"space-between",
+    padding:"0px 5px",
+    backgroundColor: "#494C5E33",
+    backdropFilter: "blur(10px)"
+},
+dataICell :{
+    fontSize:"1.4rem",
+    paddingRight:8,
+    padding:3,
+    width:"7vw",
+    textAlign:"center",
+    textAlign:"right"
+},
+tableHeaderIcell : {
+    display:"flex",
+    flexDirection:"row",
+    margin:10,
+    marginBottom:5,
+    backgroundColor:"#494C5ECC",
+    borderRadius:"5px",
+    justifyContent:"space-between",
+    padding:"0px 5px"
+},
 }));
 
 export default function Login(props) {
@@ -154,7 +187,7 @@ export default function Login(props) {
   const classes = useStyles();
   const history = useHistory();
 
-  const [ selectedGraph, setSelectedGraph ] = useState("WHDC IN-STOCK%");
+  const [ selectedGraph, setSelectedGraph ] = useState("WH/DC IN-STOCK%");
   const [brand, setBrand] = React.useState('');
 
   const handleChange = (event) => {
@@ -162,6 +195,7 @@ export default function Login(props) {
   };
 
   const [className, setClassName] = React.useState('');
+  const [selectedDate, handleDateChange] = useState(null);
 
   const handleChangex = (event) => {
     setClassName(event.target.value);
@@ -177,6 +211,12 @@ export default function Login(props) {
 
   const handleChangePrice = (event) => {
     setPrice(event.target.value);
+  };
+
+  const [stockType, setStockType] = React.useState('');
+
+  const handleChangeStock = (event) => {
+    setStockType(event.target.value);
   };
 
 
@@ -238,7 +278,7 @@ export default function Login(props) {
                 value:100
             },
             {
-                month:"oct 22",
+                month:"Oct 22",
                 value:94
             },
             {
@@ -270,8 +310,8 @@ export default function Login(props) {
                 color: "hsl(225, 70%, 50%)"
             },
             {
-                id: "Efficently Stocked",
-                label: "Efficently Stocked",
+                id: "Efficiently Stocked",
+                label: "Efficiently Stocked",
                 value: 4,
                 color: "hsl(225, 70%, 50%)"
             },
@@ -303,8 +343,8 @@ export default function Login(props) {
                 color: "hsl(225, 70%, 50%)"
             },
             {
-                id: "Efficently Stocked",
-                label: "Efficently Stocked",
+                id: "Efficiently Stocked",
+                label: "Efficiently Stocked",
                 value: 27,
                 color: "hsl(225, 70%, 50%)"
             },
@@ -336,8 +376,8 @@ export default function Login(props) {
                 color: "hsl(225, 70%, 50%)"
             },
             {
-                id: "Efficently Stocked",
-                label: "Efficently Stocked",
+                id: "Efficiently Stocked",
+                label: "Efficiently Stocked",
                 value: 53,
                 color: "hsl(225, 70%, 50%)"
             },
@@ -373,14 +413,26 @@ export default function Login(props) {
         },    
     ]
 
+    const theme = {
+        axis: {
+          textColor: '#eee',
+          fontSize: '14px',
+          tickColor: '#eee',
+        },
+        grid: {
+          stroke: '#888',
+          strokeWidth: 1
+        },
+      };
+
   return (
     <div className={classes.base}>
       <div className={classes.topheader}>
-          <div className={classes.headerElement} onClick={()=>setSelectedGraph("WHDC IN-STOCK%")}> WHDC IN-STOCK%</div>
+          <div className={classes.headerElement} onClick={()=>setSelectedGraph("WH/DC IN-STOCK%")}> WH/DC IN-STOCK%</div>
           <div className={classes.headerElement} onClick={()=>setSelectedGraph("WH Stock Efficiency")}> WH Stock Efficiency</div>
           <div className={classes.headerElement} onClick={()=>setSelectedGraph("Inventory Days")}> Inventory Days</div>
       </div>
-      {selectedGraph=="WHDC IN-STOCK%"?
+      {selectedGraph=="WH/DC IN-STOCK%"?
       <div className={classes.dashWrapper}>
         <div className={classes.filters}>
             <div>
@@ -421,6 +473,27 @@ export default function Login(props) {
                 </Select>
             </FormControl>
             </div>
+
+            <div>
+            <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">MRP</InputLabel>
+                <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={price}
+                onChange={handleChangePrice}
+                label="MRP"
+                >
+                <MenuItem value="">
+                    <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>599</MenuItem>
+                <MenuItem value={20}>1099</MenuItem>
+                <MenuItem value={30}>1499</MenuItem>
+                </Select>
+            </FormControl>
+            </div>
+
             <div>
             <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel id="demo-simple-select-outlined-label">DC</InputLabel>
@@ -437,25 +510,6 @@ export default function Login(props) {
                 <MenuItem value={10}>DC1</MenuItem>
                 <MenuItem value={20}>DC2</MenuItem>
                 <MenuItem value={30}>DC3</MenuItem>
-                </Select>
-            </FormControl>
-            </div>
-            <div>
-            <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel id="demo-simple-select-outlined-label">Price</InputLabel>
-                <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                value={price}
-                onChange={handleChangePrice}
-                label="Price"
-                >
-                <MenuItem value="">
-                    <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>599</MenuItem>
-                <MenuItem value={20}>1099</MenuItem>
-                <MenuItem value={30}>1499</MenuItem>
                 </Select>
             </FormControl>
             </div>
@@ -498,7 +552,7 @@ export default function Login(props) {
                     
                 })}
         </div>
-        <div style={{width:"95vw",height:"50vh",marginTop:25,margin:15,display:"flex",justifyContent:"center"}}>
+        <div style={{width:"95vw",height:"40vh",marginTop:25,margin:15,display:"flex",justifyContent:"center"}}>
         <ResponsiveBar
               data={d1Data[d1Data.length-1].dataformx}
               keys={["value"]}
@@ -534,7 +588,7 @@ export default function Login(props) {
                     modifiers: [
                         [
                             'darker',
-                            1.6
+                            10
                         ]
                     ]
                 }}
@@ -564,91 +618,202 @@ export default function Login(props) {
                 ]}
                 legendLabel={datum => "WH In Stock %"}
                 role="application"
+                theme={
+                    {
+                        "textColor": "#333333",
+                        "fontSize": 15,
+                        "axis": {
+                            "domain": {
+                                "line": {
+                                    "stroke": "#777777",
+                                    "strokeWidth": 1
+                                }
+                            },
+                            "legend": {
+                                "text": {
+                                    "fontSize": 12,
+                                    "fill": "#333333"
+                                }
+                            },
+                            "ticks": {
+                                "line": {
+                                    "stroke": "#777777",
+                                    "strokeWidth": 1
+                                },
+                                "text": {
+                                    "fontSize": 15,
+                                    "fill": "#333333"
+                                }
+                            }
+                        },
+                        "grid": {
+                            "line": {
+                                "stroke": "#dddddd",
+                                "strokeWidth": 1
+                            }
+                        },
+                        "legends": {
+                            "title": {
+                                "text": {
+                                    "fontSize": 15,
+                                    "fill": "#333333"
+                                }
+                            },
+                            "text": {
+                                "fontSize": 15,
+                                "fill": "#333333"
+                            },
+                            "ticks": {
+                                "line": {},
+                                "text": {
+                                    "fontSize": 15,
+                                    "fill": "#333333"
+                                }
+                            }
+                        },
+                        "annotations": {
+                            "text": {
+                                "fontSize": 13,
+                                "fill": "#333333",
+                                "outlineWidth": 2,
+                                "outlineColor": "#ffffff",
+                                "outlineOpacity": 1
+                            },
+                            "link": {
+                                "stroke": "#000000",
+                                "strokeWidth": 1,
+                                "outlineWidth": 2,
+                                "outlineColor": "#ffffff",
+                                "outlineOpacity": 1
+                            },
+                            "outline": {
+                                "stroke": "#000000",
+                                "strokeWidth": 2,
+                                "outlineWidth": 2,
+                                "outlineColor": "#ffffff",
+                                "outlineOpacity": 1
+                            },
+                            "symbol": {
+                                "fill": "#000000",
+                                "outlineWidth": 2,
+                                "outlineColor": "#ffffff",
+                                "outlineOpacity": 1
+                            }
+                        },
+                        "tooltip": {
+                            "container": {
+                                "background": "#ffffff",
+                                "color": "#333333",
+                                "fontSize": 12
+                            },
+                            "basic": {},
+                            "chip": {},
+                            "table": {},
+                            "tableCell": {},
+                            "tableCellValue": {}
+                        }
+                    }
+                }
             />
         </div>
       </div>:selectedGraph=="WH Stock Efficiency"?
         <div className={classes.dashWrapper}>
             <div className={classes.filters}>
             <div>
-                <FormControl variant="outlined" className={classes.formControl}>
-                    <InputLabel id="demo-simple-select-outlined-label">Brand</InputLabel>
-                    <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    value={brand}
-                    onChange={handleChange}
-                    label="Brand"
-                    >
-                    <MenuItem value="">
-                        <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>Arrow</MenuItem>
-                    <MenuItem value={20}>USPA</MenuItem>
-                    <MenuItem value={30}>Aeropostale</MenuItem>
-                    </Select>
-                </FormControl>
-                </div>
-                <div>
-                <FormControl variant="outlined" className={classes.formControl}>
-                    <InputLabel id="demo-simple-select-outlined-label">Class</InputLabel>
-                    <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    value={className}
-                    onChange={handleChangex}
-                    label="Class"
-                    >
-                    <MenuItem value="">
-                        <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>Shirt</MenuItem>
-                    <MenuItem value={20}>Denim</MenuItem>
-                    <MenuItem value={30}>InnerWear</MenuItem>
-                    </Select>
-                </FormControl>
-                </div>
-                <div>
-                <FormControl variant="outlined" className={classes.formControl}>
-                    <InputLabel id="demo-simple-select-outlined-label">DC</InputLabel>
-                    <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    value={DC}
-                    onChange={handleChangeDC}
-                    label="DC"
-                    >
-                    <MenuItem value="">
-                        <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>DC1</MenuItem>
-                    <MenuItem value={20}>DC2</MenuItem>
-                    <MenuItem value={30}>DC3</MenuItem>
-                    </Select>
-                </FormControl>
-                </div>
-                <div>
-                <FormControl variant="outlined" className={classes.formControl}>
-                    <InputLabel id="demo-simple-select-outlined-label">Price</InputLabel>
-                    <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    value={price}
-                    onChange={handleChangePrice}
-                    label="Price"
-                    >
-                    <MenuItem value="">
-                        <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>599</MenuItem>
-                    <MenuItem value={20}>1099</MenuItem>
-                    <MenuItem value={30}>1499</MenuItem>
-                    </Select>
-                </FormControl>
-                </div>
-
+            <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Brand</InputLabel>
+                <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={brand}
+                onChange={handleChange}
+                label="Brand"
+                >
+                <MenuItem value="">
+                    <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>Arrow</MenuItem>
+                <MenuItem value={20}>USPA</MenuItem>
+                <MenuItem value={30}>Aeropostale</MenuItem>
+                </Select>
+            </FormControl>
             </div>
-            <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between",margin:10,padding:5}}>
-                <div style={{display:"flex",flexDirection:"column",justifyContent:"flex-start",alignItems:"center"}}>
+            <div>
+            <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Class</InputLabel>
+                <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={className}
+                onChange={handleChangex}
+                label="Class"
+                >
+                <MenuItem value="">
+                    <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>Shirt</MenuItem>
+                <MenuItem value={20}>Denim</MenuItem>
+                <MenuItem value={30}>InnerWear</MenuItem>
+                </Select>
+            </FormControl>
+            </div>
+
+            <div>
+            <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">MRP</InputLabel>
+                <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={price}
+                onChange={handleChangePrice}
+                label="MRP"
+                >
+                <MenuItem value="">
+                    <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>599</MenuItem>
+                <MenuItem value={20}>1099</MenuItem>
+                <MenuItem value={30}>1499</MenuItem>
+                </Select>
+            </FormControl>
+            </div>
+
+            <div>
+            <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">DC</InputLabel>
+                <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={DC}
+                onChange={handleChangeDC}
+                label="DC"
+                >
+                <MenuItem value="">
+                    <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>DC1</MenuItem>
+                <MenuItem value={20}>DC2</MenuItem>
+                <MenuItem value={30}>DC3</MenuItem>
+                </Select>
+            </FormControl>
+            </div>
+
+            <div style={{marginTop:8}}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <DatePicker
+                        label="Select Date"
+                        variant="inline"
+                        inputVariant="outlined"
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                        animateYearScrolling
+                    />
+                </MuiPickersUtilsProvider>
+            </div>
+
+        </div>
+            <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between",margin:10}}>
+                <div style={{display:"flex",flexDirection:"column",justifyContent:"flex-start",alignItems:"center",margin:5}}>
                     <div style={{display:"flex",textAlign:"center",fontSize:"1.1rem"}}>
                         Stock Efficiency SKU 
                     </div>
@@ -669,9 +834,9 @@ export default function Login(props) {
                         </div>
                     </div>
                 </div>    
-                <div style={{display:"flex",flexDirection:"column",width:"33%",justifyContent:"flex-start",alignItems:"center"}}>
+                <div style={{display:"flex",flexDirection:"column",width:"30%",justifyContent:"flex-start",alignItems:"center",margin:5}}>
                     <div style={{display:"flex",fontSize:"1.1rem"}}>
-                        Stock Efficiency SKU 
+                        Stock Efficiency % SKU 
                     </div>
                     <div className={classes.miniTable}>
                         <div className={classes.tableHeaderX}>
@@ -690,9 +855,9 @@ export default function Login(props) {
                         </div>
                     </div>
                 </div>    
-                <div style={{display:"flex",flexDirection:"column",width:"33%",justifyContent:"flex-start",alignItems:"center"}}>
+                <div style={{display:"flex",flexDirection:"column",width:"33%",justifyContent:"flex-start",alignItems:"center",margin:5}}>
                     <div style={{display:"flex",fontSize:"1.1rem"}}>
-                        Stock Efficiency SKU 
+                        Stock Efficiency % Demand(True ROS) 
                     </div>
                     <div className={classes.miniTable}>
                         <div className={classes.tableHeaderX}>
@@ -713,13 +878,14 @@ export default function Login(props) {
                 </div>    
             </div>  
             <div style={{display:"flex",flexDirection:"row"}}>
-                <div style={{width:"47vw",height:"50vh"}}>
+                <div style={{width:"47vw",height:"50vh",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
                 <ResponsivePie
                     data={d2Data.SKUPerc.slice(0,d2Data.SKU.length-1)}
                     margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
                     innerRadius={0.5}
                     padAngle={0.7}
                     cornerRadius={3}
+                    colors={["#c4342dAA","#ffce00","#49b675","#ff7b00AA"]}
                     activeOuterRadiusOffset={8}
                     borderWidth={1}
                     borderColor={{
@@ -745,76 +911,102 @@ export default function Login(props) {
                             ]
                         ]
                     }}
-                    defs={[
+                    theme={
                         {
-                            id: 'dots',
-                            type: 'patternDots',
-                            background: 'inherit',
-                            color: 'rgba(255, 255, 255, 0.3)',
-                            size: 4,
-                            padding: 1,
-                            stagger: true
-                        },
-                        {
-                            id: 'lines',
-                            type: 'patternLines',
-                            background: 'inherit',
-                            color: 'rgba(255, 255, 255, 0.3)',
-                            rotation: -45,
-                            lineWidth: 6,
-                            spacing: 10
+                            "textColor": "#333333",
+                            "fontSize": 15,
+                            "axis": {
+                                "domain": {
+                                    "line": {
+                                        "stroke": "#777777",
+                                        "strokeWidth": 1
+                                    }
+                                },
+                                "legend": {
+                                    "text": {
+                                        "fontSize": 12,
+                                        "fill": "#333333"
+                                    }
+                                },
+                                "ticks": {
+                                    "line": {
+                                        "stroke": "#777777",
+                                        "strokeWidth": 1
+                                    },
+                                    "text": {
+                                        "fontSize": 15,
+                                        "fill": "#333333"
+                                    }
+                                }
+                            },
+                            "grid": {
+                                "line": {
+                                    "stroke": "#dddddd",
+                                    "strokeWidth": 1
+                                }
+                            },
+                            "legends": {
+                                "title": {
+                                    "text": {
+                                        "fontSize": 12,
+                                        "fill": "#333333"
+                                    }
+                                },
+                                "text": {
+                                    "fontSize": 12,
+                                    "fill": "#333333"
+                                },
+                                "ticks": {
+                                    "line": {},
+                                    "text": {
+                                        "fontSize": 12,
+                                        "fill": "#333333"
+                                    }
+                                }
+                            },
+                            "annotations": {
+                                "text": {
+                                    "fontSize": 13,
+                                    "fill": "#333333",
+                                    "outlineWidth": 2,
+                                    "outlineColor": "#ffffff",
+                                    "outlineOpacity": 1
+                                },
+                                "link": {
+                                    "stroke": "#000000",
+                                    "strokeWidth": 1,
+                                    "outlineWidth": 2,
+                                    "outlineColor": "#ffffff",
+                                    "outlineOpacity": 1
+                                },
+                                "outline": {
+                                    "stroke": "#000000",
+                                    "strokeWidth": 2,
+                                    "outlineWidth": 2,
+                                    "outlineColor": "#ffffff",
+                                    "outlineOpacity": 1
+                                },
+                                "symbol": {
+                                    "fill": "#000000",
+                                    "outlineWidth": 2,
+                                    "outlineColor": "#ffffff",
+                                    "outlineOpacity": 1
+                                }
+                            },
+                            "tooltip": {
+                                "container": {
+                                    "background": "#ffffff",
+                                    "color": "#333333",
+                                    "fontSize": 12
+                                },
+                                "basic": {},
+                                "chip": {},
+                                "table": {},
+                                "tableCell": {},
+                                "tableCellValue": {}
+                            }
                         }
-                    ]}
-                    fill={[
-                        {
-                            match: {
-                                id: 'ruby'
-                            },
-                            id: 'dots'
-                        },
-                        {
-                            match: {
-                                id: 'c'
-                            },
-                            id: 'dots'
-                        },
-                        {
-                            match: {
-                                id: 'go'
-                            },
-                            id: 'dots'
-                        },
-                        {
-                            match: {
-                                id: 'python'
-                            },
-                            id: 'dots'
-                        },
-                        {
-                            match: {
-                                id: 'scala'
-                            },
-                            id: 'lines'
-                        },
-                        {
-                            match: {
-                                id: 'lisp'
-                            },
-                            id: 'lines'
-                        },
-                        {
-                            match: {
-                                id: 'elixir'
-                            },
-                            id: 'lines'
-                        },
-                        {
-                            match: {
-                                id: 'javascript'
-                            },
-                            id: 'lines'
-                        }
-                    ]}
+                    }
                     legends={[
                         {
                             anchor: 'bottom',
@@ -824,11 +1016,11 @@ export default function Login(props) {
                             translateY: 56,
                             itemsSpacing: 20,
                             itemWidth: 100,
-                            itemHeight: 18,
+                            itemHeight: 15,
                             itemTextColor: '#999',
                             itemDirection: 'left-to-right',
                             itemOpacity: 1,
-                            symbolSize: 18,
+                            symbolSize: 15,
                             symbolShape: 'circle',
                             effects: [
                                 {
@@ -841,12 +1033,14 @@ export default function Login(props) {
                         }
                     ]}
                 />
+                <div>Stock Efficiency % SKU </div>
                 </div>
-                <div style={{width:"47vw",height:"50vh"}}>
+                <div style={{width:"47vw",height:"50vh",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
                     <ResponsivePie
                         data={d2Data.StockDemand.slice(0,d2Data.SKU.length-1)}
                         margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
                         innerRadius={0.5}
+                        colors={["#c4342dAA","#ffce00","#49b675","#ff7b00AA"]}
                         padAngle={0.7}
                         cornerRadius={3}
                         activeOuterRadiusOffset={8}
@@ -874,76 +1068,102 @@ export default function Login(props) {
                                 ]
                             ]
                         }}
-                        defs={[
+                        theme={
                             {
-                                id: 'dots',
-                                type: 'patternDots',
-                                background: 'inherit',
-                                color: 'rgba(255, 255, 255, 0.3)',
-                                size: 4,
-                                padding: 1,
-                                stagger: true
-                            },
-                            {
-                                id: 'lines',
-                                type: 'patternLines',
-                                background: 'inherit',
-                                color: 'rgba(255, 255, 255, 0.3)',
-                                rotation: -45,
-                                lineWidth: 6,
-                                spacing: 10
+                                "textColor": "#333333",
+                                "fontSize": 15,
+                                "axis": {
+                                    "domain": {
+                                        "line": {
+                                            "stroke": "#777777",
+                                            "strokeWidth": 1
+                                        }
+                                    },
+                                    "legend": {
+                                        "text": {
+                                            "fontSize": 12,
+                                            "fill": "#333333"
+                                        }
+                                    },
+                                    "ticks": {
+                                        "line": {
+                                            "stroke": "#777777",
+                                            "strokeWidth": 1
+                                        },
+                                        "text": {
+                                            "fontSize": 15,
+                                            "fill": "#333333"
+                                        }
+                                    }
+                                },
+                                "grid": {
+                                    "line": {
+                                        "stroke": "#dddddd",
+                                        "strokeWidth": 1
+                                    }
+                                },
+                                "legends": {
+                                    "title": {
+                                        "text": {
+                                            "fontSize": 12,
+                                            "fill": "#333333"
+                                        }
+                                    },
+                                    "text": {
+                                        "fontSize": 12,
+                                        "fill": "#333333"
+                                    },
+                                    "ticks": {
+                                        "line": {},
+                                        "text": {
+                                            "fontSize": 12,
+                                            "fill": "#333333"
+                                        }
+                                    }
+                                },
+                                "annotations": {
+                                    "text": {
+                                        "fontSize": 13,
+                                        "fill": "#333333",
+                                        "outlineWidth": 2,
+                                        "outlineColor": "#ffffff",
+                                        "outlineOpacity": 1
+                                    },
+                                    "link": {
+                                        "stroke": "#000000",
+                                        "strokeWidth": 1,
+                                        "outlineWidth": 2,
+                                        "outlineColor": "#ffffff",
+                                        "outlineOpacity": 1
+                                    },
+                                    "outline": {
+                                        "stroke": "#000000",
+                                        "strokeWidth": 2,
+                                        "outlineWidth": 2,
+                                        "outlineColor": "#ffffff",
+                                        "outlineOpacity": 1
+                                    },
+                                    "symbol": {
+                                        "fill": "#000000",
+                                        "outlineWidth": 2,
+                                        "outlineColor": "#ffffff",
+                                        "outlineOpacity": 1
+                                    }
+                                },
+                                "tooltip": {
+                                    "container": {
+                                        "background": "#ffffff",
+                                        "color": "#333333",
+                                        "fontSize": 12
+                                    },
+                                    "basic": {},
+                                    "chip": {},
+                                    "table": {},
+                                    "tableCell": {},
+                                    "tableCellValue": {}
+                                }
                             }
-                        ]}
-                        fill={[
-                            {
-                                match: {
-                                    id: 'ruby'
-                                },
-                                id: 'dots'
-                            },
-                            {
-                                match: {
-                                    id: 'c'
-                                },
-                                id: 'dots'
-                            },
-                            {
-                                match: {
-                                    id: 'go'
-                                },
-                                id: 'dots'
-                            },
-                            {
-                                match: {
-                                    id: 'python'
-                                },
-                                id: 'dots'
-                            },
-                            {
-                                match: {
-                                    id: 'scala'
-                                },
-                                id: 'lines'
-                            },
-                            {
-                                match: {
-                                    id: 'lisp'
-                                },
-                                id: 'lines'
-                            },
-                            {
-                                match: {
-                                    id: 'elixir'
-                                },
-                                id: 'lines'
-                            },
-                            {
-                                match: {
-                                    id: 'javascript'
-                                },
-                                id: 'lines'
-                            }
-                        ]}
+                        }
                         legends={[
                             {
                                 anchor: 'bottom',
@@ -953,11 +1173,11 @@ export default function Login(props) {
                                 translateY: 56,
                                 itemsSpacing: 20,
                                 itemWidth: 100,
-                                itemHeight: 18,
+                                itemHeight: 15,
                                 itemTextColor: '#999',
                                 itemDirection: 'left-to-right',
                                 itemOpacity: 1,
-                                symbolSize: 18,
+                                symbolSize: 15,
                                 symbolShape: 'circle',
                                 effects: [
                                     {
@@ -970,6 +1190,7 @@ export default function Login(props) {
                             }
                         ]}
                     />
+                    <div> Stock Efficiency % Demand(True ROS)  </div>
                 </div>
             </div>     
         </div>
@@ -1014,6 +1235,27 @@ export default function Login(props) {
                 </Select>
             </FormControl>
             </div>
+
+            <div>
+            <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">MRP</InputLabel>
+                <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={price}
+                onChange={handleChangePrice}
+                label="MRP"
+                >
+                <MenuItem value="">
+                    <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>599</MenuItem>
+                <MenuItem value={20}>1099</MenuItem>
+                <MenuItem value={30}>1499</MenuItem>
+                </Select>
+            </FormControl>
+            </div>
+
             <div>
             <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel id="demo-simple-select-outlined-label">DC</InputLabel>
@@ -1035,26 +1277,26 @@ export default function Login(props) {
             </div>
             <div>
             <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel id="demo-simple-select-outlined-label">Price</InputLabel>
+                <InputLabel id="demo-simple-select-outlined-label">Stock Type</InputLabel>
                 <Select
                 labelId="demo-simple-select-outlined-label"
                 id="demo-simple-select-outlined"
-                value={price}
-                onChange={handleChangePrice}
-                label="Price"
+                value={stockType}
+                onChange={handleChangeStock}
+                label="Stock Type"
                 >
                 <MenuItem value="">
                     <em>None</em>
                 </MenuItem>
-                <MenuItem value={10}>599</MenuItem>
-                <MenuItem value={20}>1099</MenuItem>
-                <MenuItem value={30}>1499</MenuItem>
+                <MenuItem value={10}>WH</MenuItem>
+                <MenuItem value={20}>Open PO</MenuItem>
+                <MenuItem value={30}>WH + Open PO</MenuItem>
                 </Select>
             </FormControl>
             </div>
 
         </div>
-            <div className={classes.tableHeader}>
+            <div className={classes.tableHeaderIcell}>
                 <div className={classes.leftData}></div>
                 <div className={classes.headerDataStock}>RM Vendor</div>
                 <div className={classes.headerDataStock}>WIP @ Vendor</div>
@@ -1064,22 +1306,22 @@ export default function Login(props) {
             </div>
             {d3Data.slice(0,d3Data.length-1).map((item,index)=>{
             return(
-                <div className={classes.row}>
+                <div className={classes.rowIcell}>
                     <div className={classes.leftData}>{item.label}</div>
                     {item.data.map((itemx,index)=>{
                         return(
-                            <div className={classes.data}>{itemx}</div>
+                            <div className={classes.dataICell}>{itemx}</div>
                         )
                         
                     })}
             </div>
             )
             })}
-            <div className={classes.rowLast}>
+            <div className={classes.rowIcell}>
                 <div className={classes.leftData}>{d3Data[d3Data.length-1].label}</div>
                 {d3Data[d3Data.length-1].data.map((itemx,index)=>{
                         return(
-                            <div className={classes.data}>{itemx}</div>
+                            <div className={classes.dataICell}>{itemx}</div>
                         )
                         
                     })}
