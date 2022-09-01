@@ -21,6 +21,7 @@
     "@nivo/bar": "^0.74.0",
     "@nivo/core": "^0.74.0",
     "@nivo/line": "^0.74.0",
+    "@nivo/pie": "^0.79.1",
     "@progress/kendo-data-query": "^1.5.5",
     "@progress/kendo-drawing": "^1.16.0",
     "@progress/kendo-licensing": "^1.2.1",
