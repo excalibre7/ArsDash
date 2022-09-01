@@ -5,6 +5,11 @@ import { Redirect } from "react-router-dom";
 import { Link, useHistory } from "react-router-dom";
 import { ResponsiveBar } from "@nivo/bar";
 import { ResponsivePie } from '@nivo/pie'
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 var w = window.innerWidth;
 var h = window.innerHeight;
@@ -131,6 +136,17 @@ rowLastX : {
     backdropFilter: "blur(10px)",
     borderRadius:"0px 0px 5px 5px"
 },
+filters : {
+   display:"flex",
+   flexDirection:"row"
+},
+formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
 }));
 
 export default function Login(props) {
@@ -139,6 +155,30 @@ export default function Login(props) {
   const history = useHistory();
 
   const [ selectedGraph, setSelectedGraph ] = useState("WHDC IN-STOCK%");
+  const [brand, setBrand] = React.useState('');
+
+  const handleChange = (event) => {
+    setBrand(event.target.value);
+  };
+
+  const [className, setClassName] = React.useState('');
+
+  const handleChangex = (event) => {
+    setClassName(event.target.value);
+  };
+
+  const [DC, setDC] = React.useState('');
+
+  const handleChangeDC = (event) => {
+    setDC(event.target.value);
+  };
+
+  const [price, setPrice] = React.useState('');
+
+  const handleChangePrice = (event) => {
+    setPrice(event.target.value);
+  };
+
 
   const d1Data = 
   [
@@ -342,6 +382,85 @@ export default function Login(props) {
       </div>
       {selectedGraph=="WHDC IN-STOCK%"?
       <div className={classes.dashWrapper}>
+        <div className={classes.filters}>
+            <div>
+            <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Brand</InputLabel>
+                <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={brand}
+                onChange={handleChange}
+                label="Brand"
+                >
+                <MenuItem value="">
+                    <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>Arrow</MenuItem>
+                <MenuItem value={20}>USPA</MenuItem>
+                <MenuItem value={30}>Aeropostale</MenuItem>
+                </Select>
+            </FormControl>
+            </div>
+            <div>
+            <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Class</InputLabel>
+                <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={className}
+                onChange={handleChangex}
+                label="Class"
+                >
+                <MenuItem value="">
+                    <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>Shirt</MenuItem>
+                <MenuItem value={20}>Denim</MenuItem>
+                <MenuItem value={30}>InnerWear</MenuItem>
+                </Select>
+            </FormControl>
+            </div>
+            <div>
+            <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">DC</InputLabel>
+                <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={DC}
+                onChange={handleChangeDC}
+                label="DC"
+                >
+                <MenuItem value="">
+                    <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>DC1</MenuItem>
+                <MenuItem value={20}>DC2</MenuItem>
+                <MenuItem value={30}>DC3</MenuItem>
+                </Select>
+            </FormControl>
+            </div>
+            <div>
+            <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Price</InputLabel>
+                <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={price}
+                onChange={handleChangePrice}
+                label="Price"
+                >
+                <MenuItem value="">
+                    <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>599</MenuItem>
+                <MenuItem value={20}>1099</MenuItem>
+                <MenuItem value={30}>1499</MenuItem>
+                </Select>
+            </FormControl>
+            </div>
+
+        </div>
         <div className={classes.tableHeader}>
             <div className={classes.leftData}></div>
             <div className={classes.headerData}>Jan 22</div>
@@ -449,6 +568,85 @@ export default function Login(props) {
         </div>
       </div>:selectedGraph=="WH Stock Efficiency"?
         <div className={classes.dashWrapper}>
+            <div className={classes.filters}>
+            <div>
+                <FormControl variant="outlined" className={classes.formControl}>
+                    <InputLabel id="demo-simple-select-outlined-label">Brand</InputLabel>
+                    <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    value={brand}
+                    onChange={handleChange}
+                    label="Brand"
+                    >
+                    <MenuItem value="">
+                        <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={10}>Arrow</MenuItem>
+                    <MenuItem value={20}>USPA</MenuItem>
+                    <MenuItem value={30}>Aeropostale</MenuItem>
+                    </Select>
+                </FormControl>
+                </div>
+                <div>
+                <FormControl variant="outlined" className={classes.formControl}>
+                    <InputLabel id="demo-simple-select-outlined-label">Class</InputLabel>
+                    <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    value={className}
+                    onChange={handleChangex}
+                    label="Class"
+                    >
+                    <MenuItem value="">
+                        <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={10}>Shirt</MenuItem>
+                    <MenuItem value={20}>Denim</MenuItem>
+                    <MenuItem value={30}>InnerWear</MenuItem>
+                    </Select>
+                </FormControl>
+                </div>
+                <div>
+                <FormControl variant="outlined" className={classes.formControl}>
+                    <InputLabel id="demo-simple-select-outlined-label">DC</InputLabel>
+                    <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    value={DC}
+                    onChange={handleChangeDC}
+                    label="DC"
+                    >
+                    <MenuItem value="">
+                        <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={10}>DC1</MenuItem>
+                    <MenuItem value={20}>DC2</MenuItem>
+                    <MenuItem value={30}>DC3</MenuItem>
+                    </Select>
+                </FormControl>
+                </div>
+                <div>
+                <FormControl variant="outlined" className={classes.formControl}>
+                    <InputLabel id="demo-simple-select-outlined-label">Price</InputLabel>
+                    <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    value={price}
+                    onChange={handleChangePrice}
+                    label="Price"
+                    >
+                    <MenuItem value="">
+                        <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={10}>599</MenuItem>
+                    <MenuItem value={20}>1099</MenuItem>
+                    <MenuItem value={30}>1499</MenuItem>
+                    </Select>
+                </FormControl>
+                </div>
+
+            </div>
             <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between",margin:10,padding:5}}>
                 <div style={{display:"flex",flexDirection:"column",justifyContent:"flex-start",alignItems:"center"}}>
                     <div style={{display:"flex",textAlign:"center",fontSize:"1.1rem"}}>
@@ -777,6 +975,85 @@ export default function Login(props) {
         </div>
         :
         <div className={classes.dashWrapper}>
+            <div className={classes.filters}>
+            <div>
+            <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Brand</InputLabel>
+                <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={brand}
+                onChange={handleChange}
+                label="Brand"
+                >
+                <MenuItem value="">
+                    <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>Arrow</MenuItem>
+                <MenuItem value={20}>USPA</MenuItem>
+                <MenuItem value={30}>Aeropostale</MenuItem>
+                </Select>
+            </FormControl>
+            </div>
+            <div>
+            <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Class</InputLabel>
+                <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={className}
+                onChange={handleChangex}
+                label="Class"
+                >
+                <MenuItem value="">
+                    <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>Shirt</MenuItem>
+                <MenuItem value={20}>Denim</MenuItem>
+                <MenuItem value={30}>InnerWear</MenuItem>
+                </Select>
+            </FormControl>
+            </div>
+            <div>
+            <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">DC</InputLabel>
+                <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={DC}
+                onChange={handleChangeDC}
+                label="DC"
+                >
+                <MenuItem value="">
+                    <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>DC1</MenuItem>
+                <MenuItem value={20}>DC2</MenuItem>
+                <MenuItem value={30}>DC3</MenuItem>
+                </Select>
+            </FormControl>
+            </div>
+            <div>
+            <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Price</InputLabel>
+                <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={price}
+                onChange={handleChangePrice}
+                label="Price"
+                >
+                <MenuItem value="">
+                    <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>599</MenuItem>
+                <MenuItem value={20}>1099</MenuItem>
+                <MenuItem value={30}>1499</MenuItem>
+                </Select>
+            </FormControl>
+            </div>
+
+        </div>
             <div className={classes.tableHeader}>
                 <div className={classes.leftData}></div>
                 <div className={classes.headerDataStock}>RM Vendor</div>
